@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Login from "./views/Login.vue";
 
 Vue.use(Router);
 
@@ -10,13 +10,23 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      name: "login",
+      component: Login
     },
     {
-      path: "/about",
-      name: "about",
-      component: () => import("./views/About.vue")
+      path: "/browse",
+      name: "browse",
+      component: () => import("./views/Browse.vue")
+    },
+    {
+      path: "/reservations",
+      name: "reservations",
+      component: () => import("./views/Reservations.vue")
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./views/Profile.vue")
     }
   ]
 });

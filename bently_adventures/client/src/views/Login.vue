@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/mevn.jpg" width="350" />
     <HelloWorld msg="Default Boilerplate Template" />
   </div>
 </template>
