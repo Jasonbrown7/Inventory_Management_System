@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="login">
     <HelloWorld msg="Default Boilerplate Template" />
   </div>
 </template>
@@ -9,7 +9,7 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
-  name: "home",
+  name: "login",
   components: {
     HelloWorld
   }
