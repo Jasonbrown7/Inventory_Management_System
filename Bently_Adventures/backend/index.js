@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const app = express();
 var session = require("express-session");
 const MongoStore = require("connect-mongo");
-const passport = require("passport");
-
+var passport = require("passport");
+//const createError = require('http-errors');
 app.use(
   session({
     secret: "keyboard cat",
@@ -40,6 +40,7 @@ app.use(
     extended: false,
   }),
 )
+
 app.use(cors())
 
 // API

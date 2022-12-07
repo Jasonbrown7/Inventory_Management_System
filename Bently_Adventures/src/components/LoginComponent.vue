@@ -110,16 +110,12 @@ export default {
 
       
       axios
-        .post(apiURL, this.user)
+        .post(apiURL, {username: this.user.username, password: this.user.password})
         .then(() => {
-          this.user = {
-            username: "",
-            email: "",
-            password: "",
-          };
+          console.log(this.user.username)
         })
         .catch((error) => {
-          console.log(error);
+          console.log("bruh",error);
         });
     },
   },
