@@ -1,8 +1,0 @@
-{
-  "name": "bently_adventures",
-  "template": "Default",
-  "isConfigured": {
-    "client": true,
-    "server": true
-  }
-}
