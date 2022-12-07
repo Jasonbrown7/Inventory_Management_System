@@ -29,6 +29,22 @@ const routes = [
     name: 'login',
     component: () => import('../components/LoginComponent'),
   },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../components/ProfileComponent'),
+  },
+  {
+    path: '/browse',
+    name: 'browse',
+    component: () => import('../components/BrowseComponent'),
+  },
+  {
+    path: '/reservations',
+    name: 'reservations',
+    component: () => import('../components/ReservationsComponent'),
+  },
+  
 
 ]
 
