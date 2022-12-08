@@ -4,26 +4,27 @@
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Passwords</th>
-            <th>Actions</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Availability</th>
+            <th>Condition</th>
 
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in Users" :key="user._id">
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.password }} </td>
+          <tr v-for="item in Items" :key="item._id">
+            <td>{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.availability }} </td>
+            <td>{{ item.condition }} </td>
             <td>
               <router-link
-                :to="{ name: 'edit', params: { id: user._id } }"
+                :to="{ name: 'edit-item', params: { id: item._id } }"
                 class="btn btn-success"
                 >Edit
               </router-link>
               <button
-                @click.prevent="deleteUser(user._id)"
+                @click.prevent="deleteItem(item._id)"
                 class="btn btn-danger"
               >
                 Delete
@@ -42,30 +43,30 @@ import axios from "axios";
 export default {
   data() {
     return {
-      Users: [],
+      Items: [],
     };
   },
   created() {
-    let apiURL = "http://localhost:4000/api";
+    let apiURL = "http://localhost:4000/item-api";
     axios
       .get(apiURL)
       .then((res) => {
-        this.Users = res.data;
+        this.Items = res.data;
       })
       .catch((error) => {
         console.log(error);
       });
   },
   methods: {
-    deleteUser(id) {
-      let apiURL = `http://localhost:4000/api/delete-user/${id}`;
-      let indexOfArrayItem = this.Users.findIndex((i) => i._id === id);
+    deleteItem(id) {
+      let apiURL = `http://localhost:4000/item-api/delete-item/${id}`;
+      let indexOfArrayItem = this.Items.findIndex((i) => i._id === id);
 
       if (window.confirm("Do you really want to delete?")) {
         axios
           .delete(apiURL)
           .then(() => {
-            this.Users.splice(indexOfArrayItem, 1);
+            this.Items.splice(indexOfArrayItem, 1);
           })
           .catch((error) => {
             console.log(error);

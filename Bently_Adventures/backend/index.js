@@ -33,6 +33,7 @@ mongoose
   })
 
 const userAPI = require('./routes/user.route')
+const itemAPI = require('./routes/item.route')
 
 app.use(bodyParser.json())
 app.use(
@@ -43,7 +44,8 @@ app.use(
 app.use(cors())
 
 // API
-app.use('/api', userAPI)
+app.use('/user-api', userAPI)
+app.use('/item-api', itemAPI)
 app.use('/api/auth', authAPI)
 
 // Create port
