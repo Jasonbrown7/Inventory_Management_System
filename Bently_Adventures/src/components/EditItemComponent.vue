@@ -1,24 +1,42 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <h3 class="text-center">Update User</h3>
+      <h3 class="text-center">Update Item</h3>
       <form @submit.prevent="handleUpdateForm">
         <div class="form-group">
           <label>Name</label>
           <input
             type="text"
             class="form-control"
-            v-model="user.username"
+            v-model="item.name"
             required
           />
         </div>
 
         <div class="form-group">
-          <label>Email</label>
+          <label>Category</label>
           <input
-            type="email"
+            type="text"
             class="form-control"
-            v-model="user.email"
+            v-model="item.category"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Availability</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="item.availability"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Condition</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="item.condition"
             required
           />
         </div>
@@ -37,25 +55,25 @@ import axios from "axios";
 export default {
   data() {
     return {
-      user: {},
+      item: {},
     };
   },
   created() {
-    let apiURL = `http://localhost:4000/api/edit-user/${this.$route.params.id}`;
+    let apiURL = `http://localhost:4000/item-api/edit-item/${this.$route.params.id}`;
 
     axios.get(apiURL).then((res) => {
-      this.user = res.data;
+      this.item = res.data;
     });
   },
   methods: {
     handleUpdateForm() {
-      let apiURL = `http://localhost:4000/api/update-user/${this.$route.params.id}`;
+      let apiURL = `http://localhost:4000/item-api/update-item/${this.$route.params.id}`;
 
       axios
-        .put(apiURL, this.user)
+        .put(apiURL, this.item)
         .then((res) => {
           console.log(res);
-          this.$router.push("/view");
+          this.$router.push("/view-items");
         })
         .catch((error) => {
           console.log(error);
@@ -64,4 +82,3 @@ export default {
   },
 };
 </script>
-n
