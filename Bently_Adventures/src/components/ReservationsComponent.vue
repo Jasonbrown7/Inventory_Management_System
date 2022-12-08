@@ -7,25 +7,40 @@
         <div v-else>
             <div class="container" style="display: flex; height: 100px;">
                 <div style="display: flex;">
-                    <table style="flex:1; margin-right: 1em;">
+                    <table class="styled-table" style="background-color: #f3f3f3; flex:1; margin-right: 1em; border-radius: 10px;">
                         <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Date Reserved</th>
-                            <th>Date Returned</th>
-                        </tr>
+                            <tr>
+                                <th style="border-top-left-radius: 10px;" >Item</th>
+                                <th>Date Reserved</th>
+                                <th>Date Returned</th>
+                                <th>Check Out</th>
+                                <th style="border-top-right-radius: 10px;">Check In</th>
+                            </tr>
                         </thead>
                         <tbody>
                         <tr v-for="reservation in reservations" :key="reservation.id" @click="selectedReservation = reservation">
-                            <td>{{ reservation.itemName }}</td>
+                            <td style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;" >{{ reservation.itemName }}</td>
                             <td>{{ reservation.reservationDate }}</td>
                             <td>{{ reservation.returnDate }}</td>
+                            <td v-if="isReservationDateInFuture(reservation)">
+                                <button @click="checkOutItem(reservation)" style="background-color: white; border-radius: 10px;">Check Out</button>
+                            </td>
+                            <td v-else>
+                                <tr>N/A</tr>
+                            </td>
+                            <td v-if="isReservationDateInFuture(reservation)"  style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+                                <button @click="checkOutItem(reservation)" style="background-color: white; border-radius: 10px;">Return</button>
+                            </td>
+                            <td v-else>
+                                <tr style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">N/A</tr>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
-                    <div v-if="selectedReservation" style="background-color: white; flex: 1; border-radius: 10px; padding: 1em; border: 1px solid black; min-width: 200px; min-height: 200px; overflow: auto;">
-                        <h2>{{ selectedReservation.itemName }}</h2>
-                        <img :src="selectedReservation.itemPhoto" alt="Item photo" />
+                    <div v-if="selectedReservation" style="background-color: #abd4ab; flex: 1; border-radius: 10px; padding: 1em; border: 1px solid white; min-width: 200px; min-height: 400px; overflow: auto;">
+                        <h2 style="text-align: center;">{{ selectedReservation.itemName }}</h2>
+                        <div style="flex: 1; border: 1px solid black; background-color: white; width: 100px; height: 100px; text-align: center; margin: 0 auto; min-width: 200px; min-height: 200px;">Item Image here</div>
+                        <h6 style="padding-top: 20px;">Condition: {{ selectedReservation.condition }}</h6>
                         <p>{{ selectedReservation.itemDescription }}</p>
                     </div>
                 </div>
@@ -42,15 +57,16 @@
       }
     },
     created() {
-        // retrieve previous reservations from API
+        // retrieve previous reservations from API // Hardcoded
         this.reservations = [
             {
             id: 1,
-            itemName: "Skiis",
+            itemName: "Skis - Woman",
             reservationDate: "May 1, 2020",
             returnDate: "May 15, 2020",
-            itemPhoto: "../assets/skiis.jpg",
-            itemDescription: "The Great Gatsby is a novel written by American author F. Scott Fitzgerald that follows a cast of characters living in the fictional towns of West Egg and East Egg on prosperous Long Island in the summer of 1922."
+            itemPhoto: '../assets/skiis.jpg',
+            itemDescription: "These skis are designed for women and are in great condition. Perfect for a day on the slopes.",
+            condition: "great"
             },
             {
             id: 2,
@@ -58,17 +74,62 @@
             reservationDate: "May 16, 2020",
             returnDate: "May 30, 2020",
             itemPhoto: "../assets/skiipoles.png",
-            itemDescription: "The Canon EOS Rebel T6i is a digital single-lens reflex camera featuring a 24.2 megapixel APS-C CMOS sensor, Full HD 1080p video recording at 30 fps, and built-in Wi-Fi and NFC connectivity."
+            itemDescription: "These ski poles are in good condition and are perfect for supporting you on the slopes.",
+            condition: "good"
             },
             {
             id: 3,
             itemName: "Sled",
-            reservationDate: "June 1, 2020",
-            returnDate: "June 15, 2020",
+            reservationDate: "May 15, 2020",
+            returnDate: "May 17, 2020",
             itemPhoto: "../assets/sled3.jpg",
-            itemDescription: "The Trek is the perfect bike for any weekend trip. Good condition."
+            itemDescription: "This sled is in good condition and is perfect for a fun day of sledding.",
+            condition: "good"
+            },
+            {
+            id: 4,
+            itemName: "Gloves",
+            reservationDate: "April 21, 2021",
+            returnDate: "June 10, 2021",
+            itemPhoto: "../assets/sled3.jpg",
+            itemDescription: "These gloves are in poor condition and may not provide the necessary warmth and protection for your hands on the slopes.",
+            condition: "poor"
+            },
+            {
+            id: 5,
+            itemName: "Snow Shoes",
+            reservationDate: "June 1, 2023",
+            returnDate: "June 15, 2023",
+            itemPhoto: "../assets/sled3.jpg",
+            itemDescription: " These snow shoes are in good condition and are perfect for hiking and exploring in snowy conditions.",
+            condition: "good"
+            },
+            {
+            id: 5,
+            itemName: "Skis - Men",
+            reservationDate: "June 1, 2023",
+            returnDate: "June 15, 2023",
+            itemPhoto: "../assets/sled3.jpg",
+            itemDescription: "These skis are designed for men and are in great condition. Perfect for a day on the slopes.",
+            condition: "great"
+            },
+            {
+            id: 6,
+            itemName: "Gloves - Child",
+            reservationDate: "June 1, 2023",
+            returnDate: "June 15, 2023",
+            itemPhoto: "../assets/sled3.jpg",
+            itemDescription: "These gloves are designed to fit small children and will keep them warm on the moutain. Near perfect condition.",
+            condition: "great"
             },
         ]
+    },
+    methods: {
+        isReservationDateInFuture(reservation) {
+            const reservationDate = new Date(reservation.reservationDate);
+            const currentDate = new Date();
+            return reservationDate > currentDate;
+        }
     }
   }
 </script>
@@ -81,10 +142,38 @@ table {
     margin: 0 auto;
     border-collapse: collapse;
     border-radius: 5px;
-    background-color: #9AE599;
+    background-color: #ffffff;
 }
 th, td {
-    border: 1px solid #75BF49;
+    border: 1px solid #ffffff;
     padding: 0.5em;
+}
+
+.heroimage {
+    display: flex;
+    width:100vw;
+    height: calc(100vh - 56px);
+    background: url("../assets/hero.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:cover;
+    background-attachment: fixed;
+}
+
+.styled-table {
+    min-width: 600px;
+}
+
+.styled-table thead tr {
+    background-color: #abd4ab;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #dfdfdf;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
 }
 </style>
