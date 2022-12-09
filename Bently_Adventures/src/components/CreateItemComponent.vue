@@ -1,34 +1,44 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <h3 class="text-center">Create User</h3>
+      <h3 class="text-center">Create Item</h3>
       <form @submit.prevent="handleSubmitForm">
         <div class="form-group">
-          <label>Username</label>
+          <label>Name</label>
           <input
             type="text"
             class="form-control"
-            v-model="user.username"
+            v-model="item.name"
             required
           />
         </div>
 
         <div class="form-group">
-          <label>Email</label>
+          <label>Category</label>
           <input
-            type="email"
+            type="text"
             class="form-control"
-            v-model="user.email"
+            v-model="item.category"
             required
           />
         </div>
         
         <div class="form-group">
-          <label>Password</label>
+          <label>Availability</label>
           <input
-            type="password"
+            type="text"
             class="form-control"
-            v-model="user.password"
+            v-model="item.availability"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Condition</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="item.condition"
             required
           />
         </div>
@@ -48,25 +58,27 @@ import axios from "axios";
 export default {
   data() {
     return {
-      user: {
-        username: "",
-        email: "",
-        password: "",
+      item: {
+        name: "",
+        category: "",
+        availability: "",
+        condition: "",
       },
     };
   },
   methods: {
     handleSubmitForm() {
-      let apiURL = "http://localhost:4000/api/create-user";
+      let apiURL = "http://localhost:4000/item-api/create-item";
 
       axios
-        .post(apiURL, this.user)
+        .post(apiURL, this.item)
         .then(() => {
-          this.$router.push("/view");
-          this.user = {
-            username: "",
-            email: "",
-            password: "",
+          this.$router.push("/view-items");
+          this.item = {
+            name: "",
+            category: "",
+            availability: "",
+            condition: "",
           };
         })
         .catch((error) => {

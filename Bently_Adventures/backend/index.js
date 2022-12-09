@@ -54,6 +54,10 @@ app.use(
 app.use("/api", apiRoutes);
 app.use("/api/auth", authRoutes);
 app.use(express.static("public"), express.static("dist"));
+// API
+app.use('/user-api', userAPI)
+app.use('/item-api', itemAPI)
+app.use('/api/auth', authAPI)
 
 async function main() {
   if (process.env.MODE == "production") {

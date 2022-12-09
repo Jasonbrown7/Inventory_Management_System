@@ -18,7 +18,7 @@
             <td>{{ user.password }} </td>
             <td>
               <router-link
-                :to="{ name: 'edit', params: { id: user._id } }"
+                :to="{ name: 'edit-user', params: { id: user._id } }"
                 class="btn btn-success"
                 >Edit
               </router-link>
@@ -59,7 +59,7 @@ export default {
         })
       },
   created() {
-    let apiURL = "http://localhost:4000/api";
+    let apiURL = "http://localhost:4000/user-api";
     axios.defaults.withCredentials = true;
     axios
       .get(apiURL)
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     deleteUser(id) {
-      let apiURL = `http://localhost:4000/api/delete-user/${id}`;
+      let apiURL = `http://localhost:4000/user-api/delete-user/${id}`;
       let indexOfArrayItem = this.Users.findIndex((i) => i._id === id);
 
       if (window.confirm("Do you really want to delete?")) {
