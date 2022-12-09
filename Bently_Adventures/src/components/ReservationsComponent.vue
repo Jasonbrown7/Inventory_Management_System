@@ -11,7 +11,7 @@
                     <table class="styled-table" style="background-color: #f3f3f3; flex:1; margin-right: 1em; border-radius: 10px; table-layout: fixed; width: 500px;margin-bottom: 15px;">
                         <thead>
                         <tr>
-                            <th style="border-top-left-radius: 10px;" >Item</th>
+                            <th style="border-top-left-radius: 10px; width: 150px;" >Item</th>
                             <th style="width: 130px;">Start Date</th>
                             <th style="width: 130px;">Return Date</th>
                             <th style="width: 110px;" >Check Out</th>
@@ -38,7 +38,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <h6 style="margin-top: 20px; ">Reservation History</h6>
+                    <h6 style="margin-top: 30px; ">Reservation History</h6>
                     <table class="styled-table" style="background-color: #f3f3f3; flex:1; margin-right: 1em; border-radius: 10px; table-layout: fixed; width: 500px;margin-bottom: 15px;">
                         <thead>
                             <tr>
