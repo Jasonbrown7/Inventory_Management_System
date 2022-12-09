@@ -72,6 +72,7 @@
 </template> -->
 
 <style>
+
 .heroimage {
     display: flex;
     width:100vw;
@@ -98,9 +99,6 @@ export default {
   data() {
     return {
       user: {
-        username: "",
-        email: "",
-        password: "",
       },
     };
   },
@@ -108,14 +106,16 @@ export default {
     handleSubmitForm() {
       let apiURL = "http://localhost:4000/api/auth/login/password";
 
-      
+      axios.defaults.withCredentials = true;
       axios
         .post(apiURL, {username: this.user.username, password: this.user.password})
         .then(() => {
-          console.log(this.user.username)
+          console.log("Login Success.")
+          this.$router.push("/view")
+    
         })
         .catch((error) => {
-          console.log("bruh",error);
+          console.log("Login Fail.", error)
         });
     },
   },
