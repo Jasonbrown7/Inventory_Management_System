@@ -43,10 +43,24 @@ export default {
   data() {
     return {
       Users: [],
+      user: {},
     };
   },
+  mounted() {
+    axios.defaults.withCredentials = true; 
+    axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+        .then((response) => {    
+            console.log(response)    
+            this.$set(this, "user", response.data.user)    
+        })    
+        .catch((errors) => {    
+            console.log(errors)    
+            this.$router.push("/")  
+        })
+      },
   created() {
-    let apiURL = "http://localhost:4000/user-api";
+    let apiURL = "http://localhost:4000/api/user";
+    axios.defaults.withCredentials = true;
     axios
       .get(apiURL)
       .then((res) => {
@@ -58,7 +72,7 @@ export default {
   },
   methods: {
     deleteUser(id) {
-      let apiURL = `http://localhost:4000/user-api/delete-user/${id}`;
+      let apiURL = `http://localhost:4000/api/user/delete/${id}`;
       let indexOfArrayItem = this.Users.findIndex((i) => i._id === id);
 
       if (window.confirm("Do you really want to delete?")) {

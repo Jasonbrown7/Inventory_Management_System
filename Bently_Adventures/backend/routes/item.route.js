@@ -4,7 +4,7 @@ const itemRoute = express.Router()
 // model
 let ItemModel = require('../models/Item')
 
-itemRoute.route('/create-item').post((req, res, next) => {
+itemRoute.route('/create').post((req, res, next) => {
   ItemModel.create(req.body, (error, data) => {
     if (error) {
       return next(error)
@@ -24,7 +24,7 @@ itemRoute.route('/').get((req, res, next) => {
   })
 })
 
-itemRoute.route('/edit-item/:id').get((req, res, next) => {
+itemRoute.route('/edit/:id').get((req, res, next) => {
   ItemModel.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
@@ -36,7 +36,7 @@ itemRoute.route('/edit-item/:id').get((req, res, next) => {
 })
 
 // Update
-itemRoute.route('/update-item/:id').put((req, res, next) => {
+itemRoute.route('/update/:id').put((req, res, next) => {
   ItemModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -54,7 +54,7 @@ itemRoute.route('/update-item/:id').put((req, res, next) => {
 })
 
 // Delete
-itemRoute.route('/delete-item/:id').delete((req, res, next) => {
+itemRoute.route('/delete/:id').delete((req, res, next) => {
   ItemModel.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error)

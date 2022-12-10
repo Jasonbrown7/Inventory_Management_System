@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const { User } = require('../models/User');
+const User = require("../models/User");
 const router = new Router();
 
 passport.use(
@@ -31,13 +31,43 @@ passport.deserializeUser(function (user, cb) {
   });
 });
 
+router.route('/login/fail').get((req, res, next) => {
+
+  res.status(400).send('LOGIN FAIL.');
+})
+
+router.route('/login/success').get((req, res, next) => {
+
+  res.status(200).send('LOGIN SUCCESSFUL.');
+})
+
 router.post(
   "/login/password",
   passport.authenticate("local", {
-    successRedirect: "/view",
-    failureRedirect: "/",
+     successRedirect: "success",
+     failureRedirect: "fail",
   })
-  
 );
+
+router.post('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+});
+
+const authMiddleware = (req, res, next) => {
+
+  if (!req.isAuthenticated()) {
+    res.status(401).send('You are not authenticated')
+  } else {
+    return next()
+  }
+}
+router.get("/user", authMiddleware, (req, res) => {
+  
+  console.log(req.user);
+
+})
 
 module.exports = router;

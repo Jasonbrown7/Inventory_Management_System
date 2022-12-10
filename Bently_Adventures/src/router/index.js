@@ -10,22 +10,22 @@ const routes = [
     component: () => import('../components/HomeComponent'),
   },
   {
-    path: '/create-users',
+    path: '/create/users',
     name: 'create-users',
     component: () => import('../components/CreateUserComponent'),
   },
   {
-    path: '/view-users',
+    path: '/view/users',
     name: 'view-users',
     component: () => import('../components/ViewUserComponent'),
   },
   {
-    path: '/edit-user/:id',
+    path: '/edit/user/:id',
     name: 'edit-user',
     component: () => import('../components/EditUserComponent'),
   },
   {
-    path: '/edit-item/:id',
+    path: '/edit/item/:id',
     name: 'edit-item',
     component: () => import('../components/EditItemComponent'),
   },
@@ -50,12 +50,12 @@ const routes = [
     component: () => import('../components/ReservationsComponent'),
   },
   {
-    path: '/create-items',
+    path: '/create/items',
     name: 'create-items',
     component: () => import('../components/CreateItemComponent'),
   },
   {
-    path: '/view-items',
+    path: '/view/items',
     name: 'view-items',
     component: () => import('../components/ViewItemComponent'),
   },
@@ -67,5 +67,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 })
+
+
 
 export default router

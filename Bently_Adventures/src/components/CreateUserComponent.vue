@@ -57,12 +57,12 @@ export default {
   },
   methods: {
     handleSubmitForm() {
-      let apiURL = "http://localhost:4000/user-api/create-user";
+      let apiURL = "http://localhost:4000/api/user/create";
 
       axios
         .post(apiURL, this.user)
         .then(() => {
-          this.$router.push("/view-users");
+          this.$router.push("/view/users");
           this.user = {
             username: "",
             email: "",
