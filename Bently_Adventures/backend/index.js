@@ -2,13 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = 4000;
-const apiRoutes = require("./routes/user.route");
+const userRoutes = require("./routes/user.route");
 const authRoutes = require("./routes/auth.route");
+const itemRoutes = require("./routes/item.route");
 const mongoose = require("mongoose");
 const cors = require('cors');
 var session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
+
 
 var corsOptions = {
   origin: "http://localhost:8080",
@@ -51,13 +53,13 @@ app.use(
   bodyParser.json({ extended: false })
 );
 
-app.use("/api", apiRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/api/item', itemRoutes)
 app.use(express.static("public"), express.static("dist"));
-// API
-app.use('/user-api', userAPI)
-app.use('/item-api', itemAPI)
-app.use('/api/auth', authAPI)
+
+
+
 
 async function main() {
   if (process.env.MODE == "production") {

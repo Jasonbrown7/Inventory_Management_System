@@ -59,7 +59,7 @@ export default {
     };
   },
   created() {
-    let apiURL = `http://localhost:4000/item-api/edit-item/${this.$route.params.id}`;
+    let apiURL = `http://localhost:4000/api/item/edit/${this.$route.params.id}`;
 
     axios.get(apiURL).then((res) => {
       this.item = res.data;
@@ -67,13 +67,13 @@ export default {
   },
   methods: {
     handleUpdateForm() {
-      let apiURL = `http://localhost:4000/item-api/update-item/${this.$route.params.id}`;
+      let apiURL = `http://localhost:4000/api/item/update/${this.$route.params.id}`;
 
       axios
         .put(apiURL, this.item)
         .then((res) => {
           console.log(res);
-          this.$router.push("/view-items");
+          this.$router.push("/view/items");
         })
         .catch((error) => {
           console.log(error);

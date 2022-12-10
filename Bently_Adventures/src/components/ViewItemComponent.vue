@@ -47,7 +47,7 @@ export default {
     };
   },
   created() {
-    let apiURL = "http://localhost:4000/item-api";
+    let apiURL = "http://localhost:4000/api/item";
     axios
       .get(apiURL)
       .then((res) => {
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     deleteItem(id) {
-      let apiURL = `http://localhost:4000/item-api/delete-item/${id}`;
+      let apiURL = `http://localhost:4000/api/item/delete/${id}`;
       let indexOfArrayItem = this.Items.findIndex((i) => i._id === id);
 
       if (window.confirm("Do you really want to delete?")) {

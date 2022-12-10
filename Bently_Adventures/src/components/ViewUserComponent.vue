@@ -59,7 +59,7 @@ export default {
         })
       },
   created() {
-    let apiURL = "http://localhost:4000/user-api";
+    let apiURL = "http://localhost:4000/api/user";
     axios.defaults.withCredentials = true;
     axios
       .get(apiURL)
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     deleteUser(id) {
-      let apiURL = `http://localhost:4000/user-api/delete-user/${id}`;
+      let apiURL = `http://localhost:4000/api/user/delete/${id}`;
       let indexOfArrayItem = this.Users.findIndex((i) => i._id === id);
 
       if (window.confirm("Do you really want to delete?")) {

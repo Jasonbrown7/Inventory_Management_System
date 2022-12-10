@@ -75,7 +75,7 @@ export default {
         .post(apiURL, {username: this.user.username, password: this.user.password})
         .then(() => {
           console.log("Login Success.")
-          this.$router.push("/view")
+          this.$router.push("/view/users")
     
         })
         .catch((error) => {

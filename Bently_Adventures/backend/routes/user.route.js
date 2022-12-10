@@ -3,7 +3,7 @@ const userRoute = express.Router()
 
 // model
 let UserModel = require('../models/User')
-userRoute.route('/create-user').post((req, res, next) => {
+userRoute.route('/create').post((req, res, next) => {
   UserModel.create(req.body, (error, data) => {
     if (error) {
       return next(error)
@@ -23,7 +23,7 @@ userRoute.route('/').get((req, res, next) => {
   })
 })
 
-userRoute.route('/edit-user/:id').get((req, res, next) => {
+userRoute.route('/edit/:id').get((req, res, next) => {
   UserModel.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
@@ -35,7 +35,7 @@ userRoute.route('/edit-user/:id').get((req, res, next) => {
 })
 
 // Update
-userRoute.route('/update-user/:id').put((req, res, next) => {
+userRoute.route('/update/:id').put((req, res, next) => {
   UserModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -53,7 +53,7 @@ userRoute.route('/update-user/:id').put((req, res, next) => {
 })
 
 // Delete
-userRoute.route('/delete-user/:id').delete((req, res, next) => {
+userRoute.route('/delete/:id').delete((req, res, next) => {
   UserModel.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error)

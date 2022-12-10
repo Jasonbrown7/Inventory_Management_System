@@ -68,12 +68,12 @@ export default {
   },
   methods: {
     handleSubmitForm() {
-      let apiURL = "http://localhost:4000/item-api/create-item";
+      let apiURL = "http://localhost:4000/api/item/create";
 
       axios
         .post(apiURL, this.item)
         .then(() => {
-          this.$router.push("/view-items");
+          this.$router.push("/view/items");
           this.item = {
             name: "",
             category: "",
