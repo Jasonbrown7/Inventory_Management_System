@@ -50,16 +50,15 @@ const routes = [
     component: () => import('../components/ReservationsComponent'),
   },
   {
-    path: '/create/items',
-    name: 'create-items',
-    component: () => import('../components/CreateItemComponent'),
+    path: '/items',
+    name: 'items',
+    component: () => import('../components/AdminItemsComponent'),
   },
   {
-    path: '/view/items',
-    name: 'view-items',
-    component: () => import('../components/ViewItemComponent'),
+    path: '/users',
+    name: 'users',
+    component: () => import('../components/AdminUsersComponent'),
   },
-
 ]
 
 const router = new VueRouter({

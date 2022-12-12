@@ -73,7 +73,7 @@ export default {
       axios
         .post(apiURL, this.item)
         .then(() => {
-          this.$router.push("/view/items");
+          this.$router.push("items");
           this.item = {
             name: "",
             category: "",
@@ -88,3 +88,9 @@ export default {
   },
 };
 </script>
+
+<style>
+div {
+  margin: 20px;
+}
+</style>

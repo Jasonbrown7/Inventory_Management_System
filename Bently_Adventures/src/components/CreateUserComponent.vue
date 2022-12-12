@@ -62,7 +62,7 @@ export default {
       axios
         .post(apiURL, this.user)
         .then(() => {
-          this.$router.push("/view/users");
+          this.$router.push("users");
           this.user = {
             username: "",
             email: "",

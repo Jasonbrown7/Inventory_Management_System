@@ -8,34 +8,34 @@
             <div class="container" style="display: flex; height: 100px;">
                 <div>
                     <h6 style="margin-top: 5px;">Upcoming Reservations</h6>
-                    <table class="styled-table" style="background-color: #f3f3f3; flex:1; margin-right: 1em; border-radius: 10px; table-layout: fixed; width: 500px;margin-bottom: 15px;">
+                    <table class="styled-table table-striped" style="background-color: #f3f3f3; flex:1; margin-right: 1em; border-radius: 10px; table-layout: fixed; width: 500px;margin-bottom: 15px;">
                         <thead>
-                        <tr>
-                            <th style="border-top-left-radius: 10px; width: 150px;" >Item</th>
-                            <th style="width: 130px;">Start Date</th>
-                            <th style="width: 130px;">Return Date</th>
-                            <th style="width: 110px;" >Check Out</th>
-                            <th style="border-top-right-radius: 10px; width: 90px;">Check In</th>
-                        </tr>
+                            <tr>
+                                <th style="border-top-left-radius: 10px; width: 150px;" >Item</th>
+                                <th style="width: 130px;">Start Date</th>
+                                <th style="width: 130px;">Return Date</th>
+                                <th style="width: 110px;" >Check Out</th>
+                                <th style="border-top-right-radius: 10px; width: 90px;">Check In</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="reservation in futureReservations" :key="reservation.id" @click="selectedReservation = reservation" :class="{'bold': selectedReservation == reservation}">
-                            <td style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;" >{{ reservation.itemName }}</td>
-                            <td>{{ reservation.startDate }}</td>
-                            <td>{{ reservation.returnDate }}</td>
-                            <td v-if="isstartDateInFuture(reservation)">
-                            <button @click="checkOutItem(reservation)" style="background-color: white; border-radius: 10px;">Check Out</button>
-                            </td>
-                            <td v-else>
-                            <tr>N/A</tr>
-                            </td>
-                            <td v-if="isstartDateInFuture(reservation)"  style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
-                            <button @click="checkOutItem(reservation)" style="background-color: white; border-radius: 10px;">Return</button>
-                            </td>
-                            <td v-else>
-                            <tr style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">N/A</tr>
-                            </td>
-                        </tr>
+                            <tr v-for="reservation in futureReservations" :key="reservation.id" @click="selectedReservation = reservation" :class="{'bold': selectedReservation == reservation}">
+                                <td style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;" >{{ reservation.itemName }}</td>
+                                <td>{{ reservation.startDate }}</td>
+                                <td>{{ reservation.returnDate }}</td>
+                                <td v-if="isstartDateInFuture(reservation)">
+                                <button @click="checkOutItem(reservation)" style="background-color: white; border-radius: 10px;">Check Out</button>
+                                </td>
+                                <td v-else>
+                                <tr>N/A</tr>
+                                </td>
+                                <td v-if="isstartDateInFuture(reservation)"  style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
+                                <button @click="checkOutItem(reservation)" style="background-color: white; border-radius: 10px;">Return</button>
+                                </td>
+                                <td v-else>
+                                <tr style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;">N/A</tr>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <h6 style="margin-top: 30px; ">Reservation History</h6>
@@ -192,6 +192,7 @@ table {
 th, td {
     border: 1px solid #ffffff;
     padding: 0.5em;
+    border-bottom: 1pt solid #ffffff;
 }
 
 .heroimage {
@@ -217,11 +218,10 @@ th, td {
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-    background-color: #dfdfdf;
+    background-color: #ffffff;
 }
 
 .styled-table tbody tr.active-row {
     font-weight: bold;
-    color: #009879;
 }
 </style>

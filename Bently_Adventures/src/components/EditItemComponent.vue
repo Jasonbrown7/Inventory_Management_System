@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-          <button class="btn btn-danger btn-block">Update</button>
+          <button class="btn btn-success btn-block">Update</button>
         </div>
       </form>
     </div>
@@ -73,7 +73,7 @@ export default {
         .put(apiURL, this.item)
         .then((res) => {
           console.log(res);
-          this.$router.push("/view/items");
+          this.$router.replace("/items");
         })
         .catch((error) => {
           console.log(error);
@@ -82,3 +82,9 @@ export default {
   },
 };
 </script>
+
+<style>
+button {
+  margin-top: 10px;
+}
+</style>
