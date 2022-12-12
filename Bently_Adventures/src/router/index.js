@@ -10,16 +10,6 @@ const routes = [
     component: () => import('../components/HomeComponent'),
   },
   {
-    path: '/create/users',
-    name: 'create-users',
-    component: () => import('../components/CreateUserComponent'),
-  },
-  {
-    path: '/view/users',
-    name: 'view-users',
-    component: () => import('../components/ViewUserComponent'),
-  },
-  {
     path: '/edit/user/:id',
     name: 'edit-user',
     component: () => import('../components/EditUserComponent'),
