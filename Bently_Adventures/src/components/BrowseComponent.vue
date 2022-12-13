@@ -15,8 +15,9 @@
                 </section> -->
             <div style = 'background: grey'>
             <section class = "itembox d-flex flex-row">
-                    <img src = "../assets/sled3.jpg" id="sled" onclick="displaySled()" alt = "sled" class = "itemimage">
-                
+                    <img src = "../assets/sled3.jpg" onclick="window.open(this.src)" id="sled" alt = "sled" class = "itemimage">
+                <!-- Above line will link to Vue JS function to display right bar of item information. Not included in this version due to 
+                weird Vue notation. -->
                     <h1 class = "itemName"> Winter Sled
                         <h2 class = "itemCondition"> Condition: Like-New <!-- Put vars in here or condition status -->
                             <h3 class = "itemAvailability"> Available
@@ -27,7 +28,7 @@
                     
                 </section>
             <section class = "itembox2">
-                <img src = "../assets/skiis.jpg" alt = "skiis" class = "itemimage">
+                <img src = "../assets/skiis.jpg" id = "skiis" onclick="window.open(this.src)" alt = "skiis" class = "itemimage">
                     <h1 class = "itemName"> Skiis
                         <h2 class = "itemCondition"> Condition: Damaged <!-- Put vars in here or condition status -->
                             <h3 class = "itemAvailability"> Available
@@ -36,7 +37,7 @@
                     </h1>
                 </section>
             <section class = "itembox3">
-                <img src = "../assets/skiipoles.png" alt = "skiipoles" class = "itemimage">
+                <img src = "../assets/skiipoles.png" id = "skiipoles" onclick="window.open(this.src)" alt = "skiipoles" class = "itemimage">
                     <h1 class = "itemName"> Skii Poles
                         <h2 class = "itemCondition"> Condition: Like-New <!-- Put vars in here or condition status -->
                             <h3 class = "itemAvailability"> Available
@@ -73,20 +74,33 @@
     </body>
 </template>
 
-<!-- <script>
+<script>
+// export default{
+//   data: () => ({
+//     showbox:false
+//   }),
+  
+//    methods: {
+//         displaysled(){
+//         // var x = document.getElementById("selecteditembox");
+//         // var sledbtn = document.getElementById("sled");
+        
+        
+//             // if (x.style.display != "none") {
+//             //     x.style.display = "none";
+//             // } else {
+//             //     x.style.display = "block";
+//             // } // MouseEvent { ... }
+//             this.showbox = !this.showBox;
+        
+//     }
+// }
+// }
+</script>
 
-function displaySled() {
-    
-    var x = document.getElementById("sled");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-}
 
 
-</script> -->
+
 
 <style>
 .itemimage {
