@@ -10,24 +10,24 @@ const routes = [
     component: () => import('../components/HomeComponent'),
   },
   {
-    path: '/create',
-    name: 'create',
-    component: () => import('../components/CreateComponent'),
+    path: '/edit/user/:id',
+    name: 'edit-user',
+    component: () => import('../components/EditUserComponent'),
   },
   {
-    path: '/view',
-    name: 'view',
-    component: () => import('../components/ListComponent'),
-  },
-  {
-    path: '/edit/:id',
-    name: 'edit',
-    component: () => import('../components/EditComponent'),
+    path: '/edit/item/:id',
+    name: 'edit-item',
+    component: () => import('../components/EditItemComponent'),
   },
   {
     path: '/login',
     name: 'login',
     component: () => import('../components/LoginComponent'),
+  },
+  {
+    path: '/create-user',
+    name: 'create-user',
+    component: () => import('../components/CreateUserComponent'),
   },
   {
     path: '/profile',
@@ -44,8 +44,16 @@ const routes = [
     name: 'reservations',
     component: () => import('../components/ReservationsComponent'),
   },
-  
-
+  {
+    path: '/items',
+    name: 'items',
+    component: () => import('../components/AdminItemsComponent'),
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('../components/AdminUsersComponent'),
+  },
 ]
 
 const router = new VueRouter({
@@ -53,5 +61,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 })
+
+
 
 export default router

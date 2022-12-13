@@ -52,7 +52,7 @@ userSchema.methods.validatePassword = async function (triedPassword, cb) {
       if (
         firstBuff.length != secondBuff.length ||
         !crypto.timingSafeEqual(firstBuff, secondBuff)
-      ) {
+      ) {;
         return cb(null, false, { message: "Incorrect username or password." });
       }
       return cb(null, user);

@@ -1,10 +1,10 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <h3 class="text-center">Create User</h3>
-      <form @submit.prevent="handleSubmitForm">
+      <h3 class="text-center">Update User</h3>
+      <form @submit.prevent="handleUpdateForm">
         <div class="form-group">
-          <label>Username</label>
+          <label>Name</label>
           <input
             type="text"
             class="form-control"
@@ -22,20 +22,9 @@
             required
           />
         </div>
-        
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            class="form-control"
-            v-model="user.password"
-            required
-          />
-        </div>
-
 
         <div class="form-group">
-          <button class="btn btn-danger btn-block">Create</button>
+          <button class="btn btn-success btn-block">Update</button>
         </div>
       </form>
     </div>
@@ -48,26 +37,25 @@ import axios from "axios";
 export default {
   data() {
     return {
-      user: {
-        username: "",
-        email: "",
-        password: "",
-      },
+      user: {},
     };
   },
+  created() {
+    let apiURL = `http://localhost:4000/api/user/edit/${this.$route.params.id}`;
+
+    axios.get(apiURL).then((res) => {
+      this.user = res.data;
+    });
+  },
   methods: {
-    handleSubmitForm() {
-      let apiURL = "http://localhost:4000/api/create-user";
+    handleUpdateForm() {
+      let apiURL = `http://localhost:4000/api/user/update/${this.$route.params.id}`;
 
       axios
-        .post(apiURL, this.user)
-        .then(() => {
-          this.$router.push("/view");
-          this.user = {
-            username: "",
-            email: "",
-            password: "",
-          };
+        .put(apiURL, this.user)
+        .then((res) => {
+          console.log(res);
+          this.$router.push("/users");
         })
         .catch((error) => {
           console.log(error);
