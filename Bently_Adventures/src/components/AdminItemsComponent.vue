@@ -102,6 +102,18 @@ export default {
       },
     };
   },
+  mounted() {
+      axios.defaults.withCredentials = true; 
+      axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+          .then((response) => {    
+              console.log(response)    
+              this.$set(this, "user", response.data.user)    
+          })    
+          .catch((errors) => {    
+              console.log(errors)    
+              this.$router.push("/")  
+          })
+        },
   created() {
     let itemApiUrl = "http://localhost:4000/api/item";
     axios
