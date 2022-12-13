@@ -69,7 +69,7 @@
 
 
             <div class="form-group">
-            <button class="btn btn-success btn-block" id="create-button">Create</button>
+            <button class="btn btn-success btn-block" id="create-button" onclick="location.reload();">Create</button>
             </div>
         </form>
       </div>
