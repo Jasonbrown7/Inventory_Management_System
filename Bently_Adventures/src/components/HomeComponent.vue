@@ -26,7 +26,7 @@
     background-position: center;
     background-size:cover;
     background-attachment: fixed;
-  }
+}
 
 .heroimage h1 {
     font-size: 50px;
@@ -58,5 +58,11 @@ export default {
           });
       }
     },
-};
+  };
 </script>
+
+<style>
+  button {
+    margin-top: 5px;
+  }
+</style>

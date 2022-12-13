@@ -10,16 +10,6 @@ const routes = [
     component: () => import('../components/HomeComponent'),
   },
   {
-    path: '/create/users',
-    name: 'create-users',
-    component: () => import('../components/CreateUserComponent'),
-  },
-  {
-    path: '/view/users',
-    name: 'view-users',
-    component: () => import('../components/ViewUserComponent'),
-  },
-  {
     path: '/edit/user/:id',
     name: 'edit-user',
     component: () => import('../components/EditUserComponent'),
@@ -33,6 +23,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../components/LoginComponent'),
+  },
+  {
+    path: '/create-user',
+    name: 'create-user',
+    component: () => import('../components/CreateUserComponent'),
   },
   {
     path: '/profile',
@@ -50,16 +45,15 @@ const routes = [
     component: () => import('../components/ReservationsComponent'),
   },
   {
-    path: '/create/items',
-    name: 'create-items',
-    component: () => import('../components/CreateItemComponent'),
+    path: '/items',
+    name: 'items',
+    component: () => import('../components/AdminItemsComponent'),
   },
   {
-    path: '/view/items',
-    name: 'view-items',
-    component: () => import('../components/ViewItemComponent'),
+    path: '/users',
+    name: 'users',
+    component: () => import('../components/AdminUsersComponent'),
   },
-
 ]
 
 const router = new VueRouter({

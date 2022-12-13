@@ -7,10 +7,9 @@
     <router-link class="navbar-nav mx-4" to="/reservations"> Reservations </router-link> | 
     <router-link class="navbar-nav mx-4" to="/profile"> Profile </router-link> |
     <router-link class="navbar-nav mx-4" to="/login"> Login </router-link> |
-    <router-link class="navbar-nav mx-4" to="/view/users"> View Users </router-link> | 
-    <router-link class="navbar-nav mx-4" to="/create/users"> Create Users </router-link> |
-    <router-link class="navbar-nav mx-4" to="/view/items"> View Items </router-link> | 
-    <router-link class="navbar-nav mx-4" to="/create/items"> Create Items </router-link>
+    <router-link class="navbar-nav mx-4" to="/create-user"> Register </router-link> |
+    <router-link class="navbar-nav mx-4" to="/items"> Items - Admin</router-link> |
+    <router-link class="navbar-nav mx-4" to="/users"> Users - Admin</router-link>
     </nav>
 
     <!-- Router view -->

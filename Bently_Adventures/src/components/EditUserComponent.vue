@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-group">
-          <button class="btn btn-danger btn-block">Update</button>
+          <button class="btn btn-success btn-block">Update</button>
         </div>
       </form>
     </div>
@@ -55,7 +55,7 @@ export default {
         .put(apiURL, this.user)
         .then((res) => {
           console.log(res);
-          this.$router.push("/view/users");
+          this.$router.push("/users");
         })
         .catch((error) => {
           console.log(error);
