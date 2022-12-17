@@ -5,7 +5,7 @@ Bently Nevada employees currently have access to an inventory of outdoor gear th
 
 ### Credits
 
-This web app was created with the MEVN stack (MongoDB, ExpressJS, VueJS, NodeJS). All of the code was either auto-generated using NPM or written/edited by the team. Aside from the MEVN skeleton codebase, none of the code has been taken from external sources.
+This web app was created with the MEVN stack (MongoDB, ExpressJS, VueJS, NodeJS). All of the code was either auto-generated using NPM  or written/edited by the team. Aside from the MEVN skeleton codebase, none of the code has been taken from external sources.
 
 ### For Team Use
 Naming convention: camelCase
