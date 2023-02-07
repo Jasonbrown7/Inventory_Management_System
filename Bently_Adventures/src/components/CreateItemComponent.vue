@@ -43,6 +43,16 @@
           />
         </div>
 
+        <div class="form-group">
+          <label>Image</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="item.image"
+            required
+          />
+        </div>
+
 
         <div class="form-group">
           <button class="btn btn-danger btn-block">Create</button>
@@ -63,6 +73,7 @@ export default {
         category: "",
         availability: "",
         condition: "",
+        image: "",
       },
     };
   },
@@ -79,6 +90,7 @@ export default {
             category: "",
             availability: "",
             condition: "",
+            image: "",
           };
         })
         .catch((error) => {
