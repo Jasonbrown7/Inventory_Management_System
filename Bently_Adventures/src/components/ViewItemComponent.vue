@@ -52,6 +52,7 @@ export default {
       .get(apiURL)
       .then((res) => {
         this.Items = res.data;
+
       })
       .catch((error) => {
         console.log(error);

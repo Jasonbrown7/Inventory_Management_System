@@ -8,6 +8,10 @@
                 class="btn btn-danger btn-large">
                 Logout
                 </button>
+          
+                Hello {{user.username}}!
+                ID: {{user.id }}
+            
           </div>
         </section>
     </body>
@@ -21,12 +25,14 @@ export default {
       user: {},
     };
   },
-  created() {
+  mounted() {
     axios.defaults.withCredentials = true; 
     axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
         .then((response) => {    
-            console.log(response)    
-            this.$set(this, "user", response.data.user)    
+            console.log(response);
+            this.$set(this, "user", response.data.user)   
+            // this.user = response.data.user; 
+            console.log(this.user)
         })    
         .catch((errors) => {    
             console.log(errors, "Cannot view profile page unless logged in.")    
@@ -45,7 +51,6 @@ export default {
             })
             .catch((error) => {
                 console.log(error);
-                console.log("negors");
             });
         }
     },

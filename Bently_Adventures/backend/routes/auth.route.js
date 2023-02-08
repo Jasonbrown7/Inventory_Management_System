@@ -51,10 +51,8 @@ router.post(
 
 router.post('/logout', function(req, res, next) {
   req.logout(function(err) {
-    if (err) { return next(err); }
-    else  {
-      console.log("Logout Success.");
-    }
+    if (err) { console.log(err); return next(); }
+    res.status(200).send("LOG OUT SUCCESSFUL.");
   });
 });
 
@@ -68,8 +66,8 @@ const authMiddleware = (req, res, next) => {
 }
 router.get("/user", authMiddleware, (req, res) => {
   
-  console.log(req.user);
-
+  
+  res.status(200).send({user: req.user});
 })
 
 module.exports = router;
