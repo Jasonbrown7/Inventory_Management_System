@@ -5,6 +5,7 @@ const port = 4000;
 const userRoutes = require("./routes/user.route");
 const authRoutes = require("./routes/auth.route");
 const itemRoutes = require("./routes/item.route");
+const reservationRoutes = require("./routes/reservation.route");
 const mongoose = require("mongoose");
 const cors = require('cors');
 var session = require("express-session");
@@ -55,7 +56,8 @@ app.use(
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
-app.use('/api/item', itemRoutes)
+app.use('/api/item', itemRoutes);
+app.use('/api/reservation', reservationRoutes);
 app.use(express.static("public"), express.static("dist"));
 
 

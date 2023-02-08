@@ -20,6 +20,11 @@ const routes = [
     component: () => import('../components/ViewUserComponent'),
   },
   {
+    path: '/view/reservations',
+    name: 'view-reservations',
+    component: () => import('../components/ViewReservationComponent'),
+  },
+  {
     path: '/edit/user/:id',
     name: 'edit-user',
     component: () => import('../components/EditUserComponent'),
@@ -28,6 +33,11 @@ const routes = [
     path: '/edit/item/:id',
     name: 'edit-item',
     component: () => import('../components/EditItemComponent'),
+  },
+  {
+    path: '/edit/reservation/:id',
+    name: 'edit-reservation',
+    component: () => import('../components/EditReservationComponent'),
   },
   {
     path: '/login',
@@ -45,9 +55,9 @@ const routes = [
     component: () => import('../components/BrowseComponent'),
   },
   {
-    path: '/reservations',
-    name: 'reservations',
-    component: () => import('../components/ReservationsComponent'),
+    path: '/create/reservations',
+    name: 'create-reservations',
+    component: () => import('../components/CreateReservationsComponent'),
   },
   {
     path: '/create/items',
