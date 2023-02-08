@@ -3,6 +3,7 @@ const userRoute = express.Router()
 
 // model
 let UserModel = require('../models/User')
+
 userRoute.route('/create').post((req, res, next) => {
   UserModel.create(req.body, (error, data) => {
     if (error) {
