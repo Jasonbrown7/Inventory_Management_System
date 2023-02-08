@@ -18,7 +18,9 @@
             <td>{{ item.category }}</td>
             <td>{{ item.availability }} </td>
             <td>{{ item.condition }} </td>
-            <td>{{ item.image }} </td>
+            <td>
+              <img :src="item.image" :alt="item.image">
+            </td>
             <td>
               <router-link
                 :to="{ name: 'edit-item', params: { id: item._id } }"

@@ -40,6 +40,15 @@
             required
           />
         </div>
+        <div class="form-group">
+          <label>Image</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="item.image"
+            required
+          />
+        </div>
 
         <div class="form-group">
           <button class="btn btn-danger btn-block">Update</button>
@@ -55,7 +64,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      item: {},
+      item: {
+      },
     };
   },
   created() {

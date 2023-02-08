@@ -86,11 +86,11 @@ export default {
         .then(() => {
           this.$router.push("/view/items");
           this.item = {
-            name: "",
-            category: "",
-            availability: "",
-            condition: "",
-            image: "",
+            name: this.item.name,
+            category: this.item.category,
+            availability: this.item.availability,
+            condition: this.item.condition,
+            image: this.item.image,
           };
         })
         .catch((error) => {
