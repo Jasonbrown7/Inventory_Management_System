@@ -54,7 +54,7 @@ export default {
             this.$set(this, "user", response.data.user)    
         })    
         .catch((errors) => {    
-            console.log(errors)    
+            console.log(errors, 'Cannot view all users unless logged in as admin.')  
             this.$router.push("/")  
         })
       },
@@ -69,6 +69,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+      
   },
   methods: {
     deleteUser(id) {

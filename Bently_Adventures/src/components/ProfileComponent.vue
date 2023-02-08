@@ -3,11 +3,54 @@
     
         <section class="heroimage">
             <div class="d-flex flex-column align-items-center justify-content-center container-fluid">
-              <h1 class="text-center">Template Profile Page</h1>
+                <button
+                @click.prevent="logoutUser()"
+                class="btn btn-danger btn-large">
+                Logout
+                </button>
           </div>
         </section>
     </body>
 </template>
+
+<script>
+import axios from 'axios';
+export default {
+    data() {
+     return {
+      user: {},
+    };
+  },
+  created() {
+    axios.defaults.withCredentials = true; 
+    axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+        .then((response) => {    
+            console.log(response)    
+            this.$set(this, "user", response.data.user)    
+        })    
+        .catch((errors) => {    
+            console.log(errors, "Cannot view profile page unless logged in.")    
+            this.$router.push("/login")  
+        })
+      },
+    methods: {
+        logoutUser() {
+        axios.defaults.withCredentials = true;
+        let apiURL = `http://localhost:4000/api/auth/logout`;
+            axios
+            .post(apiURL)
+            .then(() => {
+                console.log("Logged out.");
+                this.$router.push("/"); 
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log("negors");
+            });
+        }
+    },
+}
+</script>
 
   
 <style>

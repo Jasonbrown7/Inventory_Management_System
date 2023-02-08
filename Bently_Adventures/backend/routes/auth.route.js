@@ -52,14 +52,16 @@ router.post(
 router.post('/logout', function(req, res, next) {
   req.logout(function(err) {
     if (err) { return next(err); }
-    res.redirect('/');
+    else  {
+      console.log("Logout Success.");
+    }
   });
 });
 
 const authMiddleware = (req, res, next) => {
 
   if (!req.isAuthenticated()) {
-    res.status(401).send('You are not authenticated')
+    res.status(401).send()
   } else {
     return next()
   }
