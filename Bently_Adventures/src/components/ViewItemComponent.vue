@@ -19,7 +19,7 @@
             <td>{{ item.condition }} </td>
             <td>
               <router-link
-                :to="{ name: 'edit-item', params: { id: item._id } }"
+                :href="{ name: 'edit-item', params: { id: item._id } }"
                 class="btn btn-success"
                 >Edit
               </router-link>
