@@ -9,8 +9,14 @@
                 Logout
                 </button>
           
+                <h2 class="userinfo"> 
                 Hello {{user.username}}!
-                ID: {{user.id }}
+                ID: {{user.id }} </h2>
+                
+                <h2 class="userinfo" v-if="user.isAdmin === true">
+                    You are an ADMIN!
+                </h2>
+
             
           </div>
         </section>
@@ -75,5 +81,7 @@ export default {
     font-weight: 700;
     color:white;
 }
-
+.userinfo {
+    color:white;
+}
 </style>

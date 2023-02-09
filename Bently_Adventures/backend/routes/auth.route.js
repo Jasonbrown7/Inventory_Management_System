@@ -21,7 +21,7 @@ passport.use(
 passport.serializeUser(function (user, cb) {
   console.log(user);
   process.nextTick(function () {
-    cb(null, { id: user._id, username: user.username });
+    cb(null, { id: user._id, username: user.username, isAdmin: user.isAdmin });
   });
 });
 
@@ -57,15 +57,29 @@ router.post('/logout', function(req, res, next) {
 });
 
 const authMiddleware = (req, res, next) => {
-
+  console.log(req.user);
   if (!req.isAuthenticated()) {
-    res.status(401).send()
+    res.status(401).send("Failed Authentication Check.")
   } else {
     return next()
   }
 }
-router.get("/user", authMiddleware, (req, res) => {
+const adminMiddleware = (req, res, next) => {
+  console.log(req.user);
+  if (req.isAuthenticated() && req.user.isAdmin === true) {
+    return next()
+  } else {
+    res.status(401).send("Failed Admin Check.")
   
+  }
+}
+
+router.get("/admin", adminMiddleware, (req, res) => {
+  
+  res.status(200).send({user: req.user});
+})
+
+router.get("/user", authMiddleware, (req, res) => {
   
   res.status(200).send({user: req.user});
 })
