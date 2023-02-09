@@ -5,17 +5,19 @@
     elevation="3"
     outlined
     >
-      <v-img
-        alt="Bently Nevada"
-        class="shrink mr-2"
-        contain
-        :src="require('./assets/logo1.png')"
-        transition="scale-transition"
-        width="200"
-        href="/"
-      />
+      <a href="/">
+        <v-img
+          alt="Bently Nevada"
+          class="shrink mr-2"
+          contain
+          :src="require('./assets/logo1.png')"
+          transition="scale-transition"
+          width="200"
+          href="/"
+        />
+      </a>
       <v-spacer></v-spacer>
-      <v-btn to="/">Home</v-btn>
+      <v-btn to="/login">Login</v-btn>
       <v-btn to="/browse">Browse</v-btn>
       <v-btn to="/view/items">View Items</v-btn>
       <v-btn to="/create/items">Create Items</v-btn>
