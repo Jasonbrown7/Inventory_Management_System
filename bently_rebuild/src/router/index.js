@@ -6,6 +6,8 @@ import BrowseView from '../views/BrowseView.vue'
 import CreateItemView from '../views/CreateItemView.vue'
 import ViewReservationsView from '../views/ViewReservationsView.vue'
 import CreateReservationView from '../views/CreateReservationView.vue'
+import ViewUsersView from '../views/ViewUsersView.vue'
+import CreateUserView from '../views/CreateUserView.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +41,16 @@ const routes = [
     path: '/create/reservations',
     name: 'create-reservations',
     component: CreateReservationView
+  },
+  {
+    path: '/view/users',
+    name: 'view-users',
+    component: ViewUsersView
+  },
+  {
+    path: '/create/users',
+    name: 'create-users',
+    component: CreateUserView
   },
 ]
 

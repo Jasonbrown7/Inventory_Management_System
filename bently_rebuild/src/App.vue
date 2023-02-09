@@ -21,6 +21,8 @@
       <v-btn to="/create/items">Create Items</v-btn>
       <v-btn to="/view/reservations">View Reservations</v-btn>
       <v-btn to="/create/reservations">Create Reservations</v-btn>
+      <v-btn to="/view/users">View Users</v-btn>
+      <v-btn to="/create/users">Create Users</v-btn>
     </v-toolbar>
     <router-view/>
   </div>

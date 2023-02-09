@@ -9,7 +9,7 @@
   import CreateItemComponent from '@/components/CreateItemComponent.vue'
   
   export default {
-    name: 'ViewItems',
+    name: 'CreateItem',
     components: {
         CreateItemComponent
     }

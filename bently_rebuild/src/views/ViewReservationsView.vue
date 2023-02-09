@@ -9,7 +9,7 @@
   import ViewReservationsComponent from '@/components/ViewReservationsComponent.vue'
   
   export default {
-    name: 'ViewItems',
+    name: 'ViewReservations',
     components: {
         ViewReservationsComponent
     }

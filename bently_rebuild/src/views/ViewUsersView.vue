@@ -1,17 +1,17 @@
 <template>
     <div class="home">
-      <BrowseComponent/>
+      <ViewUsersComponent/>
     </div>
   </template>
   
   <script>
   // @ is an alias to /src
-  import BrowseComponent from '@/components/BrowseComponent.vue'
+  import ViewUsersComponent from '@/components/ViewUsersComponent.vue'
   
   export default {
-    name: 'Browse',
+    name: 'ViewUsers',
     components: {
-        BrowseComponent
+        ViewUsersComponent
     }
   }
   </script>
