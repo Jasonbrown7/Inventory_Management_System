@@ -66,10 +66,8 @@ const authMiddleware = (req, res, next) => {
 const adminMiddleware = (req, res, next) => {
   console.log(req.user);
   if (req.isAuthenticated() && req.user.isAdmin === true) {
-    console.log("yer");
     return next()
   } else {
-    console.log("nerr");
     res.status(401).send("Failed Admin Check.")
   
   }
