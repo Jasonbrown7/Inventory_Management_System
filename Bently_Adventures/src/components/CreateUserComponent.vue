@@ -6,7 +6,7 @@
         <div class="form-group">
           <label>Username</label>
           <input
-            type="text"
+            type="username"
             class="form-control"
             v-model="user.username"
             required

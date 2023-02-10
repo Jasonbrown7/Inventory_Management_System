@@ -5,31 +5,31 @@
           <div class="d-flex flex-column align-items-center justify-content-center container-fluid">
             <h1 class="text-center">User Login</h1>
             <form @submit.prevent="handleSubmitForm" class="card p-4" style="width: 23rem;">
-        <div class="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            class="form-control"
-            v-model="user.username"
-            required
-          />
-        </div>
-        
-        <div class="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            class="form-control"
-            v-model="user.password"
-            required
-          />
-        </div>
+              <div class="form-group">
+                <label>Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="user.username"
+                  required
+                />
+              </div>
+              
+              <div class="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  v-model="user.password"
+                  required
+                />
+              </div>
 
 
-        <div class="form-group">
-          <button class="btn btn-danger btn-block" ref="loginbutton">Login</button>
-        </div>
-      </form>
+              <div class="form-group">
+                <button class="btn btn-danger btn-block" ref="loginbutton">Login</button>
+              </div>
+            </form>
           </div>
       </section>
   </body>
