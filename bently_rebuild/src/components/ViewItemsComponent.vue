@@ -69,7 +69,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in items" :key="item.id">
+                    <tr v-for="item in Items" :key="item.id">
                       <td>{{ item.name }}</td>
                       <td>{{ item.category }}</td>
                       <td>{{ item.availability }}</td>
@@ -101,6 +101,18 @@ export default {
         ],
     };
   },
+  // mounted() {
+  //   axios.defaults.withCredentials = true; 
+  //   axios.get("http://localhost:4000/api/auth/admin", {credentials: 'include'})    
+  //       .then((response) => {    
+  //           console.log(response)    
+  //           //this.$set(this, "user", response.data.user)    
+  //       })    
+  //       .catch((errors) => {    
+  //           console.log(errors, 'Cannot view all items unless logged in as admin.')  
+  //           this.$router.push("/")  
+  //       })
+  //     },
   created() {
     let apiURL = "http://localhost:4000/api/item";
     axios
