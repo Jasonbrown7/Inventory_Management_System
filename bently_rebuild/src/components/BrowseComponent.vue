@@ -1,3 +1,4 @@
+<!--Vuetify Wireframe Template from https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wireframes/extended-toolbar.vue-->
 <template>
     <v-app id="inspire">  
       <v-main>
