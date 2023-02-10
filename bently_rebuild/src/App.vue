@@ -19,8 +19,7 @@
       <v-spacer></v-spacer>
       <v-btn to="/login" plain>Login</v-btn>
       <v-btn to="/browse" plain>Browse</v-btn>
-      <v-btn to="/view/items" plain>View Items</v-btn>
-      <v-btn to="/create/items" plain>Create Items</v-btn>
+      <v-btn to="/view/items" plain>Inventory</v-btn>
       <v-btn to="/view/reservations" plain>View Reservations</v-btn>
       <v-btn to="/create/reservations" plain>Create Reservations</v-btn>
       <v-btn to="/view/users" plain>View Users</v-btn>

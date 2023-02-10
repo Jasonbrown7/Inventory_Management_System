@@ -5,6 +5,8 @@
         <v-container>
           <v-row>
             <v-col cols="2">
+              <v-toolbar color="grey lighten-3" elevation="0">
+              </v-toolbar>  
               <v-sheet rounded="lg">
                 <v-subheader>Sort by</v-subheader>
                 <v-list rounded="lg">
@@ -32,6 +34,12 @@
             </v-col>
   
             <v-col>
+              <v-toolbar color="grey lighten-3" elevation="0">
+                <v-toolbar-title style="font-size: 30px;">Inventory</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
+              </v-toolbar>  
+
               <v-simple-table>
                   <thead>
                     <tr>
