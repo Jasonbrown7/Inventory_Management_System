@@ -4,11 +4,13 @@ import HomeView from '../views/HomeView.vue'
 import ViewItemsView from '../views/ViewItemsView.vue'
 import BrowseView from '../views/BrowseView.vue'
 import CreateItemView from '../views/CreateItemView.vue'
+import EditItemView from '../views/EditItemView.vue'
 import ViewReservationsView from '../views/ViewReservationsView.vue'
 import CreateReservationView from '../views/CreateReservationView.vue'
 import ViewUsersView from '../views/ViewUsersView.vue'
 import CreateUserView from '../views/CreateUserView.vue'
 import LoginView from '../views/LoginView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -20,12 +22,12 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'loginView',
     component: LoginView
   },
   {
     path: '/browse',
-    name: 'browse',
+    name: 'browseView',
     component: BrowseView
   },
   {
@@ -37,6 +39,11 @@ const routes = [
     path: '/create/items',
     name: 'create-item',
     component: CreateItemView
+  },
+  {
+    path: '/edit/item/:id',
+    name: 'edit-item',
+    component: EditItemView,
   },
   {
     path: '/view/reservations',
@@ -57,6 +64,11 @@ const routes = [
     path: '/create/users',
     name: 'create-users',
     component: CreateUserView
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
   },
 ]
 

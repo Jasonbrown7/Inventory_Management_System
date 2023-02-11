@@ -1,35 +1,39 @@
 <template>
-    <v-app id="inspire">
-          <v-container class="heroimage" fluid fill-height>
-             <v-layout align-center justify-center>
-                <v-flex xs12 sm8 md4>
-                   <v-card class="elevation-12">
-                      <v-toolbar dark color="primary">
-                         <v-toolbar-title>Login Credentials</v-toolbar-title>
-                      </v-toolbar>
-                      <v-card-text>
-                        <v-form @submit.prevent="handleSubmitForm" class="card p-4" style="width: 23rem;">
-                            <v-text-field
-                               label="Username"
-                               type="text"
-                            ></v-text-field>
-                            <v-text-field
-                               id="password"
-                               label="Password"
-                               type="password"
-                            ></v-text-field>
-                         </v-form>
-                      </v-card-text>
-                      <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn class="btn btn-danger btn-block" ref="loginbutton">Login</v-btn>
-                      </v-card-actions>
-                   </v-card>
-                </v-flex>
-             </v-layout>
-          </v-container>
-    </v-app>
-</template>
+    <body>
+    
+        <section class="heroimage">
+            <div class="d-flex flex-column align-items-center justify-content-center container-fluid">
+              <h1 class="text-center">User Login</h1>
+              <form @submit.prevent="handleSubmitForm" class="card p-4" style="width: 23rem;">
+          <div class="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="user.username"
+              required
+            />
+          </div>
+          
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              v-model="user.password"
+              required
+            />
+          </div>
+  
+  
+          <div class="form-group">
+            <button class="btn btn-danger btn-block" ref="loginbutton" type="submit">Login</button>
+          </div>
+        </form>
+            </div>
+        </section>
+    </body>
+    </template>
 
 <style>
 
@@ -52,8 +56,6 @@
 
 </style>
 <script>
-
-
     import axios from "axios";
     export default {
     data() {
@@ -71,7 +73,7 @@
             .post(apiURL, {username: this.user.username, password: this.user.password})
             .then(() => {
             console.log("Login Success.")
-            this.$router.push("/view/users")
+            this.$router.push("/profile")
         
             })
             .catch((error) => {
