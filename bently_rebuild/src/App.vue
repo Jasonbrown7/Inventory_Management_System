@@ -17,14 +17,13 @@
         />
       </a>
       <v-spacer></v-spacer>
-      <v-btn to="/login">Login</v-btn>
-      <v-btn to="/browse">Browse</v-btn>
-      <v-btn to="/view/items">View Items</v-btn>
-      <v-btn to="/create/items">Create Items</v-btn>
-      <v-btn to="/view/reservations">View Reservations</v-btn>
-      <v-btn to="/create/reservations">Create Reservations</v-btn>
-      <v-btn to="/view/users">View Users</v-btn>
-      <v-btn to="/create/users">Create Users</v-btn>
+      <v-btn to="/login" plain>Login</v-btn>
+      <v-btn to="/browse" plain>Browse</v-btn>
+      <v-btn to="/view/items" plain>Inventory</v-btn>
+      <v-btn to="/view/reservations" plain>View Reservations</v-btn>
+      <v-btn to="/create/reservations" plain>Create Reservations</v-btn>
+      <v-btn to="/view/users" plain>View Users</v-btn>
+      <v-btn to="/create/users" plain>Create Users</v-btn>
     </v-toolbar>
     <router-view/>
   </div>

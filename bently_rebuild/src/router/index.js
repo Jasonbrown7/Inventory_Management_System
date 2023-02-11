@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import ViewItemsView from '../views/ViewItemsView.vue'
 import BrowseView from '../views/BrowseView.vue'
 import CreateItemView from '../views/CreateItemView.vue'
+import EditItemView from '../views/EditItemView.vue'
 import ViewReservationsView from '../views/ViewReservationsView.vue'
 import CreateReservationView from '../views/CreateReservationView.vue'
 import ViewUsersView from '../views/ViewUsersView.vue'
@@ -38,6 +39,11 @@ const routes = [
     path: '/create/items',
     name: 'create-item',
     component: CreateItemView
+  },
+  {
+    path: '/edit/item/:id',
+    name: 'edit-item',
+    component: EditItemView,
   },
   {
     path: '/view/reservations',
