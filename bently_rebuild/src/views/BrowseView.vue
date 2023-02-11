@@ -9,7 +9,12 @@
   import BrowseComponent from '@/components/BrowseComponent.vue'
   
   export default {
-    name: 'Browse',
+    name: 'BrowseView',
+    data: () => ({
+      defaultDropdown: 'Any Category',
+      dropdownItems: ['WinterSports', 'SummerSports', 'WaterSports'],
+    }),
+
     components: {
         BrowseComponent
     }
