@@ -1,13 +1,10 @@
 <template>
-    <body>
+    <v-app id="inspire">
+    <v-main class="v-main grey lighten-3">
     
-        <section class="heroimage">
+        
             <div class="d-flex flex-column align-items-center justify-content-center container-fluid">
-                <button
-                @click.prevent="logoutUser()"
-                class="btn btn-danger btn-large">
-                Logout
-                </button>
+          
           
                 <h2 class="userinfo"> 
                 Hello {{user.username}}!
@@ -16,11 +13,14 @@
                 <h2 class="userinfo" v-if="user.isAdmin === true">
                     You are an ADMIN!
                 </h2>
-
-            
-          </div>
-        </section>
-    </body>
+                <v-button
+                @click.prevent="logoutUser()"
+                class="btn btn-danger btn-large">
+                Logout
+                </v-button>
+            </div>
+    </v-main>
+    </v-app>
 </template>
 
 <script>
