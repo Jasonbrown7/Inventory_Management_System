@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <body>
     
         <section class="heroimage">
@@ -33,6 +33,34 @@
             </div>
         </section>
     </body>
+    </template> -->
+
+    <template>
+    
+        <v-container class="d-flex">
+          <v-form class="mx-auto py-16"  >
+          <v-row>
+
+              <v-text-field
+                v-model="user.username"
+                label="Username"
+                required
+              ></v-text-field>
+           </v-row>
+           <v-row>
+              <v-text-field
+                v-model="user.password"
+                label="Password"
+                required
+              ></v-text-field>
+            </v-row>
+    
+      
+        <v-row >
+          <v-btn @click.prevent="handleSubmitForm"> Submit </v-btn>
+        </v-row>
+      </v-form>
+    </v-container>
     </template>
 
 <style>
