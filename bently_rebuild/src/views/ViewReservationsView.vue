@@ -5,7 +5,6 @@
   </template>
   
   <script>
-  // @ is an alias to /src
   import ViewReservationsComponent from '@/components/ViewReservationsComponent.vue'
   
   export default {
