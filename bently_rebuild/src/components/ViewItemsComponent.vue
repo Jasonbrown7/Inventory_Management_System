@@ -15,7 +15,7 @@
                     :key="link"
                   >
                     <v-list-item-title>
-                      {{ link}}
+                      {{ link }}
                     </v-list-item-title>
                   </v-list-item>
   

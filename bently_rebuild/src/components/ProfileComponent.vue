@@ -5,19 +5,25 @@
         
             <div class="d-flex flex-column align-items-center justify-content-center container-fluid">
           
-          
-                <h2 class="userinfo"> 
+                
+                <h2> 
                 Hello {{user.username}}!
                 ID: {{user.id }} </h2>
-                
+               pic: {{user.pic }}
                 <h2 class="userinfo" v-if="user.isAdmin === true">
                     You are an ADMIN!
                 </h2>
-                <v-button
+                <!-- <v-button
                 @click.prevent="logoutUser()"
                 class="btn btn-danger btn-large">
                 Logout
-                </v-button>
+                </v-button> -->
+                <!-- <img src="../assets/LeviStrauss_headshot.jpg">Profiel Pic -->
+                <!-- <img :src="require(`../assets/${user.pic}`)"> -->
+                <!-- <img :src="user.pic">Profiel Pic -->
+                <!-- <img src="../assets/LeviStrauss_headshot.jpg"> -->
+               <!-- <v-img :src="require(`../assets/${user.pic}`)"></v-img> -->
+                <!-- <v-img src="../assets/LeviStrauss_headshot.jpg">Profiel Pic</v-img> -->
             </div>
     </v-main>
     </v-app>

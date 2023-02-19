@@ -21,7 +21,7 @@ passport.use(
 passport.serializeUser(function (user, cb) {
   console.log(user);
   process.nextTick(function () {
-    cb(null, { id: user._id, username: user.username, isAdmin: user.isAdmin });
+    cb(null, { id: user._id, username: user.username, isAdmin: user.isAdmin, pic: user.pic });
   });
 });
 
