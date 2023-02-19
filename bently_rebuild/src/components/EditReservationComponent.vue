@@ -7,9 +7,9 @@
           class="mx-auto px-md-6 pb-md-6 pt-md-4"
           max-width="600"
         >
-          <h3 class="text-center">Create Reservation</h3>
+          <h3 class="text-center">Edit Reservation</h3>
           <v-form 
-            @submit.prevent="handleSubmitForm" 
+            @submit.prevent="handleUpdateForm" 
           >
             <v-container class="justify-center">
               <v-row>
@@ -54,7 +54,7 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-btn block color="danger justify-center" type="submit">Create</v-btn>
+                  <v-btn block color="danger justify-center" type="submit">Confirm</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -65,48 +65,46 @@
   </v-app>
 </template>
 
-<script>
+  
+  <script>
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      reservation: {
-        startDate: "",
-        endDate: "",
-        user: "",
-        item: "",
-      },
-    };
-  },
-  methods: {
-    handleSubmitForm() {
-
-      const startDateInput = document.getElementById("startDateInput").value;
-      const endDateInput = document.getElementById("endDateInput").value;
-
-      if (startDateInput < endDateInput){
-        let apiURL = "http://localhost:4000/api/reservation/create";
-
-        axios
-          .post(apiURL, this.reservation)
-          .then(() => {
-            this.$router.push("/view/reservations");
-            this.reservation = {
-              startDate: "",
-              endDate: "",
-              user: "",
-              item: "",
-            };
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-      else{
-        window.alert("Error: Start date must come before end date")
-      }
+    data() {
+      return {
+        reservation: {},
+      };
     },
-  },
-};
-</script>
+    created() {
+      let apiURL = `http://localhost:4000/api/reservation/edit/${this.$route.params.id}`;
+  
+      axios.get(apiURL).then((res) => {
+        this.reservation = res.data;
+      });
+    },
+    methods: {
+      handleUpdateForm() {
+
+        const startDateInput = document.getElementById("startDateInput").value;
+        const endDateInput = document.getElementById("endDateInput").value;
+
+        if (startDateInput < endDateInput){
+          let apiURL = `http://localhost:4000/api/reservation/update/${this.$route.params.id}`;
+    
+          axios
+            .put(apiURL, this.reservation)
+            .then((res) => {
+              console.log(res);
+              this.$router.push("/view/reservations");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+        else{
+          window.alert("Error: Start date must come before end date")
+        }
+      },
+    },
+  };
+  </script>

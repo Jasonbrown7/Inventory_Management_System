@@ -6,6 +6,7 @@ import AdminViewItemView from '../views/AdminViewItemView.vue'
 import BrowseView from '../views/BrowseView.vue'
 import CreateItemView from '../views/CreateItemView.vue'
 import EditItemView from '../views/EditItemView.vue'
+import EditReservationView from '../views/EditReservationView.vue'
 import ViewReservationsView from '../views/ViewReservationsView.vue'
 import CreateReservationView from '../views/CreateReservationView.vue'
 import ViewUsersView from '../views/ViewUsersView.vue'
@@ -50,6 +51,11 @@ const routes = [
     path: '/edit/item/:id',
     name: 'edit-item',
     component: EditItemView,
+  },
+  {
+    path: '/edit/reservation/:id',
+    name: 'edit-reservation',
+    component: EditReservationView,
   },
   {
     path: '/view/reservations',
