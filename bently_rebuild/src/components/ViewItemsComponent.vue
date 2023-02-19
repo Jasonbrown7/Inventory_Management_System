@@ -35,7 +35,7 @@
   
             <v-col>
               <v-toolbar color="grey lighten-3" elevation="0">
-                <v-toolbar-title style="font-size: 30px;">Inventory</v-toolbar-title>
+                <v-toolbar-title style="font-size: 30px;">Admin - Inventory</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
               </v-toolbar>  
@@ -59,14 +59,23 @@
                       <td>
                         <v-btn
                           class="mr-md-1"
+                          color="primary"
+                          :to="{ name: 'admin-viewitem', params: { id: item._id } }"
+                          small
+                        >
+                          View Item
+                        </v-btn>
+                        <v-btn
+                          class="ml-md-1 mr-md-1"
                           :to="{ name: 'edit-item', params: { id: item._id } }"
                           color="primary"
+                          outlined
                           small
                         >
                           Edit
                         </v-btn>
                         <v-btn
-                          class="ml-md-2"
+                          class="ml-md-1"
                           @click.prevent="deleteItem(item._id)"
                           color="primary"
                           outlined

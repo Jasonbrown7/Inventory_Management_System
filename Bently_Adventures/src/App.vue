@@ -1,41 +1,18 @@
 <template>
-  <v-app>
+  <div>
     <!-- Nav bar -->
-    <v-toolbar color="indigo" dark>
-      <v-toolbar-title class="mx-3">
-        <router-link to="/">
-          <img src="./assets/logo.png" alt="Bently Nevada" width="100" height="40">
-        </router-link>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn text to="/browse">Browse</v-btn>
-        <v-btn text to="/create/reservations">Create Reservations</v-btn>
-        <v-btn text to="/view/reservations">View Reservations</v-btn>
-        <v-btn text to="/profile">Profile</v-btn>
-        <v-btn text to="/login">Login</v-btn>
-        <v-btn text to="/view/users">View Users</v-btn>
-        <v-btn text to="/create/users">Create Users</v-btn>
-        <v-btn text to="/view/items">View Items</v-btn>
-        <v-btn text to="/create/items">Create Items</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+    <nav class="d-flex navbar">
+    <a class="me-auto ps-3 py-0 my-0 navbar-brand" href="/"> <img src="./assets/logo.png" alt="Bently Nevada" width="100" height="40"></a>
+    <router-link class="navbar-nav mx-4" to="/browse"> Browse </router-link> | 
+    <router-link class="navbar-nav mx-4" to="/reservations"> Reservations </router-link> | 
+    <router-link class="navbar-nav mx-4" to="/profile"> Profile </router-link> |
+    <router-link class="navbar-nav mx-4" to="/login"> Login </router-link> |
+    <router-link class="navbar-nav mx-4" to="/create-user"> Register </router-link> |
+    <router-link class="navbar-nav mx-4" to="/items"> Items - Admin</router-link> |
+    <router-link class="navbar-nav mx-4" to="/users"> Users - Admin</router-link>
+    </nav>
 
     <!-- Router view -->
-    <v-content>
       <router-view></router-view>
-    </v-content>
-  </v-app>
+  </div>
 </template>
-
-<script>
-export default {};
-</script>
-
-<style>
-.navbar {
-  height: 56px;
-  display: flex;
-  align-items: center;
-}
-</style>
