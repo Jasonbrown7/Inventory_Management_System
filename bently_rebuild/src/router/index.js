@@ -13,6 +13,7 @@ import ViewUsersView from '../views/ViewUsersView.vue'
 import CreateUserView from '../views/CreateUserView.vue'
 import LoginView from '../views/LoginView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import ItemPageView from '../views/ItemPageView.vue'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,12 @@ const routes = [
     path: '/view/items/:id',
     name: 'admin-viewitem',
     component: AdminViewItemView
+  },
+  {
+
+    path: '/browse/itempage/:id',
+    name: 'browse-itempage',
+    component: ItemPageView
   },
   {
     path: '/create/items',
