@@ -104,12 +104,28 @@
             .then(() => {
             console.log("Login Success.")
             this.$router.push("/profile")
-            eventBus.$emit("userLogin", true);
+            this.emit();
             })
             .catch((error) => {
             console.log("Login Fail.", error)
             });
+
+            
         },
+        emit() {
+          axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+            .then((response) => {    
+              console.log("EMIT", response.data)
+              eventBus.$emit("userLogin", response.data.user);
+                // this.user = response.data.user; 
+              
+            }) 
+            .catch((errors) => {  
+             
+                console.log("EMIT",errors);
+           
+            })  
+        }
     },
     };
 

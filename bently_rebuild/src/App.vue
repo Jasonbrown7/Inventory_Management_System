@@ -25,9 +25,6 @@
       <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
       <v-btn to="/view/users" plain>Users</v-btn>
       <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
-
-     
-       <v-btn to="/browse/itempage" plain>ItemPage</v-btn>
     <template>
 
     <v-menu
@@ -94,9 +91,6 @@ export default {
 
     };
   },
-updated(){
-  console.log("LOGGEDINUPDATE", this.isLoggedIn);
-},
 
 created(){  
     eventBus.$on("userLogin", (data) => {
@@ -111,13 +105,13 @@ created(){
         .then((response) => {    
           this.isLoggedIn = true;
           this.$set(this, "user", response.data.user);
-          console.log("MOUNT SUCCESS.")  
+
        
             // this.user = response.data.user; 
           
         }) 
         .catch((errors) => {  
-            console.log("Mount not success hmm!")  
+     
             console.log(errors);
             this.$set(this, "user", {})
             this.isLoggedIn = false;
