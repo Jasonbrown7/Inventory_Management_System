@@ -10,14 +10,16 @@
               <v-sheet rounded="lg">
                 <v-subheader>Sort by</v-subheader>
                 <v-list rounded="lg">
-                  <v-list-item
-                    v-for="link in links"
-                    :key="link"
-                  >
-                    <v-list-item-title>
-                      {{ link}}
-                    </v-list-item-title>
-                  </v-list-item>
+                  <v-select
+                    label="category"
+                    :items="['Water Sports', 'Winter Sports', 'Summer Sports', 'Leisure']"
+                    chips
+                    multiple
+                    solo
+                    elevation="0"
+                    v-model="selectedCategories"
+                    @change="filterItems"
+                  ></v-select>
   
                   <v-divider class="my-2"></v-divider>
   
@@ -100,6 +102,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      selectedCategories: [],
       Items: [],
       links: [
           'Category',
@@ -147,6 +150,23 @@ export default {
             console.log(error);
           });
       }
+    },
+    filterItems() {
+      let apiURL = "http://localhost:4000/api/item";
+      let filter = {};
+
+      if (this.selectedCategories.length > 0) {
+        filter.category = this.selectedCategories;
+      }
+
+      axios
+        .get(apiURL, { params: filter })
+        .then((res) => {
+          this.Items = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
