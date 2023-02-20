@@ -40,10 +40,18 @@
                   ></v-select>
   
                   <v-divider class="my-2"></v-divider>
-                  <v-subheader>Generate Reports</v-subheader>
-                    <v-chip>Apply Filters</v-chip>
-                    <v-chip>No Filters</v-chip>
-                    <v-btn color="primary" outlined @click="exportCsv">Export CSV</v-btn>
+                  <v-subheader>Reports</v-subheader>
+                  <v-btn-toggle
+                    v-model="text"
+                    rounded="0"
+                    color="deep-purple-accent-3"
+                    group
+                  >
+                    <v-btn value="clicked">
+                      Apply Filters
+                    </v-btn>
+                  </v-btn-toggle>
+                    <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
                 </v-list>
               </v-sheet>
             </v-col>
@@ -176,10 +184,15 @@ export default {
       }
     },
     exportCsv() {
-      const csv = Papa.unparse(this.filteredItems);
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-      FileSaver.saveAs(blob, 'items.csv');
-    },
+      let items = this.Items;
+      // Filter items if "Apply Filter" is clicked
+      if (this.text === 'clicked') {
+        items = this.filteredItems;
+      }
+      const csv = Papa.unparse(items);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      FileSaver.saveAs(blob, "inventory.csv");
+    }
   },
 };
 </script>
