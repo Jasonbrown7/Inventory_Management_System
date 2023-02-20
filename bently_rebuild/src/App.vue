@@ -27,7 +27,8 @@
       <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
 
      
-     <template>
+       <v-btn to="/browse/itempage" plain>ItemPage</v-btn>
+    <template>
 
     <v-menu
       bottom
