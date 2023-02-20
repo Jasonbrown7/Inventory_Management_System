@@ -36,7 +36,7 @@
     </template> -->
 
     <template>
-    
+      <v-app id="inspire">
         <v-container class="d-flex">
           <v-form class="mx-auto py-16"  >
           <v-row>
@@ -61,6 +61,7 @@
         </v-row>
       </v-form>
     </v-container>
+      </v-app>
     </template>
 
 <style>
