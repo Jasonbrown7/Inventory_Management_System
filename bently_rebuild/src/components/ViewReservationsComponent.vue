@@ -47,6 +47,7 @@
                       <th class="text-left">End Date</th>
                       <th class="text-left">User</th>
                       <th class="text-left">Item</th>
+                      <th class="text-left">Actions</th>
                     </tr>
                   </thead>
                   <tbody>

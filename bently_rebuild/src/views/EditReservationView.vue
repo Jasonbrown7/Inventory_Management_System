@@ -9,7 +9,7 @@
   import EditReservationComponent from '@/components/EditReservationComponent.vue'
   
   export default {
-    name: 'EditReservation',
+    name: 'edit-reservation',
     components: {
         EditReservationComponent
     }

@@ -50,6 +50,12 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
+                  <v-file-input v-model="selectedFiles" label="Select an Image"></v-file-input>
+                  <img :src="item.image" v-if="item.image" style="width: 400px;"/>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
                   <v-btn block color="danger justify-center" type="submit">Create</v-btn>
                 </v-col>
               </v-row>
@@ -72,13 +78,14 @@ export default {
         category: "",
         availability: "",
         condition: "",
+        image: "",
       },
+      selectedFiles: [],
     };
   },
   methods: {
     handleSubmitForm() {
       let apiURL = "http://localhost:4000/api/item/create";
-
       axios
         .post(apiURL, this.item)
         .then(() => {
@@ -88,6 +95,7 @@ export default {
             category: "",
             availability: "",
             condition: "",
+            image: "",
           };
         })
         .catch((error) => {
@@ -95,5 +103,58 @@ export default {
         });
     },
   },
+  watch: {
+  selectedFiles() {
+    console.log("selected files:", this.selectedFiles);
+    console.log("selected files length:", this.selectedFiles.length);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 600;
+        const MAX_HEIGHT = 600;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            console.log("Compressed image size:", blob.size);
+            if (blob.size > 16000000) {
+              console.log("Image size still too large");
+            } else {
+              const reader = new FileReader();
+              reader.onload = (event) => {
+                this.item.image = event.target.result;
+                console.log("this item image:", this.item.image);
+              };
+              reader.readAsDataURL(blob);
+            }
+          },
+          "image/jpeg",
+          0.8
+        );
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(this.selectedFiles);
+  },
+}
 };
 </script>

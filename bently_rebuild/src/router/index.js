@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ViewItemsView from '../views/ViewItemsView.vue'
+import AdminViewItemView from '../views/AdminViewItemView.vue'
 import BrowseView from '../views/BrowseView.vue'
 import CreateItemView from '../views/CreateItemView.vue'
 import EditItemView from '../views/EditItemView.vue'
@@ -38,11 +39,16 @@ const routes = [
     component: ViewItemsView
   },
   {
+    path: '/view/items/:id',
+    name: 'admin-viewitem',
+    component: AdminViewItemView
+  },
+  {
+
     path: '/browse/itempage/:id',
     name: 'browse-itempage',
     component: ItemPageView
   },
-
   {
     path: '/create/items',
     name: 'create-item',
