@@ -33,6 +33,7 @@
     <v-menu
       bottom
       offset-y
+      style="display:block"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-avatar
@@ -40,11 +41,15 @@
           v-on="on"
           icon to="/profile"
         >
-          <v-icon>mdi-account</v-icon>
+          <v-icon v-if="isLoggedIn === false">mdi-account</v-icon>
+          <!-- <v-img v-else :src="require(`../src/assets/${user.pic}`)"></v-img> -->
+          
+          <v-icon v-else>mdi-account-tie</v-icon>
+          <!-- <v-img v-else src="../src/assets/LeviStrauss_headshot.jpg"></v-img> -->
         </v-avatar>
       </template>
-
-      <v-list v-if="user === null">
+      
+      <v-list v-if="isLoggedIn === false">
         <v-list-item
           v-for="(item, index) in items"
           :key="index"
@@ -57,7 +62,8 @@
           v-for="(item, index) in loggedInItems"
           :key="index"
         >
-          <v-btn :to=item.route plain>{{ item.title }}</v-btn>
+          <v-btn v-if="item.title === 'Logout'" :to=item.route  @click="logoutUser" plain>{{ item.title }}</v-btn>
+          <v-btn v-else :to=item.route plain> {{ item.title }} </v-btn>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -71,6 +77,7 @@
 
 <script>
 import axios from 'axios';
+import { eventBus } from "./main";
 export default {
     data() {
      return {
@@ -82,40 +89,58 @@ export default {
       loggedInItems: [
         { title: "Profile", route: "/profile"},
         { title: "Logout", route: "/"}
-      ]
+      ],
+      isLoggedIn: false,
 
     };
+  },
+updated(){
+  console.log("LOGGEDINUPDATE", this.isLoggedIn);
+},
+
+created(){  
+    eventBus.$on("userLogin", (data) => {
+      console.log("DATA", data);
+      this.isLoggedIn = true;
+
+    });
   },
   mounted() {
     axios.defaults.withCredentials = true; 
     axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
         .then((response) => {    
-            console.log(response);
-            this.$set(this, "user", response.data.user)   
+          this.isLoggedIn = true;
+          this.$set(this, "user", response.data.user);
+          console.log("MOUNT SUCCESS.")  
+       
             // this.user = response.data.user; 
-            console.log(this.user)
+          
         }) 
-        .catch((errors) => {    
-            console.log(errors)
-            this.$set(this, "user", null)
-            console.log(this.user)
+        .catch((errors) => {  
+            console.log("Mount not success hmm!")  
+            console.log(errors);
+            this.$set(this, "user", {})
+            this.isLoggedIn = false;
         })   
       },
-  beforeUpdate() {
-    axios.defaults.withCredentials = true; 
-    axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
-        .then((response) => {    
-            console.log(response);
-            this.$set(this, "user", response.data.user)   
-            // this.user = response.data.user; 
-            console.log(this.user)
-        }) 
-        .catch((errors) => {    
-            console.log(errors)
-            this.$set(this, "user", null)
-            console.log(this.user)
-        })   
-      }
+      methods: {
+        logoutUser() {
+        axios.defaults.withCredentials = true;
+        let apiURL = `http://localhost:4000/api/auth/logout`;
+            axios
+            .post(apiURL)
+            .then(() => {
+                console.log("Logged out.");
+                // this.$router.push("/"); 
+                // this.$set(this, "user", null)
+                this.isLoggedIn = false;
+          
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    },
     }
 </script>
 
