@@ -86,11 +86,12 @@
 </style>
 <script>
     import axios from "axios";
+    import { eventBus } from "../main";
+
     export default {
     data() {
         return {
-        user: {
-        },
+        user: {},
         };
     },
     methods: {
@@ -103,7 +104,7 @@
             .then(() => {
             console.log("Login Success.")
             this.$router.push("/profile")
-        
+            eventBus.$emit("userLogin", true);
             })
             .catch((error) => {
             console.log("Login Fail.", error)
