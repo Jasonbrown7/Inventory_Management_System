@@ -25,8 +25,10 @@
       <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
       <v-btn to="/view/users" plain>Users</v-btn>
       <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
-    
-     <template>
+
+     
+       <v-btn to="/browse/itempage" plain>ItemPage</v-btn>
+    <template>
 
     <v-menu
       bottom
