@@ -1,4 +1,5 @@
 <!--Vuetify Wireframe Template from https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wireframes/constrained.vue-->
+<!-- eslint-disable -->
 <template>
     <v-app>
       <v-main class="v-main grey lighten-3">
@@ -11,26 +12,38 @@
                 <v-subheader>Sort by</v-subheader>
                 <v-list rounded="lg">
                   <v-select
-                    label="category"
+                    label="Category"
                     :items="['Water Sports', 'Winter Sports', 'Summer Sports', 'Leisure']"
                     chips
                     multiple
                     solo
-                    elevation="0"
                     v-model="selectedCategories"
-                    @change="filterItems"
+                    class="m-0"
+                  ></v-select>
+                  <v-select
+                    label="Condition"
+                    :items="['New', 'Like New', 'Used', 'Heavily Used', 'Damaged']"
+                    chips
+                    multiple
+                    solo
+                    v-model="selectedConditions"
+                    class="m-0"
+                  ></v-select>
+                  <v-select
+                    label="Availability"
+                    :items="['Available', 'Unavailable']"
+                    chips
+                    multiple
+                    solo
+                    v-model="selectedAvailabilities"
+                    class="m-0"
                   ></v-select>
   
                   <v-divider class="my-2"></v-divider>
-  
-                  <v-list-item
-                    link
-                    color="grey-lighten-4"
-                  >
-                    <v-list-item-title>
-                      Refresh
-                    </v-list-item-title>
-                  </v-list-item>
+                  <v-subheader>Generate Reports</v-subheader>
+                    <v-chip>Apply Filters</v-chip>
+                    <v-chip>No Filters</v-chip>
+                    <v-btn color="primary" outlined @click="exportCsv">Export CSV</v-btn>
                 </v-list>
               </v-sheet>
             </v-col>
@@ -53,7 +66,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in Items" :key="item._id">
+                    <tr v-for="item in filteredItems" 
+                      :key="item._id">
                       <td>{{ item.name }}</td>
                       <td>{{ item.category }}</td>
                       <td>{{ item.availability }}</td>
@@ -98,18 +112,16 @@
   
 <script>
 import axios from "axios";
+import Papa from 'papaparse';
+import FileSaver from 'file-saver';
 
 export default {
   data() {
     return {
       selectedCategories: [],
+      selectedConditions: [],
+      selectedAvailabilities: [],
       Items: [],
-      links: [
-          'Category',
-          'Availabilility',
-          'Popularity',
-          'Condition',
-        ],
     };
   },
   // mounted() {
@@ -135,6 +147,18 @@ export default {
         console.log(error);
       });
   },
+  computed: {
+    filteredItems() {
+      if (this.selectedCategories.length === 0 && this.selectedConditions.length === 0 && this.selectedAvailabilities.length === 0) {
+        return this.Items;
+      }
+      return this.Items.filter((item) =>
+        (this.selectedCategories.length === 0 || this.selectedCategories.includes(item.category)) &&
+        (this.selectedConditions.length === 0 || this.selectedConditions.includes(item.condition)) &&
+        (this.selectedAvailabilities.length === 0 || this.selectedAvailabilities.includes(item.availability))
+      );
+    },
+  },
   methods: {
     deleteItem(id) {
       let apiURL = `http://localhost:4000/api/item/delete/${id}`;
@@ -151,22 +175,10 @@ export default {
           });
       }
     },
-    filterItems() {
-      let apiURL = "http://localhost:4000/api/item";
-      let filter = {};
-
-      if (this.selectedCategories.length > 0) {
-        filter.category = this.selectedCategories;
-      }
-
-      axios
-        .get(apiURL, { params: filter })
-        .then((res) => {
-          this.Items = res.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    exportCsv() {
+      const csv = Papa.unparse(this.filteredItems);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      FileSaver.saveAs(blob, 'items.csv');
     },
   },
 };
@@ -175,5 +187,9 @@ export default {
 <style>
 .btn-success {
   margin-right: 10px;
+}
+
+.v-text-field__details {
+  margin-top: 0 !important;
 }
 </style>

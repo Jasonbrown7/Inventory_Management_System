@@ -89,7 +89,7 @@
         {text: 'Used', value: 'Used'}, 
         {text: 'Broken', value: 'Broken'}, 
       ],
-      selectedCondition: 'New',
+      selectedCondition: null,
       switch1: true,
       availability: 'Available',
       Items: [],
