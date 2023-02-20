@@ -10,6 +10,11 @@
   
   export default {
     name: 'BrowseView',
+    data: () => ({
+      defaultDropdown: 'Any Category',
+      dropdownItems: ['WinterSports', 'SummerSports', 'WaterSports'],
+    }),
+
     components: {
         BrowseComponent
     }

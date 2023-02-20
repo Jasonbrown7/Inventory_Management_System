@@ -51,7 +51,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in Items" :key="item.id">
+                    <tr v-for="item in Items" :key="item._id">
                       <td>{{ item.name }}</td>
                       <td>{{ item.category }}</td>
                       <td>{{ item.availability }}</td>
