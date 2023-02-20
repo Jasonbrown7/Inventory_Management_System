@@ -9,7 +9,7 @@
                 <h2> 
                 Hello {{user.username}}!
                 ID: {{user.id }} </h2>
-               pic: {{user.pic }}
+      
                 <h2 class="userinfo" v-if="user.isAdmin === true">
                     You are an ADMIN!
                 </h2>

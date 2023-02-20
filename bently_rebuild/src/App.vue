@@ -42,7 +42,7 @@
           <v-icon v-if="isLoggedIn === false">mdi-account</v-icon>
           <!-- <v-img v-else :src="require(`../src/assets/${user.pic}`)"></v-img> -->
           
-          <v-img v-else :src="userWithPic.pic"></v-img>
+          <v-icon v-else>mdi-account-tie</v-icon>
           <!-- <v-img v-else src="../src/assets/LeviStrauss_headshot.jpg"></v-img> -->
         </v-avatar>
       </template>
@@ -92,16 +92,6 @@ export default {
 
     };
   },
-  computed: {
-  userWithPic () {
-
-    return {
-      ...this.user, 
-      pic: this.user.pic && require(`../src/assets/${this.user.pic}`)
-      
-    }
-  }
-},
 updated(){
   console.log("LOGGEDINUPDATE", this.isLoggedIn);
 },
@@ -110,8 +100,6 @@ created(){
     eventBus.$on("userLogin", (data) => {
       console.log("DATA", data);
       this.isLoggedIn = true;
-
-      console.log("BUS AT THE FUCKING STOPP!")
 
     });
   },
