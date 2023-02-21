@@ -37,7 +37,6 @@
               <v-toolbar color="grey lighten-3" elevation="0">
                 <v-toolbar-title style="font-size: 30px;">Admin - Reservations</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" :to="{ name: 'create-reservations' }">Create Reservation</v-btn>
               </v-toolbar>  
 
               <v-simple-table>
