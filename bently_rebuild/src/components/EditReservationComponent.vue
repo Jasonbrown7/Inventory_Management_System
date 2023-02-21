@@ -34,6 +34,7 @@
                   />
                 </v-col>
               </v-row>
+              <!--
               <v-row>
                 <v-col cols="12">
                   <v-text-field
@@ -52,9 +53,13 @@
                   />
                 </v-col>
               </v-row>
+              -->
               <v-row>
                 <v-col cols="12">
                   <v-btn block color="danger justify-center" type="submit">Confirm</v-btn>
+                </v-col>
+                <v-col cols="12">
+                  <v-btn block color="danger justify-center" :to="{ name: 'view-reservations'}"> Cancel </v-btn>
                 </v-col>
               </v-row>
             </v-container>
