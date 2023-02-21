@@ -1,4 +1,5 @@
 <!--Vuetify Wireframe Template from https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wireframes/constrained.vue-->
+<!-- eslint-disable -->
 <template>
     <v-app>
       <v-main class="v-main grey lighten-3">
@@ -11,26 +12,46 @@
                 <v-subheader>Sort by</v-subheader>
                 <v-list rounded="lg">
                   <v-select
-                    label="category"
+                    label="Category"
                     :items="['Water Sports', 'Winter Sports', 'Summer Sports', 'Leisure']"
                     chips
                     multiple
                     solo
-                    elevation="0"
                     v-model="selectedCategories"
-                    @change="filterItems"
+                    class="m-0"
+                  ></v-select>
+                  <v-select
+                    label="Condition"
+                    :items="['New', 'Like New', 'Used', 'Heavily Used', 'Damaged']"
+                    chips
+                    multiple
+                    solo
+                    v-model="selectedConditions"
+                    class="m-0"
+                  ></v-select>
+                  <v-select
+                    label="Availability"
+                    :items="['Available', 'Unavailable']"
+                    chips
+                    multiple
+                    solo
+                    v-model="selectedAvailabilities"
+                    class="m-0"
                   ></v-select>
   
-                  <v-divider class="my-2"></v-divider>
-  
-                  <v-list-item
-                    link
-                    color="grey-lighten-4"
+                  <v-divider class="ml-3 mr-3"></v-divider>
+                  <v-subheader class="justify-left">Reports</v-subheader>
+                  <v-btn-toggle
+                    v-model="text"
+                    rounded="0"
+                    color="deep-purple-accent-3"
+                    group
                   >
-                    <v-list-item-title>
-                      Refresh
-                    </v-list-item-title>
-                  </v-list-item>
+                    <v-btn value="clicked">
+                      Apply Filters
+                    </v-btn>
+                  </v-btn-toggle>
+                    <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
                 </v-list>
               </v-sheet>
             </v-col>
@@ -39,6 +60,7 @@
               <v-toolbar color="grey lighten-3" elevation="0">
                 <v-toolbar-title style="font-size: 30px;">Admin - Inventory</v-toolbar-title>
                 <v-spacer></v-spacer>
+                <v-btn color="primary" outlined @click="handleCsvImport" class="mr-3" v-on="on">Import Items</v-btn> 
                 <v-btn color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
               </v-toolbar>  
 
@@ -53,7 +75,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in Items" :key="item._id">
+                    <tr v-for="item in filteredItems" 
+                      :key="item._id">
                       <td>{{ item.name }}</td>
                       <td>{{ item.category }}</td>
                       <td>{{ item.availability }}</td>
@@ -98,18 +121,17 @@
   
 <script>
 import axios from "axios";
+import Papa from 'papaparse';
+import FileSaver from 'file-saver';
 
 export default {
   data() {
     return {
       selectedCategories: [],
+      selectedConditions: [],
+      selectedAvailabilities: [],
       Items: [],
-      links: [
-          'Category',
-          'Availabilility',
-          'Popularity',
-          'Condition',
-        ],
+      itemsFromCsv: [],
     };
   },
   // mounted() {
@@ -135,6 +157,18 @@ export default {
         console.log(error);
       });
   },
+  computed: {
+    filteredItems() {
+      if (this.selectedCategories.length === 0 && this.selectedConditions.length === 0 && this.selectedAvailabilities.length === 0) {
+        return this.Items;
+      }
+      return this.Items.filter((item) =>
+        (this.selectedCategories.length === 0 || this.selectedCategories.includes(item.category)) &&
+        (this.selectedConditions.length === 0 || this.selectedConditions.includes(item.condition)) &&
+        (this.selectedAvailabilities.length === 0 || this.selectedAvailabilities.includes(item.availability))
+      );
+    },
+  },
   methods: {
     deleteItem(id) {
       let apiURL = `http://localhost:4000/api/item/delete/${id}`;
@@ -151,22 +185,44 @@ export default {
           });
       }
     },
-    filterItems() {
-      let apiURL = "http://localhost:4000/api/item";
-      let filter = {};
-
-      if (this.selectedCategories.length > 0) {
-        filter.category = this.selectedCategories;
+    exportCsv() {
+      let items = this.Items;
+      // Filter items if "Apply Filter" is clicked
+      if (this.text === 'clicked') {
+        items = this.filteredItems;
       }
-
-      axios
-        .get(apiURL, { params: filter })
-        .then((res) => {
-          this.Items = res.data;
-        })
-        .catch((error) => {
-          console.log(error);
+      const csv = Papa.unparse(items);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      FileSaver.saveAs(blob, "inventory.csv");
+    },
+    // CSV import code from StackOverflow
+    handleCsvImport() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.csv'; // accept only CSV files
+      // attaches event listener to input 
+      input.onchange = (e) => {
+        Papa.parse(e.target.files[0], {
+          complete: (results) => {
+            // slice first row off (headers) and map columns to attributes
+            this.itemsFromCsv = results.data.slice(1).map((row) => ({
+              name: row[0],
+              category: row[1],
+              availability: row[2],
+              condition: row[3],
+            }));
+            axios.post('http://localhost:4000/api/item/bulk', this.itemsFromCsv)
+              .then((res) => {
+                console.log(res);
+                this.$router.push({ name: 'view-item' });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          },
         });
+      };
+      input.click();
     },
   },
 };
@@ -175,5 +231,9 @@ export default {
 <style>
 .btn-success {
   margin-right: 10px;
+}
+
+.v-text-field__details {
+  margin-top: 0 !important;
 }
 </style>

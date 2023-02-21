@@ -12,6 +12,7 @@ var session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 
+mongoose.set('strictQuery', false);
 
 var corsOptions = {
   origin: "http://localhost:8080",
@@ -50,8 +51,8 @@ const aLoggerMiddleware = (req, res, next) => {
 };
 app.use(aLoggerMiddleware);
 app.use(
-  bodyParser.urlencoded({ extended: false }),
-  bodyParser.json({ extended: false })
+  bodyParser.urlencoded({  limit: '50mb', extended: false }),
+  bodyParser.json({  limit: '50mb', extended: false })
 );
 
 app.use("/api/user", userRoutes);
