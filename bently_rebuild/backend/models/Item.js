@@ -7,7 +7,7 @@ let itemSchema = new Schema(
     category: { type: String, required: true },
     availability: { type: String, required: true },
     condition: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String },
   },
   {
     collection: 'items',

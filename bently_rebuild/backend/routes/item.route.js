@@ -66,4 +66,15 @@ itemRoute.route('/delete/:id').delete((req, res, next) => {
   })
 })
 
+// csv upload
+itemRoute.route('/bulk').post((req, res, next) => {
+  ItemModel.insertMany(req.body, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
 module.exports = itemRoute
