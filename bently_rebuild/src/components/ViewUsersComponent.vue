@@ -4,7 +4,7 @@
     <v-main class="v-main grey lighten-3">
       <v-container>
         <v-row>
-          <v-col cols="2">
+          <!-- <v-col cols="2">
             <v-toolbar color="grey lighten-3" elevation="0">
             </v-toolbar>  
             <v-sheet rounded="lg">
@@ -19,9 +19,9 @@
                   </v-list-item-title>
                 </v-list-item>
 
-                <v-divider class="my-2"></v-divider>
+                <v-divider class="my-2"></v-divider> -->
 
-                <v-list-item
+                <!-- <v-list-item
                   link
                   color="grey-lighten-4"
                 >
@@ -31,7 +31,7 @@
                 </v-list-item>
               </v-list>
             </v-sheet>
-          </v-col>
+          </v-col> -->
 
           <v-col>
             <v-toolbar color="grey lighten-3" elevation="0">
@@ -55,14 +55,14 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.isAdmin }}</td>
                     <td>
-                      <!-- <v-btn
+                      <v-btn
                         class="mr-md-1"
                         :to="{ name: 'edit-user', params: { id: user._id } }"
                         color="primary"
                         small
                       >
                         Edit
-                      </v-btn> -->
+                      </v-btn>
                       <v-btn
                         class="ml-md-2"
                         @click.prevent="deleteUser(user._id)"
@@ -90,21 +90,9 @@ export default {
   data() {
     return {
       Users: [],
-      user: {},
     };
   },
-  mounted() {
-    axios.defaults.withCredentials = true; 
-    axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
-        .then((response) => {    
-            console.log(response)    
-            this.$set(this, "user", response.data.user)    
-        })    
-        .catch((errors) => {    
-            console.log(errors)    
-            this.$router.push("/")  
-        })
-      },
+
   created() {
     let apiURL = "http://localhost:4000/api/user";
     axios.defaults.withCredentials = true;

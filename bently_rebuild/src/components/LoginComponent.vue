@@ -1,66 +1,45 @@
-<!-- <template>
-    <body>
-    
-        <section class="heroimage">
-            <div class="d-flex flex-column align-items-center justify-content-center container-fluid">
-              <h1 class="text-center">User Login</h1>
-              <form @submit.prevent="handleSubmitForm" class="card p-4" style="width: 23rem;">
-          <div class="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="user.username"
-              required
-            />
-          </div>
-          
-          <div class="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              class="form-control"
-              v-model="user.password"
-              required
-            />
-          </div>
-  
-  
-          <div class="form-group">
-            <button class="btn btn-danger btn-block" ref="loginbutton" type="submit">Login</button>
-          </div>
-        </form>
-            </div>
-        </section>
-    </body>
-    </template> -->
-
     <template>
       <v-app id="inspire">
-        <v-container class="d-flex">
-          <v-form class="mx-auto py-16"  >
-          <v-row>
-
-              <v-text-field
-                v-model="user.username"
-                label="Username"
-                required
-              ></v-text-field>
-           </v-row>
-           <v-row>
-              <v-text-field
-                v-model="user.password"
-                label="Password"
-                required
-              ></v-text-field>
-            </v-row>
-    
+        <v-main class="v-main grey lighten-3">
+          <v-container>
+            <v-card
+              elevation="0"
+              class="mx-auto px-md-6 pb-md-6 pt-md-4"
+              max-width="600"
+            >
       
-        <v-row >
-          <v-btn @click.prevent="handleSubmitForm"> Submit </v-btn>
-        </v-row>
-      </v-form>
-    </v-container>
+              <v-form 
+                @submit.prevent="handleSubmitForm" 
+              >
+                <v-container class="justify-center">
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        label="Username"
+                        v-model="user.username"
+                        required
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        label="Password"
+                        v-model="user.password"
+                        required
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-btn block color="danger justify-center" type="submit">Login</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
+            </v-card>
+          </v-container>
+        </v-main>
       </v-app>
     </template>
 
@@ -104,12 +83,28 @@
             .then(() => {
             console.log("Login Success.")
             this.$router.push("/profile")
-            eventBus.$emit("userLogin", true);
+            this.emit();
             })
             .catch((error) => {
             console.log("Login Fail.", error)
             });
+
+            
         },
+        emit() {
+          axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+            .then((response) => {    
+              console.log("EMIT", response.data)
+              eventBus.$emit("userLogin", response.data.user);
+                // this.user = response.data.user; 
+              
+            }) 
+            .catch((errors) => {  
+             
+                console.log("EMIT",errors);
+           
+            })  
+        }
     },
     };
 

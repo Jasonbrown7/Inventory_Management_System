@@ -7,6 +7,7 @@ import BrowseView from '../views/BrowseView.vue'
 import CreateItemView from '../views/CreateItemView.vue'
 import EditItemView from '../views/EditItemView.vue'
 import EditReservationView from '../views/EditReservationView.vue'
+import EditUserView from '../views/EditUserView.vue'
 import ViewReservationsView from '../views/ViewReservationsView.vue'
 import CreateReservationView from '../views/CreateReservationView.vue'
 import ViewUsersView from '../views/ViewUsersView.vue'
@@ -14,6 +15,7 @@ import CreateUserView from '../views/CreateUserView.vue'
 import LoginView from '../views/LoginView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ItemPageView from '../views/ItemPageView.vue'
+
 
 Vue.use(VueRouter)
 
@@ -63,6 +65,11 @@ const routes = [
     path: '/edit/reservation/:id',
     name: 'edit-reservation',
     component: EditReservationView,
+  },
+  {
+    path: '/edit/user/:id',
+    name: 'edit-user',
+    component: EditUserView,
   },
   {
     path: '/view/reservations',
