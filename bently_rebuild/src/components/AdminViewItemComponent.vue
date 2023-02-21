@@ -11,7 +11,10 @@
                 <v-card elevation="0" class="mt-3">
                     <v-row no-gutters>
                         <v-col cols="12" md="6">
-                            <v-img :src="item.image" class="ma-5 rounded-lg" style="max-width: 600px; max-height: 400px;"></v-img>
+                            <v-img v-if="item.image"
+                                :src="item.image" class="ma-5 rounded-lg" style="max-width: 600px; max-height: 400px;"></v-img>
+                            <v-img v-else
+                                src="../assets/noImage.png" class="ma-5 rounded-lg" style="max-width: 600px; max-height: 400px;"></v-img>
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-card elevation="0" class="mt-3">

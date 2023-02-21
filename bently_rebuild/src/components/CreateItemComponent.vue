@@ -23,27 +23,30 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
+                  <v-select
                     label="Category"
                     v-model="item.category"
+                    :items="['Water Sports', 'Winter Sports', 'Summer Sports', 'Leisure']"
                     required
                   />
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
-                    label="Availability"
+                  <v-select
+                    label="Current Availability"
                     v-model="item.availability"
+                    :items="['Available', 'Unavailable']"
                     required
                   />
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
+                  <v-select
                     label="Condition"
                     v-model="item.condition"
+                    :items="['New', 'Like New', 'Used', 'Heavily Used', 'Damaged']"
                     required
                   />
                 </v-col>

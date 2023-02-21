@@ -2,7 +2,7 @@
   <div id="app">
     <v-app id="inspire">
     <v-app-bar app 
-    color="light"
+    color="white"
     elevation="0"
     outlined
     >
