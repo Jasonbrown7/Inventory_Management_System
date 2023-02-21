@@ -39,8 +39,8 @@
                     class="m-0"
                   ></v-select>
   
-                  <v-divider class="my-2"></v-divider>
-                  <v-subheader>Reports</v-subheader>
+                  <v-divider class="ml-3 mr-3"></v-divider>
+                  <v-subheader class="justify-left">Reports</v-subheader>
                   <v-btn-toggle
                     v-model="text"
                     rounded="0"
@@ -60,6 +60,7 @@
               <v-toolbar color="grey lighten-3" elevation="0">
                 <v-toolbar-title style="font-size: 30px;">Admin - Inventory</v-toolbar-title>
                 <v-spacer></v-spacer>
+                <v-btn color="primary" outlined @click="handleCsvImport" class="mr-3" v-on="on">Import Items</v-btn> 
                 <v-btn color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
               </v-toolbar>  
 
@@ -130,6 +131,7 @@ export default {
       selectedConditions: [],
       selectedAvailabilities: [],
       Items: [],
+      itemsFromCsv: [],
     };
   },
   // mounted() {
@@ -192,7 +194,36 @@ export default {
       const csv = Papa.unparse(items);
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
       FileSaver.saveAs(blob, "inventory.csv");
-    }
+    },
+    // CSV import code from StackOverflow
+    handleCsvImport() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.csv'; // accept only CSV files
+      // attaches event listener to input 
+      input.onchange = (e) => {
+        Papa.parse(e.target.files[0], {
+          complete: (results) => {
+            // slice first row off (headers) and map columns to attributes
+            this.itemsFromCsv = results.data.slice(1).map((row) => ({
+              name: row[0],
+              category: row[1],
+              availability: row[2],
+              condition: row[3],
+            }));
+            axios.post('http://localhost:4000/api/item/bulk', this.itemsFromCsv)
+              .then((res) => {
+                console.log(res);
+                this.$router.push({ name: 'view-item' });
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          },
+        });
+      };
+      input.click();
+    },
   },
 };
 </script>
