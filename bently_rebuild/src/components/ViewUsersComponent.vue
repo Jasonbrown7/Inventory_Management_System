@@ -4,7 +4,7 @@
     <v-main class="v-main grey lighten-3">
       <v-container>
         <v-row>
-          <v-col cols="2">
+          <!-- <v-col cols="2">
             <v-toolbar color="grey lighten-3" elevation="0">
             </v-toolbar>  
             <v-sheet rounded="lg">
@@ -19,9 +19,9 @@
                   </v-list-item-title>
                 </v-list-item>
 
-                <v-divider class="my-2"></v-divider>
+                <v-divider class="my-2"></v-divider> -->
 
-                <v-list-item
+                <!-- <v-list-item
                   link
                   color="grey-lighten-4"
                 >
@@ -31,7 +31,7 @@
                 </v-list-item>
               </v-list>
             </v-sheet>
-          </v-col>
+          </v-col> -->
 
           <v-col>
             <v-toolbar color="grey lighten-3" elevation="0">

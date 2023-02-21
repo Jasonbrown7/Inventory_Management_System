@@ -20,10 +20,14 @@
       <v-spacer></v-spacer>
      
       <v-btn to="/browse" plain>Browse</v-btn>
-      <v-btn to="/view/items" plain>Inventory</v-btn>
-      <v-btn to="/view/reservations" plain>Reservations</v-btn>
-      <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
-      <v-btn to="/view/users" plain>Users</v-btn>
+     
+      <template v-if="isAdmin === true">
+        <v-btn to="/view/items" plain>Inventory</v-btn>
+        <v-btn to="/view/reservations" plain>Reservations</v-btn>
+        <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
+        <v-btn to="/view/users" plain>Users</v-btn>
+      </template>
+      <v-btn v-else to="/" plain>My Reservations</v-btn>
       <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
     <template>
 
@@ -38,10 +42,11 @@
           v-on="on"
           icon to="/profile"
         >
-          <v-icon v-if="isLoggedIn === false">mdi-account</v-icon>
+          <v-icon v-if="isAdmin === true">mdi-account-hard-hat</v-icon>
+          <v-icon v-else-if="isLoggedIn === false">mdi-account-outline</v-icon>
           <!-- <v-img v-else :src="require(`../src/assets/${user.pic}`)"></v-img> -->
           
-          <v-icon v-else>mdi-account-tie</v-icon>
+          <v-icon v-else>mdi-account</v-icon>
           <!-- <v-img v-else src="../src/assets/LeviStrauss_headshot.jpg"></v-img> -->
         </v-avatar>
       </template>
@@ -88,7 +93,7 @@ export default {
         { title: "Logout", route: "/"}
       ],
       isLoggedIn: false,
-
+      isAdmin: false,
     };
   },
 
@@ -96,7 +101,7 @@ created(){
     eventBus.$on("userLogin", (data) => {
       console.log("DATA", data);
       this.isLoggedIn = true;
-
+      this.isAdmin = data.isAdmin;
     });
   },
   mounted() {
@@ -105,8 +110,8 @@ created(){
         .then((response) => {    
           this.isLoggedIn = true;
           this.$set(this, "user", response.data.user);
-
-       
+          this.isAdmin = response.data.user.isAdmin;
+          console.log("MOUNTED ADMIN", response.data.user.isAdmin)
             // this.user = response.data.user; 
           
         }) 
@@ -115,6 +120,7 @@ created(){
             console.log(errors);
             this.$set(this, "user", {})
             this.isLoggedIn = false;
+            this.isAdmin = false;
         })   
       },
       methods: {
@@ -128,7 +134,7 @@ created(){
                 // this.$router.push("/"); 
                 // this.$set(this, "user", null)
                 this.isLoggedIn = false;
-          
+                this.isAdmin = false;
             })
             .catch((error) => {
                 console.log(error);
