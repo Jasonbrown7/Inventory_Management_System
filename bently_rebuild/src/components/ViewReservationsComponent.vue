@@ -8,19 +8,18 @@
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
               <v-sheet rounded="lg">
-                <v-subheader>Filter by</v-subheader>
-                <v-btn-toggle
-                  rounded="0"
-                  color="deep-purple-accent-3"
-                  group
-                >
-                  <v-btn @click="filterCurrentlyOpen = !filterCurrentlyOpen">
-                    Currently Open
-                  </v-btn>
-                </v-btn-toggle>
-                <v-divider class="ma-3"></v-divider>
-                <v-subheader>Sort by</v-subheader>
                 <v-list rounded="lg">
+                  <v-subheader>Filter by</v-subheader>
+                  <v-list-item
+                    link
+                    color="grey-lighten-4"
+                    :class="{'white': !filterCurrentlyOpen, 'grey lighten-1': filterCurrentlyOpen}"
+                    @click="filterCurrentlyOpen = !filterCurrentlyOpen"
+                  >
+                    <v-list-item-title>Currently Open</v-list-item-title>
+                  </v-list-item>
+                  <v-divider class="ma-3"></v-divider>
+                  <v-subheader>Sort by</v-subheader>
                   <v-list-item
                     link
                     color="grey-lighten-4"
@@ -255,3 +254,4 @@ export default {
   margin-right: 10px;
 }
 </style>
+
