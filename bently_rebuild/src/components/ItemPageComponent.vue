@@ -3,7 +3,7 @@
     <v-container>
       <v-row mt="50">
         <v-col cols="7" class="mt-15">
-          <v-img :src="itemImage" height="300"/>
+          <v-img :src="item.image" height="300"/>
         </v-col>
         <v-col cols="5" class="mt-15">
           <v-card style="height: 100%;">
