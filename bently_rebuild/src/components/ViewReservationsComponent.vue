@@ -1,4 +1,4 @@
-<!--Vuetify Wireframe Template from https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wireframes/constrained.vue-->
+<!-- Jeffrey Carson -->
 <template>
     <v-app>
       <v-main class="v-main grey lighten-3">
@@ -52,10 +52,10 @@
                   </thead>
                   <tbody>
                     <tr v-for="reservation in Reservations" :key="reservation.id">
-                      <td>{{ reservation.startDate }}</td>
-                      <td>{{ reservation.endDate }}</td>
-                      <td>{{ reservation.user }}</td>
-                      <td>{{ reservation.item }}</td>
+                      <td>{{reservation.startDate | toDateString}}</td>
+                      <td>{{reservation.endDate | toDateString}}</td>
+                      <td>{{reservation.user | displayUserFromId(Users) }}</td>
+                      <td>{{reservation.item | displayItemFromId(Items) }}</td>
                       <td>
                         <v-btn
                           class="mr-md-1"
@@ -92,6 +92,8 @@ export default {
   data() {
     return {
       Reservations: [],
+      Users: [],
+      Items: [],
       links: [
           'startDate',
           'endDate',
@@ -100,28 +102,54 @@ export default {
         ],
     };
   },
-  // mounted() {
-  //   axios.defaults.withCredentials = true; 
-  //   axios.get("http://localhost:4000/api/auth/admin", {credentials: 'include'})    
-  //       .then((response) => {    
-  //           console.log(response)    
-  //           //this.$set(this, "user", response.data.user)    
-  //       })    
-  //       .catch((errors) => {    
-  //           console.log(errors, 'Cannot view all reservations unless logged in as admin.')  
-  //           this.$router.push("/")  
-  //       })
-  //     },
+  //Jeffrey Carson
+  filters:{
+    toDateString(dateObj){
+      if(!dateObj) return '';
+      const date = new Date(dateObj) 
+      return date.toLocaleDateString()
+    },
+    displayUserFromId(userId, Users){
+      if(!userId) return '';
+      const myUser = Users.find(u => u._id === userId);
+      return myUser.username;
+    },
+    displayItemFromId(itemId, Items){
+      if(!itemId) return '';
+      const myItem = Items.find(u => u._id === itemId);
+      return myItem.name;
+    },
+    
+  },
   created() {
-    let apiURL = "http://localhost:4000/api/reservation";
     axios
-      .get(apiURL)
+      .get("http://localhost:4000/api/reservation")
       .then((res) => {
         this.Reservations = res.data;
       })
       .catch((error) => {
         console.log(error);
       });
+    axios
+      .get("http://localhost:4000/api/user")
+      .then((res) => {
+        this.Users = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:4000/api/item")
+      .then((res) => {
+        this.Items = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
+  },
+  mounted(){
+  
   },
   methods: {
     deleteReservation(id) {
