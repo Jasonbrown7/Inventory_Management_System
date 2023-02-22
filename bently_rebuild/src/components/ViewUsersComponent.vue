@@ -4,34 +4,26 @@
     <v-main class="v-main grey lighten-3">
       <v-container>
         <v-row>
-          <!-- <v-col cols="2">
-            <v-toolbar color="grey lighten-3" elevation="0">
-            </v-toolbar>  
-            <v-sheet rounded="lg">
-              <v-subheader>Sort by</v-subheader>
-              <v-list rounded="lg">
-                <v-list-item
-                  v-for="link in links"
-                  :key="link"
-                >
-                  <v-list-item-title>
-                    {{ link}}
-                  </v-list-item-title>
-                </v-list-item>
-
-                <v-divider class="my-2"></v-divider> -->
-
-                <!-- <v-list-item
-                  link
-                  color="grey-lighten-4"
-                >
-                  <v-list-item-title>
-                    Refresh
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-sheet>
-          </v-col> -->
+          <v-col cols="2">
+              <v-toolbar color="grey lighten-3" elevation="0">
+              </v-toolbar>  
+              <v-sheet rounded="lg">
+                <v-list rounded="lg">
+                  <v-subheader class="justify-left">Reports</v-subheader>
+                  <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
+                  <v-divider class="ma-3"></v-divider>
+                  <v-list-item
+                    link
+                    color="grey-lighten-4"
+                    @click="reloadPage()"
+                  >
+                    <v-list-item-title>
+                      Refresh
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-sheet>
+            </v-col>
 
           <v-col>
             <v-toolbar color="grey lighten-3" elevation="0">
@@ -85,6 +77,8 @@
 
 <script>
 import axios from "axios";
+import Papa from 'papaparse';
+import FileSaver from 'file-saver';
 
 export default {
   data() {
@@ -120,6 +114,15 @@ export default {
             console.log(error);
           });
       }
+    },
+    reloadPage(){
+      window.location.reload()
+    },
+    exportCsv() {
+      let users = this.Users; 
+      const csv = Papa.unparse(users);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      FileSaver.saveAs(blob, "users.csv");
     },
   },
 };

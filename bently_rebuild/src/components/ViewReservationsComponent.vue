@@ -1,4 +1,4 @@
-<!-- Jeffrey Carson -->
+
 <template>
     <v-app>
       <v-main class="v-main grey lighten-3">
@@ -8,22 +8,42 @@
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
               <v-sheet rounded="lg">
-                <v-subheader>Sort by</v-subheader>
                 <v-list rounded="lg">
-                  <v-list-item
-                    v-for="link in links"
-                    :key="link"
-                  >
-                    <v-list-item-title>
-                      {{ link}}
-                    </v-list-item-title>
-                  </v-list-item>
-  
-                  <v-divider class="my-2"></v-divider>
-  
+                  <v-subheader>Filter by</v-subheader>
                   <v-list-item
                     link
                     color="grey-lighten-4"
+                    :class="{'white': !filterCurrentlyOpen, 'grey lighten-1': filterCurrentlyOpen}"
+                    @click="filterCurrentlyOpen = !filterCurrentlyOpen"
+                  >
+                    <v-list-item-title>Currently Open</v-list-item-title>
+                  </v-list-item>
+                  <v-divider class="ma-3"></v-divider>
+                  <v-subheader>Sort by</v-subheader>
+                  <v-list-item
+                    link
+                    color="grey-lighten-4"
+                    :class="{ 'white': selected !== 'newest', 'grey lighten-1': selected === 'newest' }"
+                    @click="select('newest')"
+                  >
+                    <v-list-item-title>Newest</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item
+                    link
+                    color="grey-lighten-4"
+                    :class="{ 'white': selected !== 'oldest', 'grey lighten-1': selected === 'oldest' }"
+                    @click="select('oldest')"
+                  >
+                    <v-list-item-title>Oldest</v-list-item-title>
+                  </v-list-item>
+                  <v-divider class="ma-3"></v-divider>
+                  <v-subheader class="justify-left">Reports</v-subheader>
+                  <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
+                  <v-divider class="ma-3"></v-divider>
+                  <v-list-item
+                    link
+                    color="grey-lighten-4"
+                    @click="reloadPage()"
                   >
                     <v-list-item-title>
                       Refresh
@@ -50,7 +70,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="reservation in Reservations" :key="reservation.id">
+                    <tr v-for="reservation in filteredReservations" :key="reservation.id">
                       <td>{{reservation.startDate | toDateString}}</td>
                       <td>{{reservation.endDate | toDateString}}</td>
                       <td>{{reservation.user | displayUserFromId(Users) }}</td>
@@ -86,6 +106,8 @@
   
 <script>
 import axios from "axios";
+import Papa from 'papaparse';
+import FileSaver from 'file-saver';
 
 export default {
   data() {
@@ -99,6 +121,9 @@ export default {
           'user',
           'item',
         ],
+      sortedByOldest: false,
+      sortedByNewest: false,
+      filterCurrentlyOpen: false, 
     };
   },
   //Jeffrey Carson
@@ -147,6 +172,20 @@ export default {
       });
     
   },
+  computed: {
+    filteredReservations() {
+      if (this.filterCurrentlyOpen === true) {
+        return this.Reservations.filter(reservation => {
+          const startDate = new Date(reservation.startDate);
+          const endDate = new Date(reservation.endDate);
+          const today = new Date();
+          return startDate <= today && today <= endDate;
+        });
+      } else {
+        return this.Reservations;
+      }
+    },
+  },
   mounted(){
   
   },
@@ -166,6 +205,46 @@ export default {
           });
       }
     },
+    sortByOldest() {
+      if (!this.sortedByOldest) {
+        this.Reservations.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        this.sortedByOldest = true;
+      } else {
+        this.Reservations.reverse();
+        this.sortedByOldest = false;
+      }
+    },
+    sortByNewest() {
+      if (!this.sortedByNewest) {
+        this.Reservations.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
+        this.sortedByNewest = true;
+      } else {
+        this.Reservations.reverse();
+        this.sortedByNewest = false;
+      }
+    },
+    select(option) {
+      this.selected = option;
+      if (option === 'newest') {
+        this.sortByNewest();
+      } else if (option === 'oldest') {
+        this.sortByOldest();
+      }
+    },
+    reloadPage(){
+      window.location.reload()
+    },
+    exportCsv() {
+      let reservations = this.Reservations;
+      if (this.sortedByOldest) {
+        reservations = this.Reservations.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+      } else if (this.sortedByNewest) {
+        reservations = this.Reservations.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
+      }  
+      const csv = Papa.unparse(reservations);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      FileSaver.saveAs(blob, "reservations.csv");
+    },
   },
 };
 </script>
@@ -175,3 +254,4 @@ export default {
   margin-right: 10px;
 }
 </style>
+
