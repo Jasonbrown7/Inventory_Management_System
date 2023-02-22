@@ -56,7 +56,6 @@
                   </v-row> 
                </div>        
           </v-col>
-        </v-row>
       </v-container>
     </v-main>
   </v-app>
