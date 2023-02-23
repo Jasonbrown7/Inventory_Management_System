@@ -6,8 +6,8 @@
       <v-container>
 
           <!--Browse Title-->
-          <v-col>  
-            <v-toolbar color="white" elevation="0">
+          <v-col> 
+            <v-toolbar color="white" elevation="0" class="mb-5 mt-6 ">
               <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required />
               <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required />
               <v-select label="Availability" :items="dropdownAvailability" class="ma-3" v-model="selectedAvailability"></v-select>

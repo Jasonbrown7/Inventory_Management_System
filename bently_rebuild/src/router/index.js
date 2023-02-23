@@ -15,6 +15,7 @@ import CreateUserView from '../views/CreateUserView.vue'
 import LoginView from '../views/LoginView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ItemPageView from '../views/ItemPageView.vue'
+import MyReservationsView from '../views/MyReservationsView.vue'
 
 
 Vue.use(VueRouter)
@@ -75,6 +76,11 @@ const routes = [
     path: '/view/reservations',
     name: 'view-reservations',
     component: ViewReservationsView
+  },
+  {
+    path: '/myreservations',
+    name: 'my-reservations',
+    component: MyReservationsView
   },
   {
     path: '/create/reservations',
