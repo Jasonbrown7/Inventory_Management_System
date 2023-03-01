@@ -16,6 +16,7 @@
                   <v-col cols="12">
                     <v-text-field
                       label="Username"
+                      :rules="[v => !!v || 'Username is required']"
                       v-model="user.username"
                       required
                     />
@@ -25,6 +26,7 @@
                   <v-col cols="12">
                     <v-text-field
                       label="Email"
+                      :rules="emailRules"
                       v-model="user.email"
                       required
                     />
@@ -34,7 +36,18 @@
                   <v-col cols="12">
                     <v-text-field
                       label="Password"
+                      :rules="[v => !!v || 'Password is required']"
                       v-model="user.password"
+                      required
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Confirm Password"
+                      :rules="[v => !!v || 'Password is required']"
+                      v-model="confirmedPassword"
                       required
                     />
                   </v-col>
@@ -59,17 +72,33 @@
     export default {
         data() {
             return {
+            confirmedPassword: "",
             user: {
                 username: "",
                 email: "",
                 password: "",
             },
+            emailRules: [
+            value => {
+              if (value) return true
+
+              return 'Email is required.'
+            },
+            value => {
+              if (/.+@.+\..+/.test(value)) return true
+
+              return 'Please enter a valid email.'
+              },
+            ],
             };
         },
         methods: {
             handleSubmitForm() {
             let apiURL = "http://localhost:4000/api/user/create";
-
+            if (this.confirmedPassword != this.user.password){
+                window.alert("Passwords do not match.")
+                return;
+            }
             axios
                 .post(apiURL, this.user)
                 .then(() => {

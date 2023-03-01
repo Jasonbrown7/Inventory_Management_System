@@ -16,6 +16,7 @@
                     <v-col cols="12">
                       <v-text-field
                         label="Username"
+                        :rules="[v => !!v || 'Username is required']"
                         v-model="user.username"
                         required
                       />
@@ -25,6 +26,7 @@
                     <v-col cols="12">
                       <v-text-field
                         label="Password"
+                        :rules="[v => !!v || 'Password is required']"
                         v-model="user.password"
                         required
                       />
@@ -72,6 +74,7 @@
         return {
         user: {},
         };
+        
     },
     methods: {
         handleSubmitForm() {
@@ -87,6 +90,7 @@
             })
             .catch((error) => {
             console.log("Login Fail.", error)
+            window.alert("Incorrect Username or Password." );
             });
 
             
