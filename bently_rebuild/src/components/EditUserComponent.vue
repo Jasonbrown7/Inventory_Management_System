@@ -18,7 +18,7 @@
                     <v-text-field
                       label="Username"
                       v-model="user.username"
-                      readonly
+                      disabled
                     />
                   </v-col>
                 </v-row>
@@ -27,14 +27,14 @@
                     <v-text-field
                       label="Email"
                       v-model="user.email"
-                      readonly
+                      disabled
                     />
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12">
                     <v-switch
-                      :label="`isAdmin: ${user.isAdmin}`"
+                      :label="`Admin: ${user.isAdmin}`"
                       v-model="user.isAdmin"
                     
                     />
