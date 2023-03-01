@@ -34,26 +34,28 @@
                   />
                 </v-col>
               </v-row>
-              <!--
+              
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
+                  <v-select
                     label="User"
                     v-model="reservation.user"
                     required
+                    :items="Users.map(user => user.username)"
                   />
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
+                  <v-select
                     label="Item"
                     v-model="reservation.item"
                     required
+                    :items="Items.map(item => item.name)"
                   />
                 </v-col>
               </v-row>
-              -->
+              
               <v-row>
                 <v-col cols="12">
                   <v-btn block color="danger justify-center" type="submit">Confirm</v-btn>
@@ -78,6 +80,8 @@ export default {
     data() {
       return {
         reservation: {},
+        Users: [],
+        Items: [],
       };
     },
     created() {
@@ -86,6 +90,24 @@ export default {
       axios.get(apiURL).then((res) => {
         this.reservation = res.data;
       });
+      axios
+      .get("http://localhost:4000/api/user")
+      .then((res) => {
+        this.Users = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:4000/api/item")
+      .then((res) => {
+        this.Items = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
     },
     methods: {
       handleUpdateForm() {
@@ -93,11 +115,26 @@ export default {
         const startDateInput = document.getElementById("startDateInput").value;
         const endDateInput = document.getElementById("endDateInput").value;
 
+        const userIndex = this.Users.findIndex(user => user.username === this.reservation.user);
+        const itemIndex = this.Items.findIndex(item => item.name === this.reservation.item);
+
+        // console.log("startdate", this.reservation.startDate)
+        // console.log("enddate", this.reservation.endDate)
+        // console.log("user", this.Users[userIndex]._id)
+        // console.log("item", this.Items[itemIndex]._id)
+
+
         if (startDateInput < endDateInput){
           let apiURL = `http://localhost:4000/api/reservation/update/${this.$route.params.id}`;
     
           axios
-            .put(apiURL, this.reservation)
+            .put(apiURL, 
+            {
+              startDate: this.reservation.startDate,
+              endDate: this.reservation.endDate,
+              user: this.Users[userIndex]._id,
+              item: this.Items[itemIndex]._id,
+            })
             .then((res) => {
               console.log(res);
               this.$router.push("/view/reservations");
@@ -105,6 +142,9 @@ export default {
             .catch((error) => {
               console.log(error);
             });
+        }
+        else if (startDateInput == endDateInput){
+          window.alert("Error: Start date and End date cannot be equal")
         }
         else{
           window.alert("Error: Start date must come before end date")

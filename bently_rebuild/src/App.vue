@@ -2,7 +2,7 @@
   <div id="app">
     <v-app id="inspire">
     <v-app-bar app 
-    color="light"
+    color="white"
     elevation="0"
     outlined
     >
@@ -27,7 +27,7 @@
         <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
         <v-btn to="/view/users" plain>Users</v-btn>
       </template>
-      <v-btn v-else to="/" plain>My Reservations</v-btn>
+      <v-btn v-else to="/myreservations" plain>My Reservations</v-btn>
       <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
     <template>
 

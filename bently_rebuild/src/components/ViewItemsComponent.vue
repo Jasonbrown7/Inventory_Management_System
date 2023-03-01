@@ -9,7 +9,7 @@
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
               <v-sheet rounded="lg">
-                <v-subheader>Sort by</v-subheader>
+                <v-subheader>Filter by</v-subheader>
                 <v-list rounded="lg">
                   <v-select
                     label="Category"
@@ -51,7 +51,17 @@
                       Apply Filters
                     </v-btn>
                   </v-btn-toggle>
-                    <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
+                  <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
+                  <v-divider class="ma-3"></v-divider>
+                  <v-list-item
+                    link
+                    color="grey-lighten-4"
+                    @click="reloadPage()"
+                  >
+                    <v-list-item-title>
+                      Refresh
+                    </v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-sheet>
             </v-col>
@@ -60,7 +70,12 @@
               <v-toolbar color="grey lighten-3" elevation="0">
                 <v-toolbar-title style="font-size: 30px;">Admin - Inventory</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" outlined @click="handleCsvImport" class="mr-3" v-on="on">Import Items</v-btn> 
+                <v-tooltip left>
+                  <template v-slot:activator="{ on }">
+                    <v-btn color="primary" outlined @click="handleCsvImport" class="mr-3" v-on="on">Import Items</v-btn>
+                  </template>
+                  <span>CSV only</span>
+                </v-tooltip>
                 <v-btn color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
               </v-toolbar>  
 
@@ -224,6 +239,9 @@ export default {
       };
       input.click();
     },
+    reloadPage(){
+      window.location.reload()
+    },
   },
 };
 </script>
@@ -235,5 +253,10 @@ export default {
 
 .v-text-field__details {
   margin-top: 0 !important;
+}
+
+.v-tooltip__content {
+  background-color: transparent !important;
+  color: black !important;
 }
 </style>

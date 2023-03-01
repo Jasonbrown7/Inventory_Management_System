@@ -2,51 +2,17 @@
 <!-- eslint-disable -->
 <template>
   <v-app>
-    <v-main class="v-main grey lighten-3">
+    <v-main color="white">
       <v-container>
-        <v-row>
-          <v-col cols="2">
-            <v-toolbar color="grey lighten-3" elevation="0">
-            </v-toolbar>  
-              <!--
-              Filters on the left side of the page for the user to choose from.
-              All items are displayed by default unless filters are specifically set.
-              User can also set desired reservation dates which will filter items, and pass said values to viewitem page
-              -->
-            <v-sheet rounded="lg">
-              <v-subheader> Sort By: </v-subheader>
-              <v-list rounded="lg">
-                <v-select label="Availability" :items="dropdownAvailability" v-model="selectedAvailability">
-                  <v-tooltip activator="parent" location="left">
-                  Click to reset all filters.
-                </v-tooltip>
-                </v-select>
-                <v-select label="Condition" :items="dropdownConditions" v-model="selectedCondition"></v-select>
-                <v-text-field label="Desired Check-In Date" type="date" v-model="checkIn" required />
-                <v-text-field label="Desired Check-Out Date" type="date" v-model="checkOut" required />
-                <v-divider class="my-2"></v-divider>
-
-                
-                <v-list-item
-                  link
-                  color="grey-lighten-4"
-                  @click="reloadSite"
-                >  
-                  <v-list-item-title>
-                    Reset
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-sheet>
-          </v-col>
-
 
           <!--Browse Title-->
-          <v-col>
-            <v-toolbar color="grey lighten-3" elevation="0">
-              <v-toolbar-title style="font-size: 30px;">Browse</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <input type="text" v-model="input" placeholder="Search by item" class="pl-2" style="background-color: white; border: 1px solid grey; border-radius: 5px;" />
+          <v-col> 
+            <v-toolbar color="white" elevation="0" class="mb-5 mt-6 ">
+              <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required />
+              <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required />
+              <v-select label="Availability" :items="dropdownAvailability" class="ma-3" v-model="selectedAvailability"></v-select>
+              <v-select label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
+              <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" />
             </v-toolbar> 
             
 
@@ -58,28 +24,38 @@
               <div>
                 <v-row>
                     <v-col
-                      v-for="item in filteredItems" :key="item.id" cols="4">
-                      <v-card class="mb-4" style="border-radius: 20px;">
-                        <v-img :src="item.image" height="200" width="100%" object-fit="cover"></v-img>
-                        <v-card-title class="text-h5 pt-2 pb-0">{{ item.name }}</v-card-title>
-                        <v-card-text class="pt-4">
+                      v-for="item in filteredItems" :key="item.id" cols="3">
+                      <v-card class="mb-4" elevation="0">
+                        <router-link :to="{ name: 'browse-itempage', params: { id: item._id } }">
+                          <v-img v-if="item.image"
+                            :src="item.image" height="250" width="100%" object-fit="cover" style="border-radius: 20px;"></v-img>
+                          <v-img v-else
+                            src="../assets/noImage.png" height="250" width="100%" object-fit="cover" style="border-radius: 20px;"></v-img>
+                        </router-link>
+                        <v-card-actions class="pa-0">
+                          <v-card-title class="text-h5 pt-2 pb-0">{{ item.name }}</v-card-title>
+                          <v-spacer></v-spacer>
+                          <v-chip 
+                            v-if="item.availability !== 'Available'"
+                            small :color="item.availability === 'Avaiable' ? 'success' : 'error'"  class="mt-2"
+                            >{{ item.availability }}</v-chip>
+                        </v-card-actions>
+                        <v-card-text class="my-0 py-0">
                           <div class="d-flex align-center">
-                            <span class="mr-2">{{ item.category }}</span>
-                            <span class="mr-2">&bull;</span>
-                            <span class="mr-2">{{ item.condition }}</span>
+                            <span class="mr-2 my-0 p-0">{{ item.category }}</span>
+                            <span class="mr-2 my-0 p-0">&bull;</span>
+                            <span class="mr-2 my-0 p-0">{{ item.condition }}</span>
                           </div>
                         </v-card-text>
                         <v-card-actions>
-                          <v-btn color="primary" text :to="{ name: 'browse-itempage', params: { id: item._id } }">View details</v-btn>
-                          <v-spacer></v-spacer>
-                          <v-chip small :color="item.availability === 'Available' ? 'success' : 'error'">{{ item.availability }}</v-chip>
+
+                        
                         </v-card-actions>
                       </v-card>
                     </v-col>
                   </v-row> 
                </div>        
           </v-col>
-        </v-row>
       </v-container>
     </v-main>
   </v-app>

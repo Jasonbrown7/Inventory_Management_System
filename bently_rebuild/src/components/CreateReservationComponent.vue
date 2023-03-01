@@ -7,7 +7,7 @@
           class="mx-auto px-md-6 pb-md-6 pt-md-4"
           max-width="600"
         >
-          <h3 class="text-center">Create Reservation</h3>
+          <h3 class="text-center">Admin Create Reservation</h3>
           <v-form 
             @submit.prevent="handleSubmitForm" 
           >
@@ -36,19 +36,21 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
+                  <v-select
                     label="User"
                     v-model="reservation.user"
                     required
+                    :items="Users.map(user => user.username)"
                   />
                 </v-col>
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field
+                  <v-select
                     label="Item"
                     v-model="reservation.item"
                     required
+                    :items="Items.map(item => item.name)"
                   />
                 </v-col>
               </v-row>
@@ -77,7 +79,28 @@ export default {
         user: "",
         item: "",
       },
+      Users: [],
+      Items: [],
     };
+  },
+  created() {
+    axios
+      .get("http://localhost:4000/api/user")
+      .then((res) => {
+        this.Users = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:4000/api/item")
+      .then((res) => {
+        this.Items = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
   },
   methods: {
     handleSubmitForm() {
@@ -85,11 +108,20 @@ export default {
       const startDateInput = document.getElementById("startDateInput").value;
       const endDateInput = document.getElementById("endDateInput").value;
 
+      const userIndex = this.Users.findIndex(user => user.username === this.reservation.user);
+      const itemIndex = this.Items.findIndex(item => item.name === this.reservation.item);
+
       if (startDateInput < endDateInput){
         let apiURL = "http://localhost:4000/api/reservation/create";
 
         axios
-          .post(apiURL, this.reservation)
+          .post(apiURL, 
+          {
+            startDate: this.reservation.startDate,
+            endDate: this.reservation.endDate,
+            user: this.Users[userIndex]._id,
+            item: this.Items[itemIndex]._id,
+          })
           .then(() => {
             this.$router.push("/view/reservations");
             this.reservation = {
@@ -103,10 +135,14 @@ export default {
             console.log(error);
           });
       }
+      else if (startDateInput == endDateInput){
+        window.alert("Error: Start date and End date cannot be equal")
+      }
       else{
         window.alert("Error: Start date must come before end date")
       }
     },
+
   },
 };
 </script>
