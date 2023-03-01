@@ -79,19 +79,24 @@
                       <td>{{reservation.user | displayUserFromId(Users) }}</td>
                       <td>{{reservation.item | displayItemFromId(Items) }}</td>
                       <td>
-                        <v-btn
+                        
+                        <v-btn v-if="isItemCheckedOut(reservation.item)"
                           class="mr-md-1"
                           color="primary"
                           small
+                          @click.prevent="checkOut(reservation.item)"
                         >
-                            Check In
+                            Check Out
                         </v-btn>
                         <v-btn
+                          v-else
                           class="ml-md-2"
                           color="primary"
                           small
+                          
+                          @click.prevent="checkIn(reservation.item)"
                         >
-                            Check Out
+                            Check In
                         </v-btn>
                         <v-btn
                           class="ml-md-2"
@@ -215,6 +220,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+      
     
   },
   computed: {
@@ -241,11 +247,33 @@ export default {
             return startDate < today;
         });
     },
-  },
-  mounted(){
-  
+    //this doesnt work
+    isItemCheckedOut(item_id){
+      let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
+      axios.get(apiURL).then((res) => {
+        console.log("isejjw",res.data.isCheckedOut)
+        return res.data.isCheckedOut;
+        
+      });
+    },
   },
   methods: {
+
+    checkOut(item_id){
+      let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
+      axios
+          .put(apiURL, {isCheckedOut : true})
+          .then((res) => {
+            console.log("YES", res);
+          
+          })
+          .catch((error) => {
+            console.log("NO", error);
+          });
+    },
+    checkIn(item_id){
+      return item_id;
+    },
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
       let indexOfArrayReservation = this.Reservations.findIndex((i) => i._id === id);

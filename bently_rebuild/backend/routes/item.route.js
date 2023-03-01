@@ -37,6 +37,7 @@ itemRoute.route('/edit/:id').get((req, res, next) => {
 
 // Update
 itemRoute.route('/update/:id').put((req, res, next) => {
+  console.log(req.body);
   ItemModel.findByIdAndUpdate(
     req.params.id,
     {

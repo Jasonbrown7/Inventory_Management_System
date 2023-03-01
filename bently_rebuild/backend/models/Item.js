@@ -8,6 +8,7 @@ let itemSchema = new Schema(
     availability: { type: String, required: true },
     condition: { type: String, required: true },
     image: { type: String },
+    isCheckedOut: {type: Boolean, default: false},
   },
   {
     collection: 'items',
