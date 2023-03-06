@@ -79,19 +79,24 @@
                       <td>{{reservation.user | displayUserFromId(Users) }}</td>
                       <td>{{reservation.item | displayItemFromId(Items) }}</td>
                       <td>
-                        <v-btn
+                        
+                        <v-btn v-if="!isItemCheckedOut(reservation.item)"
                           class="mr-md-1"
                           color="primary"
                           small
+                          @click.prevent="checkOut(reservation.item)"
                         >
-                            Check In
+                            Check Out
                         </v-btn>
                         <v-btn
+                          v-else
                           class="ml-md-2"
                           color="primary"
                           small
+                          
+                          @click.prevent="checkIn(reservation.item)"
                         >
-                            Check Out
+                            Check In
                         </v-btn>
                         <v-btn
                           class="ml-md-2"
@@ -188,11 +193,13 @@ export default {
       const myItem = Items.find(u => u._id === itemId);
       return myItem.name;
     },
+       
+
     
   },
   created() {
     axios
-      .get("http://localhost:4000/api/reservation")
+      .get(`http://localhost:4000/api/reservation/${this.$route.params.user_id}`)
       .then((res) => {
         this.Reservations = res.data;
       })
@@ -215,6 +222,7 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+      
     
   },
   computed: {
@@ -241,11 +249,44 @@ export default {
             return startDate < today;
         });
     },
-  },
-  mounted(){
-  
+
   },
   methods: {
+    isItemCheckedOut(item_id){
+      console.log("ITEM ID", item_id);
+      const myItem = this.Items.find(u => u._id === item_id);
+      console.log("MYITEM", myItem);
+      return myItem.isCheckedOut;
+    },
+
+    checkOut(item_id){
+      let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
+      axios
+          .put(apiURL, {isCheckedOut : true})
+          .then((res) => {
+            console.log("YES", res);
+            
+          
+          })
+          .catch((error) => {
+            console.log("NO", error);
+          });
+    
+    },
+    checkIn(item_id){
+      let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
+      axios
+          .put(apiURL, {isCheckedOut : false})
+          .then((res) => {
+            console.log("Checkin Success", res);
+          
+          })
+          .catch((error) => {
+            console.log("Checkin Fail", error);
+          });
+      
+          
+    },
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
       let indexOfArrayReservation = this.Reservations.findIndex((i) => i._id === id);
