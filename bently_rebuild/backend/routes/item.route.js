@@ -24,6 +24,16 @@ itemRoute.route('/').get((req, res, next) => {
   })
 })
 
+itemRoute.route('/').get((req, res, next) => {
+  ItemModel.find((error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
 itemRoute.route('/edit/:id').get((req, res, next) => {
   ItemModel.findById(req.params.id, (error, data) => {
     if (error) {

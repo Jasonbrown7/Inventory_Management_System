@@ -199,7 +199,7 @@ export default {
   },
   created() {
     axios
-      .get("http://localhost:4000/api/reservation")
+      .get(`http://localhost:4000/api/reservation/${this.$route.params.user_id}`)
       .then((res) => {
         this.Reservations = res.data;
       })

@@ -78,7 +78,7 @@ const routes = [
     component: ViewReservationsView
   },
   {
-    path: '/myreservations',
+    path: '/reservations/:user_id',
     name: 'my-reservations',
     component: MyReservationsView
   },
