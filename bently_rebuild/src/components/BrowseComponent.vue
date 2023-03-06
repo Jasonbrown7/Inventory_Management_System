@@ -10,9 +10,14 @@
             <v-toolbar color="white" elevation="0" class="mb-5 mt-6 ">
               <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required />
               <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required />
-              <v-select label="Availability" :items="dropdownAvailability" class="ma-3" v-model="selectedAvailability"></v-select>
+              <v-select label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory"></v-select>
               <v-select label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
-              <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" />
+              <!-- <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" /> -->
+              <v-text-field v-model="input">
+                <template v-slot:append>
+                  <img src="../assets/searchicon.png" alt="Search icon">
+                </template>
+              </v-text-field>
             </v-toolbar> 
             
 
@@ -24,7 +29,7 @@
               <div>
                 <v-row>
                     <v-col
-                      v-for="item in filteredItems" :key="item.id" cols="3">
+                      v-for="item in paginatedItems" :key="item.id" cols="3">
                       <v-card class="mb-4" elevation="0">
                         <router-link :to="{ name: 'browse-itempage', params: { id: item._id } }">
                           <v-img v-if="item.image"
@@ -48,12 +53,14 @@
                           </div>
                         </v-card-text>
                         <v-card-actions>
-
-                        
                         </v-card-actions>
                       </v-card>
                     </v-col>
-                  </v-row> 
+                  </v-row>
+                  <v-pagination
+                    v-model="pagination.page"
+                    :length="Math.ceil(filteredItems.length / paginatedItems.length)"
+                  ></v-pagination>
                </div>        
           </v-col>
       </v-container>
@@ -66,12 +73,19 @@
 
   export default {
     data: () => ({
+
+      pagination: {
+        page: 1,
+        itemsPerPage: 16,
+      },
     
-      dropdownAvailability: [
-        {text: 'Available', value: 'Available'}, 
-        {text: 'Not Available', value: 'Not Available'}, 
+      dropdownCategory: [
+        {text: 'Winter Sports', value: 'Winter Sports'}, 
+        {text: 'Summer Sports', value: 'Summer Sports'}, 
+        {text: 'Water Sports', value: 'Water Sports'},
+        {text: 'Leisure', value: 'Leisure'},
       ],
-      selectedAvailability: '',
+      selectedCategory: '',
 
       dropdownConditions: [
         {text: 'New', value: 'New'}, 
@@ -113,21 +127,25 @@
     // If no filters are selected, both availability and conidition always evaluate to true, so all items are displayed.
 
     computed: {
-    filteredItems() {
-      return this.Items.filter(item => {
-        const hasAvailability = !this.selectedAvailability || item.availability === this.selectedAvailability;
-        const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
-        const hasSearch = !this.input || item.name.includes(this.input);
-        return hasAvailability && hasCondition && hasSearch;
-      });
-    },
-  },
-
-  methods: {
-    reloadSite() {
-      location.reload();
+      filteredItems() {
+        return this.Items.filter(item => {
+          const hasAvailability = !this.selectedAvailability || item.availability === this.selectedAvailability;
+          const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
+          const hasSearch = !this.input || item.name.includes(this.input);
+          return hasAvailability && hasCondition && hasSearch;
+        });
+      },
+      paginatedItems() {
+        const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
+        const end = start + this.pagination.itemsPerPage;
+        return this.filteredItems.slice(start, end);
+      }
     }
-  },
-
   }
 </script>
+
+<style> 
+.v-pagination {
+  margin-top: 15px;
+}
+</style>

@@ -14,6 +14,16 @@ reservationRoute.route('/create').post((req, res, next) => {
   })
 })
 
+reservationRoute.route('/:user_id').get((req, res, next) => {
+  ReservationModel.find(  {user: req.params.user_id}, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
 reservationRoute.route('/').get((req, res, next) => {
   ReservationModel.find((error, data) => {
     if (error) {

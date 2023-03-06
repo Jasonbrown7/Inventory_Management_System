@@ -20,14 +20,14 @@
       <v-spacer></v-spacer>
      
       <v-btn to="/browse" plain>Browse</v-btn>
-     
+      <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain>My Reservations</v-btn>
       <template v-if="isAdmin === true">
         <v-btn to="/view/items" plain>Inventory</v-btn>
         <v-btn to="/view/reservations" plain>Reservations</v-btn>
         <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
         <v-btn to="/view/users" plain>Users</v-btn>
       </template>
-      <v-btn v-else to="/myreservations" plain>My Reservations</v-btn>
+      
       <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
     <template>
 
