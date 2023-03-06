@@ -99,7 +99,7 @@ export default {
 
 created(){  
     eventBus.$on("userLogin", (data) => {
-      console.log("DATA", data);
+      this.$set(this, "user", data);
       this.isLoggedIn = true;
       this.isAdmin = data.isAdmin;
     });
@@ -132,7 +132,7 @@ created(){
             .then(() => {
                 console.log("Logged out.");
                 // this.$router.push("/"); 
-                // this.$set(this, "user", null)
+                this.$set(this, "user", {});
                 this.isLoggedIn = false;
                 this.isAdmin = false;
             })

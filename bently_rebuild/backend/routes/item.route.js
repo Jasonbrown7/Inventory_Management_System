@@ -44,7 +44,23 @@ itemRoute.route('/edit/:id').get((req, res, next) => {
     
   })
 })
-
+itemRoute.route('/update/comments/:id').put((req, res, next) => {
+  console.log(req.body);
+  ItemModel.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: {comments: req.body},
+    },
+    (error, data) => {
+      if (error) {
+        return next(error)
+      } else {
+        res.json(data)
+        console.log('Item successfully updated da comments!')
+      }
+    },
+  )
+})
 // Update
 itemRoute.route('/update/:id').put((req, res, next) => {
   console.log(req.body);

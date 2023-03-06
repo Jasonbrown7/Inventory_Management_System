@@ -97,6 +97,18 @@
                               </v-form>
                       </v-col>
                   </v-row> 
+                  <v-subheader>Comments</v-subheader>
+                  <v-list
+                 
+                  class="overflow-y-auto"
+                  max-height="300">
+                    
+                <v-list-item
+                  v-for="review in reviews"
+                  :key="review"
+                  :title="review"
+                ><v-list-item-title v-text="review"></v-list-item-title></v-list-item>
+              </v-list>
           </v-container>
     </v-main>
   </v-app>
@@ -114,7 +126,7 @@ export default {
       reviews: ["Great, love it.", "Okay, seen better", "Best item ive seen yet."],
       checkIn: "null",
       checkOut: "null",
-      item: null ,
+      item: {} ,
       user: {},
       reservation: {},
     };
@@ -169,12 +181,19 @@ export default {
 
       axios.get(apiURL).then((res) => {
         this.item = res.data;
+        const values = this.item.comments.values();
+        console.log(this.item.comments);
+        console.log(values);
+        this.item.comments.forEach(comment => {this.reviews.push(comment.comment);})
+
+          
       });
     let resApiURL = `http://localhost:4000/api/reservation/create/${this.$route.params.id}`;
     
         axios.get(resApiURL).then((res) => {
           this.reservation = res.data;
         });
+        
   },
   mounted() {
     axios.defaults.withCredentials = true; 
