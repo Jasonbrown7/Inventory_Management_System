@@ -24,7 +24,7 @@
               <div>
                 <v-row>
                     <v-col
-                      v-for="item in filteredItems" :key="item.id" cols="3">
+                      v-for="item in paginatedItems" :key="item.id" cols="3">
                       <v-card class="mb-4" elevation="0">
                         <router-link :to="{ name: 'browse-itempage', params: { id: item._id } }">
                           <v-img v-if="item.image"
@@ -48,12 +48,14 @@
                           </div>
                         </v-card-text>
                         <v-card-actions>
-
-                        
                         </v-card-actions>
                       </v-card>
                     </v-col>
-                  </v-row> 
+                  </v-row>
+                  <v-pagination
+                    v-model="pagination.page"
+                    :length="Math.ceil(filteredItems.length / paginatedItems.length)"
+                  ></v-pagination>
                </div>        
           </v-col>
       </v-container>
@@ -66,6 +68,11 @@
 
   export default {
     data: () => ({
+
+      pagination: {
+        page: 1,
+        itemsPerPage: 4,
+      },
     
       dropdownAvailability: [
         {text: 'Available', value: 'Available'}, 
@@ -113,21 +120,25 @@
     // If no filters are selected, both availability and conidition always evaluate to true, so all items are displayed.
 
     computed: {
-    filteredItems() {
-      return this.Items.filter(item => {
-        const hasAvailability = !this.selectedAvailability || item.availability === this.selectedAvailability;
-        const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
-        const hasSearch = !this.input || item.name.includes(this.input);
-        return hasAvailability && hasCondition && hasSearch;
-      });
-    },
-  },
-
-  methods: {
-    reloadSite() {
-      location.reload();
+      filteredItems() {
+        return this.Items.filter(item => {
+          const hasAvailability = !this.selectedAvailability || item.availability === this.selectedAvailability;
+          const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
+          const hasSearch = !this.input || item.name.includes(this.input);
+          return hasAvailability && hasCondition && hasSearch;
+        });
+      },
+      paginatedItems() {
+        const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
+        const end = start + this.pagination.itemsPerPage;
+        return this.filteredItems.slice(start, end);
+      }
     }
-  },
-
   }
 </script>
+
+<style> 
+.v-pagination {
+  margin-top: 15px;
+}
+</style>
