@@ -278,14 +278,26 @@ export default {
       axios
           .put(apiURL, {isCheckedOut : false})
           .then((res) => {
-            console.log("Checkin Success", res);
+            const comment = window.prompt("Leave a comment/note on the item:", "Shit ass kayak");
+            console.log(res);
+            let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
+            axios
+                  .put(apiURL, {comment : comment})
+                  .then((res) => {
+                  
+                    console.log("Comment Add Success",res);
+                  
+                  })
+                  .catch((error) => {
+                    console.log("Comment Add Fail", error);
+                  });
           
           })
           .catch((error) => {
             console.log("Checkin Fail", error);
           });
       
-          
+        
     },
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
