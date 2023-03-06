@@ -85,7 +85,7 @@
             .post(apiURL, {username: this.user.username, password: this.user.password})
             .then(() => {
             console.log("Login Success.")
-            this.$router.push("/profile")
+            this.$router.push("/browse")
             this.emit();
             })
             .catch((error) => {
