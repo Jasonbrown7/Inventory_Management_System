@@ -76,15 +76,13 @@
                                     <th class="text-left">Start</th>
                                     <th class="text-left">End</th>
                                     <th class="text-left">User</th>
-                                    <th class="text-left">Resolved</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="reservation in filteredReservations" :key="reservation.id">
-                                        <td> {{reservation.startDate | toDateString}}</td>
-                                        <td> {{reservation.endDate | toDateString}}</td>
-                                        <td> {{reservation.user | displayUserFromId(Users)}}</td>
-                                        <td class="text-left">{{reservation.item | displayItemFromId(Items)}}</td>
+                                        <td class="text-left"> {{reservation.startDate | toDateString}}</td>
+                                        <td class="text-left"> {{reservation.endDate | toDateString}}</td>
+                                        <td class="text-left"> {{reservation.user | displayUserFromId(Users)}}</td>
                                     </tr>
                                     
                                 </tbody>
@@ -194,11 +192,6 @@ export default {
             if(!userId) return '';
             const myUser = Users.find(u => u._id === userId);
             return myUser.username;
-        },
-        displayItemFromId(itemId, Items){
-            if(!itemId) return '';
-            const myItem = Items.find(u => u._id === itemId);
-            return myItem.name;
         },
     },
     computed: {
