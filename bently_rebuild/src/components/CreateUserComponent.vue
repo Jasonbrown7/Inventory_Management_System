@@ -1,13 +1,13 @@
 <template>
     <v-app id="inspire">
       <v-main class="v-main grey lighten-3">
-        <v-container>
+        <v-container class="heroimage" fluid fill-height>
           <v-card
-            elevation="0"
+            elevation="10"
             class="mx-auto px-md-6 pb-md-6 pt-md-4"
-            max-width="600"
+            min-width="500"
           >
-            <h3 class="text-center">Create User</h3>
+        
             <v-form 
               @submit.prevent="handleSubmitForm" 
             >
@@ -54,17 +54,26 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-btn block color="danger justify-center" type="submit">Create</v-btn>
+                    <v-btn block color="danger justify-center" type="submit">Sign Up</v-btn>
                   </v-col>
                 </v-row>
               </v-container>
             </v-form>
+     
+         
+              <v-subheader class="account">Already have an account?</v-subheader>
+
           </v-card>
         </v-container>
       </v-main>
     </v-app>
   </template>
-  
+<style>
+.account{
+  flex-direction: column;
+  align-items: end;
+}
+</style>
 
 <script>
     import axios from "axios";
@@ -92,19 +101,19 @@
             ],
             };
         },
-          beforeCreate(){
-          let apiURL = `http://localhost:4000/api/auth/admin`;
-          axios
-          .get(apiURL)
-          .then((res) => {
-            console.log(res.data)
+        //   beforeCreate(){
+        //   let apiURL = `http://localhost:4000/api/auth/admin`;
+        //   axios
+        //   .get(apiURL)
+        //   .then((res) => {
+        //     console.log(res.data)
           
-          })
-          .catch(() => {
-              window.alert("ur not that guy pal!")
-              this.$router.push("/");
-            });
-        },
+        //   })
+        //   .catch(() => {
+        //       window.alert("ur not that guy pal!")
+        //       this.$router.push("/");
+        //     });
+        // },
         methods: {
             handleSubmitForm() {
             let apiURL = "http://localhost:4000/api/user/create";
