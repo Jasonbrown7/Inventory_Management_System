@@ -8,6 +8,11 @@
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
               <v-sheet rounded="lg">
+                <v-subheader class="justify-left">Search User</v-subheader>
+                <div style="display: flex; justify-content: center;">
+                  <v-text-field v-model="search" style="max-width: 150px;" append-icon="mdi-magnify">
+                  </v-text-field>
+                </div>
                 <v-list rounded="lg">
                   <v-subheader class="justify-left">Reports</v-subheader>
                   <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
@@ -42,7 +47,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="user in Users" :key="user.id">
+                  <tr v-for="user in filteredUsers" :key="user.id">
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.isAdmin }}</td>
@@ -84,8 +89,19 @@ export default {
   data() {
     return {
       Users: [],
+      search: '', 
       Reservations: [],
     };
+  },
+  computed: {
+    filteredUsers() {
+      if (this.search) {
+        return this.Users.filter(user => user.username.toLowerCase().includes(this.search.toLowerCase()));
+      }
+      else {
+        return this.Users;
+      }
+    },
   },
   beforeCreate(){
     let apiURL = `http://localhost:4000/api/auth/admin`;

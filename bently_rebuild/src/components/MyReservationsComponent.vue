@@ -284,7 +284,7 @@ export default {
       axios
           .put(apiURL, {isCheckedOut : false})
           .then((res) => {
-            const comment = window.prompt("Leave a comment/note on the item:", "Shit ass kayak");
+            const comment = window.prompt("Leave a comment/note on the item:");
             console.log(res);
             let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
             axios
