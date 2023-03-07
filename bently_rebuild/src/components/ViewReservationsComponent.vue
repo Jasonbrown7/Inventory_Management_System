@@ -199,9 +199,12 @@ export default {
           const startDate = new Date(reservation.startDate);
           const endDate = new Date(reservation.endDate);
           const today = new Date();
-          const itemString = this.Items.find(item => item._id === reservation.item);
-          const userString = this.Users.find(user => user._id === reservation.user);
-          return startDate <= today && today <= endDate && (itemString.name.toLowerCase().includes(this.search.toLowerCase()) || userString.username.toLowerCase().includes(this.search.toLowerCase()));
+          const itemObj = this.Items.find(item => item._id === reservation.item);
+          const userObj = this.Users.find(user => user._id === reservation.user);
+          if (this.filterCurrentlyOpen === true)
+            return startDate <= today && today <= endDate && (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
+          else 
+            return (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
         });
       }
       else {
