@@ -19,13 +19,13 @@
       </a>
       <v-spacer></v-spacer>
      
-      <v-btn to="/browse" plain>Browse</v-btn>
-      <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain>My Reservations</v-btn>
+      <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
+      <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain class="nav-btn">My Reservations</v-btn>
       <template v-if="isAdmin === true">
-        <v-btn to="/view/items" plain>Inventory</v-btn>
-        <v-btn to="/view/reservations" plain>Reservations</v-btn>
+        <v-btn to="/view/items" plain class="nav-btn">Inventory</v-btn>
+        <v-btn to="/view/reservations" plain class="nav-btn">Reservations</v-btn>
         <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
-        <v-btn to="/view/users" plain>Users</v-btn>
+        <v-btn to="/view/users" plain class="nav-btn">Users</v-btn>
       </template>
       
       <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
@@ -99,7 +99,7 @@ export default {
 
 created(){  
     eventBus.$on("userLogin", (data) => {
-      console.log("DATA", data);
+      this.$set(this, "user", data);
       this.isLoggedIn = true;
       this.isAdmin = data.isAdmin;
     });
@@ -132,7 +132,7 @@ created(){
             .then(() => {
                 console.log("Logged out.");
                 // this.$router.push("/"); 
-                // this.$set(this, "user", null)
+                this.$set(this, "user", {});
                 this.isLoggedIn = false;
                 this.isAdmin = false;
             })
@@ -164,5 +164,9 @@ nav {
       color: #42b983;
     }
   }
+}
+
+.nav-btn:hover {
+  color: #26685d;
 }
 </style>

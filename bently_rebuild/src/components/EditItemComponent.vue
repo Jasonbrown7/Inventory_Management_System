@@ -87,6 +87,19 @@ export default {
         selectedFiles: [],
       };
     },
+    beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/admin`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log(res.data)
+     
+    })
+    .catch(() => {
+        window.alert("ur not that guy pal!")
+        this.$router.push("/");
+      });
+  },
     created() {
       let apiURL = `http://localhost:4000/api/item/edit/${this.$route.params.id}`;
   

@@ -8,15 +8,13 @@
           <!--Browse Title-->
           <v-col> 
             <v-toolbar color="white" elevation="0" class="mb-5 mt-6 ">
-              <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required />
-              <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required />
+              <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required/>
+              <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required/>
               <v-select label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory"></v-select>
               <v-select label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
               <!-- <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" /> -->
-              <v-text-field v-model="input">
-                <template v-slot:append>
-                  <img src="../assets/searchicon.png" alt="Search icon">
-                </template>
+              <v-text-field v-model="input" append-icon="mdi-magnify">
+                
               </v-text-field>
             </v-toolbar> 
             
@@ -129,10 +127,10 @@
     computed: {
       filteredItems() {
         return this.Items.filter(item => {
-          const hasAvailability = !this.selectedAvailability || item.availability === this.selectedAvailability;
+          const hasCategory = !this.selectedCategory || item.category=== this.selectedCategory;
           const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
-          const hasSearch = !this.input || item.name.includes(this.input);
-          return hasAvailability && hasCondition && hasSearch;
+          const hasSearch = !this.input.toLowerCase() || item.name.toLowerCase().includes(this.input.toLowerCase());
+          return hasCategory && hasCondition && hasSearch;
         });
       },
       paginatedItems() {
@@ -148,4 +146,10 @@
 .v-pagination {
   margin-top: 15px;
 }
+
+/* Sets styling for down arrow on vselect element */
+.v-input__icon--append .v-icon { 
+  color: #26685d;
+}
+
 </style>

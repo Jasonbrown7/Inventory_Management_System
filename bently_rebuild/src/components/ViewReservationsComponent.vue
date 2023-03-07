@@ -10,10 +10,7 @@
               <v-sheet rounded="lg">
                 <v-subheader class="justify-left">Search Item / User</v-subheader>
                 <div style="display: flex; justify-content: center;">
-                  <v-text-field v-model="search" style="max-width: 150px;">
-                    <template v-slot:append>
-                      <img src="../assets/searchicon.png" alt="Search">
-                    </template>
+                  <v-text-field v-model="search" style="max-width: 150px;" append-icon="mdi-magnify">
                   </v-text-field>
                 </div>
                 <v-list rounded="lg">
@@ -155,6 +152,19 @@ export default {
       return myItem.name;
     },
   },
+  beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/admin`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log(res.data)
+     
+    })
+    .catch(() => {
+        window.alert("ur not that guy pal!")
+        this.$router.push("/");
+      });
+  },
   created() {
     axios
       .get("http://localhost:4000/api/reservation")
@@ -207,7 +217,7 @@ export default {
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
       let indexOfArrayReservation = this.Reservations.findIndex((i) => i._id === id);
-
+      
       if (window.confirm("Do you really want to delete?")) {
         axios
           .delete(apiURL)

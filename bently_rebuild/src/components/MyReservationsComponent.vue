@@ -197,6 +197,23 @@ export default {
 
     
   },
+  beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/user`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log("bruh");
+     if (res.data.user.id != this.$route.params.user_id ){
+
+        window.alert("Not ur reservations pal!")
+        this.$router.push("/");
+     }
+    })
+    .catch((error) => {
+        console.log(error);
+        this.$router.push("/");
+      });
+  },
   created() {
     axios
       .get(`http://localhost:4000/api/reservation/${this.$route.params.user_id}`)
@@ -278,14 +295,26 @@ export default {
       axios
           .put(apiURL, {isCheckedOut : false})
           .then((res) => {
-            console.log("Checkin Success", res);
+            const comment = window.prompt("Leave a comment/note on the item:");
+            console.log(res);
+            let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
+            axios
+                  .put(apiURL, {comment : comment})
+                  .then((res) => {
+                  
+                    console.log("Comment Add Success",res);
+                  
+                  })
+                  .catch((error) => {
+                    console.log("Comment Add Fail", error);
+                  });
           
           })
           .catch((error) => {
             console.log("Checkin Fail", error);
           });
       
-          
+        
     },
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
