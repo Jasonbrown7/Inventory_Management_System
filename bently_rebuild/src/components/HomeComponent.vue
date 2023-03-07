@@ -6,7 +6,7 @@
           <v-flex>
             <h1 class="text-center white--text display-1">Bently Adventures</h1>
             <v-flex xs12 text-center class="mt-5">
-              <v-btn color="primary" large href="/">Begin your adventure »</v-btn>
+              <v-btn color="primary" large href="/create/users">Begin your adventure »</v-btn>
             </v-flex>
           </v-flex>
         </v-layout>

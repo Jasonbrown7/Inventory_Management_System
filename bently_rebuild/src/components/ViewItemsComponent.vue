@@ -167,7 +167,7 @@ export default {
   //           this.$router.push("/")  
   //       })
   //     },
-  beforeCreate(){
+  mounted(){
     let apiURL = `http://localhost:4000/api/auth/admin`;
     axios
     .get(apiURL)

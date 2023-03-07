@@ -86,19 +86,19 @@ export default {
       selectedFiles: [],
     };
   },
-  beforeCreate(){
-          let apiURL = `http://localhost:4000/api/auth/admin`;
-          axios
-          .get(apiURL)
-          .then((res) => {
-            console.log(res.data)
+  // beforeCreate(){
+  //         let apiURL = `http://localhost:4000/api/auth/admin`;
+  //         axios
+  //         .get(apiURL)
+  //         .then((res) => {
+  //           console.log(res.data)
           
-          })
-          .catch(() => {
-              window.alert("ur not that guy pal!")
-              this.$router.push("/");
-            });
-        },
+  //         })
+  //         .catch(() => {
+  //             window.alert("ur not that guy pal!")
+  //             this.$router.push("/");
+  //           });
+  //       },
   methods: {
     handleSubmitForm() {
       let apiURL = "http://localhost:4000/api/item/create";

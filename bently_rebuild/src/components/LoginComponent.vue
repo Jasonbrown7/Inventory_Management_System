@@ -1,11 +1,12 @@
     <template>
       <v-app id="inspire">
         <v-main class="v-main grey lighten-3">
-          <v-container>
+          <v-container class="heroimage" fluid fill-height >
             <v-card
-              elevation="0"
+              elevation="10"
               class="mx-auto px-md-6 pb-md-6 pt-md-4"
-              max-width="600"
+              min-width="500"
+             
             >
       
               <v-form 
@@ -47,11 +48,11 @@
 
 <style>
 
-    .heroimage {
+    .heroimager {
         display: flex;
         width:100vw;
         height: calc(100vh - 56px);
-        background: url("../assets/hero.png");
+
         background-repeat: no-repeat;
         background-position: center;
         background-size:cover;
