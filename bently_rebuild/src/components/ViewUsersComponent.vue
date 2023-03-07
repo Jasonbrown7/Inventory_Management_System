@@ -48,10 +48,10 @@
                 </thead>
                 <tbody>
                   <tr v-for="user in filteredUsers" :key="user.id">
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.isAdmin }}</td>
-                    <td>
+                    <td class="text-left">{{ user.username }}</td>
+                    <td class="text-left">{{ user.email }}</td>
+                    <td class="text-left">{{ user.isAdmin }}</td>
+                    <td class="text-left">
                       <v-btn
                         class="mr-md-1"
                         :to="{ name: 'edit-user', params: { id: user._id } }"
