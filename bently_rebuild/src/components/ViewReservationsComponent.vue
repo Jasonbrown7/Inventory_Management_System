@@ -77,11 +77,11 @@
                   </thead>
                   <tbody>
                     <tr v-for="reservation in filteredReservations" :key="reservation.id">
-                      <td>{{reservation.startDate | toDateString}}</td>
-                      <td>{{reservation.endDate | toDateString}}</td>
-                      <td>{{reservation.user | displayUserFromId(Users) }}</td>
-                      <td>{{reservation.item | displayItemFromId(Items) }}</td>
-                      <td>
+                      <td class="text-left">{{reservation.startDate | toDateString}}</td>
+                      <td class="text-left">{{reservation.endDate | toDateString}}</td>
+                      <td class="text-left">{{reservation.user | displayUserFromId(Users) }}</td>
+                      <td class="text-left">{{reservation.item | displayItemFromId(Items) }}</td>
+                      <td class="text-left">
                         <v-btn
                           class="mr-md-1"
                           :to="{ name: 'edit-reservation', params: { id: reservation._id } }"

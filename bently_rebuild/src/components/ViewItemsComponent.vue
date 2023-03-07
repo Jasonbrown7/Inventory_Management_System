@@ -97,11 +97,11 @@
                   <tbody>
                     <tr v-for="item in filteredItems" 
                       :key="item._id">
-                      <td>{{ item.name }}</td>
-                      <td>{{ item.category }}</td>
-                      <td>{{ item.availability }}</td>
-                      <td>{{ item.condition }}</td>
-                      <td>
+                      <td class="text-left">{{ item.name }}</td>
+                      <td class="text-left">{{ item.category }}</td>
+                      <td class="text-left">{{ item.availability }}</td>
+                      <td class="text-left">{{ item.condition }}</td>
+                      <td class="text-left">
                         <v-btn
                           class="mr-md-1"
                           color="primary"
