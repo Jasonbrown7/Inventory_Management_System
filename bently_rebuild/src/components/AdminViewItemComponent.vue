@@ -68,7 +68,7 @@
             <v-container>
                     <v-row no-gutters>
                         <v-col cols="12" md="6">
-                                <div style="font-size: 30px;" class="text-left ml-5 mb-2 text-h6">Past Reservations</div>
+                                <div style="font-size: 30px;" class="text-left ml-5 mb-2 text-h6">Reservations</div>
                                 <v-spacer></v-spacer>
                             <v-simple-table class="ml-5 mr-5">
                                 <thead>
@@ -80,42 +80,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-left">01/24/23</td>
-                                        <td class="text-left">01/27/23</td>
-                                        <td class="text-left">Stephanie Gilmore</td>
-                                        <td class="text-left">Yes</td>
+                                    <tr v-for="reservation in filteredReservations" :key="reservation.id">
+                                        <td> {{reservation.startDate | toDateString}}</td>
+                                        <td> {{reservation.endDate | toDateString}}</td>
+                                        <td> {{reservation.user | displayUserFromId(Users)}}</td>
+                                        <td class="text-left">{{reservation.item | displayItemFromId(Items)}}</td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-left">12/20/22</td>
-                                        <td class="text-left">12/25/22</td>
-                                        <td class="text-left">Kyle Style</td>
-                                        <td class="text-left">Yes</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">11/28/22</td>
-                                        <td class="text-left">11/29/22</td>
-                                        <td class="text-left">Donald McDonald</td>
-                                        <td class="text-left">Yes</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">11/21/22</td>
-                                        <td class="text-left">11/23/22</td>
-                                        <td class="text-left">Jin Yun</td>
-                                        <td class="text-left">Yes</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">11/21/22</td>
-                                        <td class="text-left">11/23/22</td>
-                                        <td class="text-left">Carl Jr</td>
-                                        <td class="text-left">Yes</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">10/14/22</td>
-                                        <td class="text-left">10/18/22</td>
-                                        <td class="text-left">Tyler Joyce</td>
-                                        <td class="text-left">Yes</td>
-                                    </tr>
+                                    
                                 </tbody>
                             </v-simple-table>
                         </v-col>
@@ -147,13 +118,10 @@ import axios from "axios";
 export default {
     data() {
       return {
-        item: {
-            name: "",
-            category: "",
-            availability: "",
-            condition: "",
-            image: "",
-        },
+        Reservations: [],
+        Users: [],
+        Items: [],
+        item: {},
         events: [
             {
                 name: 'Reserved - Alex Smith',
@@ -190,6 +158,59 @@ export default {
       axios.get(apiURL).then((res) => {
         this.item = res.data;
       });
+      axios
+        .get("http://localhost:4000/api/reservation")
+        .then((res) => {
+        this.Reservations = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      axios
+        .get("http://localhost:4000/api/user")
+        .then((res) => {
+        this.Users = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      axios
+        .get("http://localhost:4000/api/item")
+        .then((res) => {
+        this.Items = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
+    //Jeffrey Carson
+    filters:{
+        toDateString(dateObj){
+            if(!dateObj) return '';
+            const date = new Date(dateObj) 
+            return date.toLocaleDateString()
+        },
+        displayUserFromId(userId, Users){
+            if(!userId) return '';
+            const myUser = Users.find(u => u._id === userId);
+            return myUser.username;
+        },
+        displayItemFromId(itemId, Items){
+            if(!itemId) return '';
+            const myItem = Items.find(u => u._id === itemId);
+            return myItem.name;
+        },
+    },
+    computed: {
+        filteredReservations() {
+            //const today = new Date();
+
+            // this.Reservations = this.Reservations.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
+        //this.sortedByNewest = false;
+            
+            return this.Reservations.filter(reservation => reservation.item === this.item._id );
+        }
+
     },
   };
 </script>

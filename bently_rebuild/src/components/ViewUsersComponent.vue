@@ -84,6 +84,7 @@ export default {
   data() {
     return {
       Users: [],
+      Reservations: [],
     };
   },
   beforeCreate(){
@@ -102,10 +103,20 @@ export default {
   created() {
     let apiURL = "http://localhost:4000/api/user";
     axios.defaults.withCredentials = true;
+    //Users
     axios
       .get(apiURL)
       .then((res) => {
         this.Users = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    //Reservation
+    axios
+      .get("http://localhost:4000/api/reservation")
+      .then((res) => {
+        this.Reservations = res.data;
       })
       .catch((error) => {
         console.log(error);
@@ -115,6 +126,12 @@ export default {
     deleteUser(id) {
       let apiURL = `http://localhost:4000/api/user/delete/${id}`;
       let indexOfArrayItem = this.Users.findIndex((i) => i._id === id);
+
+      let reserved = this.Reservations.some((reservation) => reservation.user === id);
+      if (reserved) {
+        alert("Cannot delete item because it is currently reserved.");
+        return;
+      }
 
       if (window.confirm("Do you really want to delete?")) {
         axios
