@@ -8,6 +8,11 @@
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
               <v-sheet rounded="lg">
+                <v-subheader class="justify-left">Search Item / User</v-subheader>
+                <div style="display: flex; justify-content: center;">
+                  <v-text-field v-model="search" style="max-width: 150px;" append-icon="mdi-magnify">
+                  </v-text-field>
+                </div>
                 <v-list rounded="lg">
                   <v-subheader>Filter by</v-subheader>
                   <v-list-item
@@ -16,7 +21,7 @@
                     :class="{'white': !filterCurrentlyOpen, 'grey lighten-1': filterCurrentlyOpen}"
                     @click="filterCurrentlyOpen = !filterCurrentlyOpen"
                   >
-                    <v-list-item-title>Currently Open</v-list-item-title>
+                    <v-list-item-title>Currently Active</v-list-item-title>
                   </v-list-item>
                   <v-divider class="ma-3"></v-divider>
                   <v-subheader>Sort by</v-subheader>
@@ -106,6 +111,7 @@
   </template>
   
 <script>
+
 import axios from "axios";
 import Papa from 'papaparse';
 import FileSaver from 'file-saver';
@@ -125,6 +131,7 @@ export default {
       sortedByOldest: false,
       sortedByNewest: false,
       filterCurrentlyOpen: false, 
+      search: '',
     };
   },
   //Jeffrey Carson
@@ -144,8 +151,6 @@ export default {
       const myItem = Items.find(u => u._id === itemId);
       return myItem.name;
     },
-    
-    
   },
   beforeCreate(){
     let apiURL = `http://localhost:4000/api/auth/admin`;
@@ -189,17 +194,21 @@ export default {
   },
   computed: {
     filteredReservations() {
-      if (this.filterCurrentlyOpen === true) {
+      if (this.filterCurrentlyOpen === true || this.search) {
         return this.Reservations.filter(reservation => {
           const startDate = new Date(reservation.startDate);
           const endDate = new Date(reservation.endDate);
           const today = new Date();
-          return startDate <= today && today <= endDate;
+          const itemString = this.Items.find(item => item._id === reservation.item);
+          const userString = this.Users.find(user => user._id === reservation.user);
+          return startDate <= today && today <= endDate && (itemString.name.toLowerCase().includes(this.search.toLowerCase()) || userString.username.toLowerCase().includes(this.search.toLowerCase()));
         });
-      } else {
+      }
+      else {
         return this.Reservations;
       }
     },
+
   },
   mounted(){
   

@@ -9,6 +9,11 @@
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
               <v-sheet rounded="lg">
+                <v-subheader class="justify-left">Search Items</v-subheader>
+                <div style="display: flex; justify-content: center;">
+                  <v-text-field v-model="search" style="max-width: 150px;" append-icon="mdi-magnify">
+                  </v-text-field>
+                </div>
                 <v-subheader>Filter by</v-subheader>
                 <v-list rounded="lg">
                   <v-select
@@ -147,7 +152,7 @@ export default {
       selectedAvailabilities: [],
       Items: [],
       itemsFromCsv: [],
-      Reservations: [],
+      search: '',
     };
   },
   // mounted() {
@@ -198,13 +203,14 @@ export default {
   },
   computed: {
     filteredItems() {
-      if (this.selectedCategories.length === 0 && this.selectedConditions.length === 0 && this.selectedAvailabilities.length === 0) {
+      if (this.selectedCategories.length === 0 && this.selectedConditions.length === 0 && this.selectedAvailabilities.length === 0 && !this.search) {
         return this.Items;
       }
       return this.Items.filter((item) =>
         (this.selectedCategories.length === 0 || this.selectedCategories.includes(item.category)) &&
         (this.selectedConditions.length === 0 || this.selectedConditions.includes(item.condition)) &&
-        (this.selectedAvailabilities.length === 0 || this.selectedAvailabilities.includes(item.availability))
+        (this.selectedAvailabilities.length === 0 || this.selectedAvailabilities.includes(item.availability)) &&
+        (item.name.includes(this.search))
       );
     },
   },
