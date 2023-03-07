@@ -87,7 +87,19 @@ export default {
       Reservations: [],
     };
   },
-
+  beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/admin`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log(res.data)
+     
+    })
+    .catch(() => {
+        window.alert("ur not that guy pal!")
+        this.$router.push("/");
+      });
+  },
   created() {
     let apiURL = "http://localhost:4000/api/user";
     axios.defaults.withCredentials = true;

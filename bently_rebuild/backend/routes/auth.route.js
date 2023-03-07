@@ -64,7 +64,6 @@ const authMiddleware = (req, res, next) => {
   }
 }
 const adminMiddleware = (req, res, next) => {
-  console.log(req.user);
   if (req.isAuthenticated() && req.user.isAdmin === true) {
     return next()
   } else {

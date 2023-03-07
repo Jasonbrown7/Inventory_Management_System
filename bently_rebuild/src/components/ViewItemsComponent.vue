@@ -162,6 +162,19 @@ export default {
   //           this.$router.push("/")  
   //       })
   //     },
+  beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/admin`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log(res.data)
+     
+    })
+    .catch(() => {
+        window.alert("ur not that guy pal!")
+        this.$router.push("/");
+      });
+  },
   created() {
     //Item
     let apiURL = "http://localhost:4000/api/item";

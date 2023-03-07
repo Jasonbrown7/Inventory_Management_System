@@ -197,6 +197,23 @@ export default {
 
     
   },
+  beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/user`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log("bruh");
+     if (res.data.user.id != this.$route.params.user_id ){
+
+        window.alert("Not ur reservations pal!")
+        this.$router.push("/");
+     }
+    })
+    .catch((error) => {
+        console.log(error);
+        this.$router.push("/");
+      });
+  },
   created() {
     axios
       .get(`http://localhost:4000/api/reservation/${this.$route.params.user_id}`)
