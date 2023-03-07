@@ -145,6 +145,20 @@ export default {
       return myItem.name;
     },
     
+    
+  },
+  beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/admin`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log(res.data)
+     
+    })
+    .catch(() => {
+        window.alert("ur not that guy pal!")
+        this.$router.push("/");
+      });
   },
   created() {
     axios
@@ -194,7 +208,7 @@ export default {
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
       let indexOfArrayReservation = this.Reservations.findIndex((i) => i._id === id);
-
+      
       if (window.confirm("Do you really want to delete?")) {
         axios
           .delete(apiURL)

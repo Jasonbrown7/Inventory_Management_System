@@ -147,6 +147,7 @@ export default {
       selectedAvailabilities: [],
       Items: [],
       itemsFromCsv: [],
+      Reservations: [],
     };
   },
   // mounted() {
@@ -161,12 +162,35 @@ export default {
   //           this.$router.push("/")  
   //       })
   //     },
+  beforeCreate(){
+    let apiURL = `http://localhost:4000/api/auth/admin`;
+    axios
+    .get(apiURL)
+    .then((res) => {
+      console.log(res.data)
+     
+    })
+    .catch(() => {
+        window.alert("ur not that guy pal!")
+        this.$router.push("/");
+      });
+  },
   created() {
+    //Item
     let apiURL = "http://localhost:4000/api/item";
     axios
       .get(apiURL)
       .then((res) => {
         this.Items = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    //Reservation
+    axios
+      .get("http://localhost:4000/api/reservation")
+      .then((res) => {
+        this.Reservations = res.data;
       })
       .catch((error) => {
         console.log(error);
@@ -188,6 +212,12 @@ export default {
     deleteItem(id) {
       let apiURL = `http://localhost:4000/api/item/delete/${id}`;
       let indexOfArrayItem = this.Items.findIndex((i) => i._id === id);
+
+      let reserved = this.Reservations.some((reservation) => reservation.item === id);
+      if (reserved) {
+        alert("Cannot delete item because it is currently reserved.");
+        return;
+      }
 
       if (window.confirm("Do you really want to delete?")) {
         axios

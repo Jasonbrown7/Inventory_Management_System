@@ -186,7 +186,7 @@ export default {
             item: this.item._id,
           })
           .then(() => {
-            this.$router.push("/view/reservations");
+            this.$router.push({name: 'my-reservations', params: {user_id: this.user.id} }),
             this.reservation = {
               startDate: "",
               endDate: "",
