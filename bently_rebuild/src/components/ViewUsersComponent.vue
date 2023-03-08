@@ -145,7 +145,7 @@ export default {
 
       let reserved = this.Reservations.some((reservation) => reservation.user === id);
       if (reserved) {
-        alert("Cannot delete item because it is currently reserved.");
+        alert("Cannot delete user because they currently have a reservation.");
         return;
       }
 

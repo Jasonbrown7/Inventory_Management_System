@@ -58,6 +58,7 @@
                   <v-pagination
                     v-model="pagination.page"
                     :length="Math.ceil(filteredItems.length / paginatedItems.length)"
+                    :total-visible="2"
                   ></v-pagination>
                </div>        
           </v-col>

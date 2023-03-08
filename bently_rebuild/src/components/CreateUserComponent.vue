@@ -61,19 +61,14 @@
             </v-form>
      
          
-              <v-subheader class="account">Already have an account?</v-subheader>
+              <v-btn plain :to="{ name: 'loginView' }">Already have an account?</v-btn>
 
           </v-card>
         </v-container>
       </v-main>
     </v-app>
-  </template>
-<style>
-.account{
-  flex-direction: column;
-  align-items: end;
-}
-</style>
+</template>
+
 
 <script>
     import axios from "axios";
