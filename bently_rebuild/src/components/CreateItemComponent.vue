@@ -26,7 +26,7 @@
                   <v-select
                     label="Category"
                     v-model="item.category"
-                    :items="['Water Sports', 'Winter Sports', 'Summer Sports', 'Leisure']"
+                    :items="['Water Sports', 'Winter Sports', 'Leisure', 'Camping', 'Climbing']"
                     required
                   />
                 </v-col>

@@ -59,7 +59,7 @@
                     </tbody>
                 </v-simple-table>
 
-              <v-toolbar color="white" elevation="0">
+              <v-toolbar color="white" elevation="0"  class="mt-10">
                 <v-toolbar-title style="font-size: 30px;">Upcoming Reservations</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>  
