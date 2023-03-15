@@ -57,7 +57,7 @@
                   </v-row>
                   <v-pagination
                     v-model="pagination.page"
-                    :length="Math.ceil(filteredItems.length / paginatedItems.length)"
+                    :length="Math.ceil(filteredItems.length / pagination.itemsPerPage)"
                     :total-visible="2"
                   ></v-pagination>
                </div>        

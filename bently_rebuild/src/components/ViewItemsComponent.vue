@@ -95,7 +95,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="item in filteredItems" 
+                    <tr v-for="item in paginatedItems" 
                       :key="item._id">
                       <td class="text-left">{{ item.name }}</td>
                       <td class="text-left">{{ item.category }}</td>
@@ -132,6 +132,11 @@
                     </tr>
                   </tbody>
                 </v-simple-table>
+                <v-pagination
+                    v-model="pagination.page"
+                    :length="Math.ceil(filteredItems.length / pagination.itemsPerPage)"
+                    :items-per-page="pagination.itemsPerPage"
+                />
             </v-col>
           </v-row>
         </v-container>
@@ -153,6 +158,10 @@ export default {
       Items: [],
       itemsFromCsv: [],
       search: '',
+      pagination: {
+        page: 1,
+        itemsPerPage: 15,
+      },
     };
   },
   // mounted() {
@@ -167,19 +176,19 @@ export default {
   //           this.$router.push("/")  
   //       })
   //     },
-  mounted(){
-    let apiURL = `http://localhost:4000/api/auth/admin`;
-    axios
-    .get(apiURL)
-    .then((res) => {
-      console.log(res.data)
+  // mounted(){
+  //   let apiURL = `http://localhost:4000/api/auth/admin`;
+  //   axios
+  //   .get(apiURL)
+  //   .then((res) => {
+  //     console.log(res.data)
      
-    })
-    .catch(() => {
-        window.alert("ur not that guy pal!")
-        this.$router.push("/");
-      });
-  },
+  //   })
+  //   .catch(() => {
+  //       window.alert("ur not that guy pal!")
+  //       this.$router.push("/");
+  //     });
+  // },
   created() {
     //Item
     let apiURL = "http://localhost:4000/api/item";
@@ -204,7 +213,7 @@ export default {
   computed: {
     filteredItems() {
       if (this.selectedCategories.length === 0 && this.selectedConditions.length === 0 && this.selectedAvailabilities.length === 0 && !this.search) {
-        return this.Items;
+        return this.Items
       }
       return this.Items.filter((item) =>
         (this.selectedCategories.length === 0 || this.selectedCategories.includes(item.category)) &&
@@ -213,6 +222,11 @@ export default {
         (item.name.toLowerCase().includes(this.search.toLowerCase()))
       );
     },
+    paginatedItems() {
+      const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
+      const end = start + this.pagination.itemsPerPage;
+      return this.filteredItems.slice(start, end);
+    }
   },
   methods: {
     deleteItem(id) {

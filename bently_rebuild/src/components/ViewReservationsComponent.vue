@@ -76,7 +76,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="reservation in filteredReservations" :key="reservation.id">
+                    <tr v-for="reservation in paginatedReservations" :key="reservation.id">
                       <td class="text-left">{{reservation.startDate | toDateString}}</td>
                       <td class="text-left">{{reservation.endDate | toDateString}}</td>
                       <td class="text-left">{{reservation.user | displayUserFromId(Users) }}</td>
@@ -103,6 +103,11 @@
                     </tr>
                   </tbody>
                 </v-simple-table>
+                <v-pagination
+                    v-model="pagination.page"
+                    :length="Math.ceil(filteredReservations.length / pagination.itemsPerPage)"
+                    :items-per-page="pagination.itemsPerPage"
+                />
             </v-col>
           </v-row>
         </v-container>
@@ -132,6 +137,10 @@ export default {
       sortedByNewest: false,
       filterCurrentlyOpen: false, 
       search: '',
+      pagination: {
+        page: 1,
+        itemsPerPage: 15,
+      },
     };
   },
   //Jeffrey Carson
@@ -211,6 +220,11 @@ export default {
         return this.Reservations;
       }
     },
+    paginatedReservations() {
+      const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
+      const end = start + this.pagination.itemsPerPage;
+      return this.filteredReservations.slice(start, end);
+    }
 
   },
   mounted(){
