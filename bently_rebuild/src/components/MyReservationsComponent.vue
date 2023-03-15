@@ -11,7 +11,7 @@
                 </v-toolbar>  
                 <v-header
                   v-if="filteredCurrentReservations.length === 0"
-                  >You have no upcoming reservations.</v-header>
+                  >You have no current reservations.</v-header>
                 <v-simple-table v-else>
                     <thead>
                         <tr>
@@ -105,7 +105,7 @@
                 </v-toolbar>  
                 <v-header
                   v-if="filteredPastReservations.length === 0"
-                  >You have no upcoming reservations.</v-header>
+                  >You have no past reservations.</v-header>
                 <v-simple-table v-else>
                     <thead>
                         <tr>
