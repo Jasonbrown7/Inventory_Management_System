@@ -9,14 +9,15 @@
               </v-toolbar>  
               <v-sheet rounded="lg">
                 <v-subheader class="justify-left">Search User</v-subheader>
-                <div style="display: flex; justify-content: center;">
-                  <v-text-field v-model="search" style="max-width: 150px;" append-icon="mdi-magnify">
-                  </v-text-field>
+                <div style="display: flex; justify-content: center; flex: 1;">
+                  <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
                 </div>
                 <v-list rounded="lg">
                   <v-subheader class="justify-left">Reports</v-subheader>
-                  <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
-                  <v-divider class="ma-3"></v-divider>
+                  <div style="display: flex; justify-content: center; flex: 1;">
+                    <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
+                  </div>
+                    <v-divider class="ma-3"></v-divider>
                   <v-list-item
                     link
                     color="grey-lighten-4"
@@ -47,7 +48,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="user in filteredUsers" :key="user.id">
+                  <tr v-for="user in paginatedUsers" :key="user.id">
                     <td class="text-left">{{ user.username }}</td>
                     <td class="text-left">{{ user.email }}</td>
                     <td class="text-left">{{ user.isAdmin }}</td>
@@ -73,6 +74,11 @@
                   </tr>
                 </tbody>
               </v-simple-table>
+              <v-pagination
+                v-model="pagination.page"
+                :length="Math.ceil(filteredUsers.length / pagination.itemsPerPage)"
+                :items-per-page="pagination.itemsPerPage"
+              />
           </v-col>
         </v-row>
       </v-container>
@@ -91,6 +97,10 @@ export default {
       Users: [],
       search: '', 
       Reservations: [],
+      pagination: {
+        page: 1,
+        itemsPerPage: 15,
+      },
     };
   },
   computed: {
@@ -102,6 +112,11 @@ export default {
         return this.Users;
       }
     },
+    paginatedUsers() {
+      const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
+      const end = start + this.pagination.itemsPerPage;
+      return this.filteredUsers.slice(start, end);
+    }
   },
   // beforeCreate(){
   //   let apiURL = `http://localhost:4000/api/auth/admin`;

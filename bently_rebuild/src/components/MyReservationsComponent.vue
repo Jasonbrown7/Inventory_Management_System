@@ -9,8 +9,10 @@
                     <v-toolbar-title style="font-size: 30px;">Current Reservations</v-toolbar-title>
                     <v-spacer></v-spacer>
                 </v-toolbar>  
-
-                <v-simple-table>
+                <v-header
+                  v-if="filteredCurrentReservations.length === 0"
+                  >You have no current reservations.</v-header>
+                <v-simple-table v-else>
                     <thead>
                         <tr>
                         <th class="text-left">Start Date</th>
@@ -66,8 +68,7 @@
               <v-header
                 v-if="filteredUpcomingReservations.length === 0"
                 >You have no upcoming reservations.</v-header>
-              <v-simple-table
-                v-else>
+              <v-simple-table v-else>
                   <thead>
                     <tr>
                       <th class="text-left">Start Date</th>
@@ -89,9 +90,18 @@
                             color="primary"
                             outlined
                             small
-                            
+                            :to="{ name: 'browse-itempage', params: { id: reservation.item } }"
                             >
                                 View Item
+                            </v-btn>
+                            <v-btn
+                              class="ml-md-2"
+                              @click.prevent="deleteReservation(reservation._id)"
+                              color="error"
+                              outlined
+                              small
+                            >
+                                Cancel
                             </v-btn>
                       </td>
                     </tr>
@@ -102,8 +112,10 @@
                     <v-toolbar-title style="font-size: 30px;">Past Reservations</v-toolbar-title>
                     <v-spacer></v-spacer>
                 </v-toolbar>  
-
-                <v-simple-table>
+                <v-header
+                  v-if="filteredPastReservations.length === 0"
+                  >You have no past reservations.</v-header>
+                <v-simple-table v-else>
                     <thead>
                         <tr>
                         <th class="text-left">Start Date</th>
@@ -125,6 +137,7 @@
                             color="primary"
                             outlined
                             small
+                            :to="{ name: 'browse-itempage', params: { id: reservation.item } }"
                             >
                                 View Item
                             </v-btn>
@@ -360,7 +373,6 @@ export default {
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
       FileSaver.saveAs(blob, "reservations.csv");
     },
-    
   },
 };
 </script>

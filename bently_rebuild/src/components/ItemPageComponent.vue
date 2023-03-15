@@ -16,7 +16,7 @@
                               src="../assets/noImage.png" class="ma-5 rounded-lg" style="max-width: 600px; max-height: 400px;"></v-img>
                       </v-col>
                       <v-col cols="12" md="6">
-                          <v-card elevation="0" class="mt-3">
+                          <v-card elevation="0" class="mt-3 item-details">
                               <v-row>
                                   <v-col>
                                       <v-card-title class="ml-1 text-h6 text-md-h5 text-lg-h4 font-weight-bold">{{ item.name }}</v-card-title>
@@ -25,38 +25,44 @@
                               <v-divider class="mb-4 ml-3 mr-3"></v-divider>
                               <v-row>
                                   <v-col cols="3">
-                                      <v-sheet class="pa-1 ml-4 mr-2 mb-1 text-left font-weight-bold">Description</v-sheet>
+                                      <v-sheet class="px-1 py-0 ml-4 mr-2 my-0 text-left font-weight-bold">Description</v-sheet>
                                   </v-col>
                                   <v-col cols="9">
-                                      <v-sheet class="pa-1 ml-2 mr-2 mb-1 text-left">This item is one of Bently Adventure's most popular! Be sure to reserve it before its gone!</v-sheet>
+                                      <v-sheet class="px-1 py-0 ml-2 mr-2 my-0 text-left">This item is one of Bently Adventure's most popular! Be sure to reserve it before its gone!</v-sheet>
                                   </v-col>
                               </v-row>
                               <v-row>
                                   <v-col>
-                                      <v-sheet class="pa-1 ml-4 mr-2 mb-1 text-left font-weight-bold">Condition</v-sheet>
+                                      <v-sheet class="px-1 py-0 ml-4 mr-2 my-0 text-left font-weight-bold">Condition</v-sheet>
                                   </v-col>
                                   <v-col  cols="9">
-                                      <v-sheet class="pa-1 ml-2 mr-2 mb-1 text-left">
+                                      <v-sheet class="px-1 py-0 ml-2 mr-2 my-0 text-left">
                                           {{ item.condition }}
                                       </v-sheet>
                                   </v-col>
                               </v-row>
                               <v-row>
                                   <v-col>
-                                      <v-sheet class="pa-1 ml-4 mr-2 mb-1 text-left font-weight-bold">Availabilility</v-sheet>
+                                      <v-sheet class="px-1 py-0 ml-4 mr-2 my-0 text-left font-weight-bold">Availabilility</v-sheet>
                                   </v-col>
                                   <v-col  cols="9">
-                                      <v-sheet class="pa-1 ml-2 mr-2 mb-1 text-left">
+                                      <v-sheet class="px-1 py-0 ml-2 mr-2 my-0 text-left">
                                           {{ item.availability }}
                                       </v-sheet>
                                   </v-col>
                               </v-row>
                               <v-row>
                                   <v-col>
-                                      <v-sheet class="pa-1 ml-4 mr-2 mb-1 text-left font-weight-bold">Reviews</v-sheet>
+                                      <v-sheet class="px-1 py-0 ml-4 mr-2 my-0 text-left font-weight-bold">Comments</v-sheet>
                                   </v-col>
                                   <v-col  cols="9">
-                                      <v-sheet class="pa-1 ml-2 mr-2 mb-1 text-left">[  Great  ,  Loved them!  ,  Not my size but worked well  ,  My go-to's  ]</v-sheet>
+                                    <v-list class="border overflow-y-auto" max-height="125">    
+                                      <v-list-item v-for="review in reviews" :key="review" :title="review" class="text-left">
+                                        <v-list-item-title v-text="review"></v-list-item-title>
+                                        <v-spacer></v-spacer>
+                                        <v-subheader>Date/Of/Comment</v-subheader>
+                                      </v-list-item>
+                                    </v-list>
                                   </v-col>
                               </v-row>
                           </v-card>
@@ -97,18 +103,6 @@
                               </v-form>
                       </v-col>
                   </v-row> 
-                  <v-subheader>Comments</v-subheader>
-                  <v-list
-                 
-                  class="overflow-y-auto"
-                  max-height="300">
-                    
-                <v-list-item
-                  v-for="review in reviews"
-                  :key="review"
-                  :title="review"
-                ><v-list-item-title v-text="review"></v-list-item-title></v-list-item>
-              </v-list>
           </v-container>
     </v-main>
   </v-app>
@@ -255,3 +249,15 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-list {
+  flex: 1;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  height: 95%;
+}
+</style>

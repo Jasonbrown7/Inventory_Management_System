@@ -9,9 +9,8 @@
               </v-toolbar>  
               <v-sheet rounded="lg">
                 <v-subheader class="justify-left">Search Item / User</v-subheader>
-                <div style="display: flex; justify-content: center;">
-                  <v-text-field v-model="search" style="max-width: 150px;" append-icon="mdi-magnify">
-                  </v-text-field>
+                <div style="display: flex; justify-content: center; flex: 1;">
+                  <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
                 </div>
                 <v-list rounded="lg">
                   <v-subheader>Filter by</v-subheader>
@@ -43,8 +42,10 @@
                   </v-list-item>
                   <v-divider class="ma-3"></v-divider>
                   <v-subheader class="justify-left">Reports</v-subheader>
-                  <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
-                  <v-divider class="ma-3"></v-divider>
+                  <div style="display: flex; justify-content: center; flex: 1;">
+                    <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
+                  </div>
+                    <v-divider class="ma-3"></v-divider>
                   <v-list-item
                     link
                     color="grey-lighten-4"
@@ -76,7 +77,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="reservation in filteredReservations" :key="reservation.id">
+                    <tr v-for="reservation in paginatedReservations" :key="reservation.id">
                       <td class="text-left">{{reservation.startDate | toDateString}}</td>
                       <td class="text-left">{{reservation.endDate | toDateString}}</td>
                       <td class="text-left">{{reservation.user | displayUserFromId(Users) }}</td>
@@ -103,6 +104,11 @@
                     </tr>
                   </tbody>
                 </v-simple-table>
+                <v-pagination
+                    v-model="pagination.page"
+                    :length="Math.ceil(filteredReservations.length / pagination.itemsPerPage)"
+                    :items-per-page="pagination.itemsPerPage"
+                />
             </v-col>
           </v-row>
         </v-container>
@@ -132,6 +138,10 @@ export default {
       sortedByNewest: false,
       filterCurrentlyOpen: false, 
       search: '',
+      pagination: {
+        page: 1,
+        itemsPerPage: 15,
+      },
     };
   },
   //Jeffrey Carson
@@ -211,6 +221,11 @@ export default {
         return this.Reservations;
       }
     },
+    paginatedReservations() {
+      const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
+      const end = start + this.pagination.itemsPerPage;
+      return this.filteredReservations.slice(start, end);
+    }
 
   },
   mounted(){
