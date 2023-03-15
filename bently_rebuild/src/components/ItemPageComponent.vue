@@ -16,7 +16,7 @@
                               src="../assets/noImage.png" class="ma-5 rounded-lg" style="max-width: 600px; max-height: 400px;"></v-img>
                       </v-col>
                       <v-col cols="12" md="6">
-                          <v-card elevation="0" class="mt-3">
+                          <v-card elevation="0" class="mt-3 item-details">
                               <v-row>
                                   <v-col>
                                       <v-card-title class="ml-1 text-h6 text-md-h5 text-lg-h4 font-weight-bold">{{ item.name }}</v-card-title>
@@ -249,3 +249,15 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-list {
+  flex: 1;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  height: 95%;
+}
+</style>
