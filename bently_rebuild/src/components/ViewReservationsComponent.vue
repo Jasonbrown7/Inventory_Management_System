@@ -9,9 +9,8 @@
               </v-toolbar>  
               <v-sheet rounded="lg">
                 <v-subheader class="justify-left">Search Item / User</v-subheader>
-                <div style="display: flex; justify-content: center;">
-                  <v-text-field v-model="search" style="max-width: 150px;" append-icon="mdi-magnify">
-                  </v-text-field>
+                <div style="display: flex; justify-content: center; flex: 1;">
+                  <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
                 </div>
                 <v-list rounded="lg">
                   <v-subheader>Filter by</v-subheader>
@@ -43,8 +42,10 @@
                   </v-list-item>
                   <v-divider class="ma-3"></v-divider>
                   <v-subheader class="justify-left">Reports</v-subheader>
-                  <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
-                  <v-divider class="ma-3"></v-divider>
+                  <div style="display: flex; justify-content: center; flex: 1;">
+                    <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
+                  </div>
+                    <v-divider class="ma-3"></v-divider>
                   <v-list-item
                     link
                     color="grey-lighten-4"

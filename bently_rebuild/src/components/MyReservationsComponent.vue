@@ -94,6 +94,15 @@
                             >
                                 View Item
                             </v-btn>
+                            <v-btn
+                              class="ml-md-2"
+                              @click.prevent="deleteReservation(reservation._id)"
+                              color="error"
+                              outlined
+                              small
+                            >
+                                Cancel
+                            </v-btn>
                       </td>
                     </tr>
                   </tbody>

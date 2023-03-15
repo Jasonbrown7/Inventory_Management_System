@@ -56,7 +56,7 @@ itemRoute.route('/update/comments/:id').put((req, res, next) => {
         return next(error)
       } else {
         res.json(data)
-        console.log('Item successfully updated da comments!')
+        console.log('Item successfully updated comments!')
       }
     },
   )
