@@ -226,7 +226,6 @@ export default {
       const end = start + this.pagination.itemsPerPage;
       return this.filteredReservations.slice(start, end);
     }
-
   },
   mounted(){
   
@@ -294,6 +293,10 @@ export default {
 <style>
 .btn-success {
   margin-right: 10px;
+}
+
+.error-row {
+  background-color: #ffcccc;
 }
 </style>
 

@@ -24,7 +24,15 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-textarea
+                    <v-switch
+                      :label="`Checked Out: ${item.isCheckedOut}`"
+                      v-model="item.isCheckedOut"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
                       label="Description"
                       v-model="item.description"
                       required
@@ -93,6 +101,7 @@ export default {
           availability: "",
           condition: "",
           image: "",
+          isOverdue: "",
         },
         selectedFiles: [],
       };

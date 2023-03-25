@@ -23,7 +23,7 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-textarea
+                  <v-text-field
                     label="Description"
                     v-model="item.description"
                     required

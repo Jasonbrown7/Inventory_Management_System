@@ -92,6 +92,7 @@
                       <th class="text-left">Category</th>
                       <th class="text-left">Availability</th>
                       <th class="text-left">Condition</th>
+                      <th class="text-left">IsCheckedOut</th>
                       <th class="text-left">Actions</th>
                     </tr>
                   </thead>
@@ -102,6 +103,7 @@
                       <td class="text-left">{{ item.category }}</td>
                       <td class="text-left">{{ item.availability }}</td>
                       <td class="text-left">{{ item.condition }}</td>
+                      <td class="text-left">{{ item.isCheckedOut }}</td>
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"

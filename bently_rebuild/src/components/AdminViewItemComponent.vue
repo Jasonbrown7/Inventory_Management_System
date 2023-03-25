@@ -22,6 +22,10 @@
                                     <v-col>
                                         <v-card-title class="ml-1 text-h6 text-md-h5 text-lg-h4 font-weight-bold">{{ item.name }}</v-card-title>
                                     </v-col>
+                                    <v-spacer></v-spacer>
+                                    <v-col>
+                                        <v-card-subtitle v-if="item.isCheckedOut" class="ml-1 text-h6 text-md-h7" style="color: grey;">Checked Out</v-card-subtitle>
+                                    </v-col>
                                 </v-row>
                                 <v-divider class="mb-4 ml-3 mr-3"></v-divider>
                                 <v-row>
@@ -70,9 +74,12 @@
             <v-container>
                     <v-row no-gutters>
                         <v-col cols="12" md="6">
-                                <div style="font-size: 30px;" class="text-left ml-5 mb-2 text-h6">Reservations</div>
-                                <v-spacer></v-spacer>
-                            <v-simple-table class="ml-5 mr-5">
+                            <div style="font-size: 30px;" class="text-left ml-5 mb-2 text-h6">Reservations</div>
+                            <v-spacer></v-spacer>
+                            <v-header
+                            v-if="filteredReservations.length === 0"
+                            >This item has no reservation history</v-header>
+                            <v-simple-table class="ml-5 mr-5" v-else>
                                 <thead>
                                     <tr>
                                     <th class="text-left">Start</th>
