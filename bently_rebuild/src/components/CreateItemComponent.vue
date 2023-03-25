@@ -23,6 +23,15 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
+                  <v-textarea
+                    label="Description"
+                    v-model="item.description"
+                    required
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
                   <v-select
                     label="Category"
                     v-model="item.category"
@@ -78,6 +87,7 @@ export default {
     return {
       item: {
         name: "",
+        description: "",
         category: "",
         availability: "",
         condition: "",
@@ -108,6 +118,7 @@ export default {
           this.$router.push("/view/items");
           this.item = {
             name: "",
+            description: "",
             category: "",
             availability: "",
             condition: "",
