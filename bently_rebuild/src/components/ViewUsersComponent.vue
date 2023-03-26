@@ -7,7 +7,7 @@
           <v-col cols="2">
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
-              <v-sheet rounded="lg">
+              <v-sheet rounded="lg" class="sticky-top">
                 <v-subheader class="justify-left">Search User</v-subheader>
                 <div style="display: flex; justify-content: center; flex: 1;">
                   <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
@@ -192,5 +192,10 @@ export default {
 <style>
 .btn-success {
   margin-right: 10px;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 100px;
 }
 </style>
