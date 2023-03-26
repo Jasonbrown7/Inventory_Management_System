@@ -73,7 +73,9 @@
                       <th class="text-left">End Date</th>
                       <th class="text-left">User</th>
                       <th class="text-left">Item</th>
+                      <th class="text-left">IsCheckedOut</th>
                       <th class="text-left">Actions</th>
+                      <th class="text-left"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -82,6 +84,9 @@
                       <td class="text-left">{{reservation.endDate | toDateString}}</td>
                       <td class="text-left">{{reservation.user | displayUserFromId(Users) }}</td>
                       <td class="text-left">{{reservation.item | displayItemFromId(Items) }}</td>
+                      <td class="text-left">{{reservation.item | displayItemIsCheckedOutFromId(Items)}}</td>
+                      <td v-if="reservation.isOverdue===true" class="text-left ml-0 text-sm" style="color: red;">OVERDUE</td>
+                      <td v-else class="text-left ml-1 text-xs" style="color: green;"></td>
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
@@ -144,7 +149,6 @@ export default {
       },
     };
   },
-  //Jeffrey Carson
   filters:{
     toDateString(dateObj){
       if(!dateObj) return '';
@@ -161,6 +165,11 @@ export default {
       const myItem = Items.find(u => u._id === itemId);
       return myItem.name;
     },
+    displayItemIsCheckedOutFromId(itemId, Items){
+      if(!itemId) return '';
+      const myItem = Items.find(u => u._id === itemId);
+      return myItem.isCheckedOut;
+    }
   },
   // beforeCreate(){
   //   let apiURL = `http://localhost:4000/api/auth/admin`;
@@ -221,10 +230,25 @@ export default {
         return this.Reservations;
       }
     },
+    updatedReservations() {
+      // redefines what reservation.isOverdue equals to display warnings
+      return this.filteredReservations.map((reservation) => {
+        const today = new Date();
+        const item = this.Items.find((i) => i._id === reservation.item);
+        if (item && item.isCheckedOut && new Date(reservation.endDate) < today) {
+          console.log("isCheckedOut: " + item.isCheckedOut)
+          console.log("endDate: " + new Date(reservation.endDate))
+          reservation.isOverdue = true;
+        } else {
+          reservation.isOverdue = false;
+        }
+        return reservation;
+      });
+    },
     paginatedReservations() {
       const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
       const end = start + this.pagination.itemsPerPage;
-      return this.filteredReservations.slice(start, end);
+      return this.updatedReservations.slice(start, end);
     }
   },
   mounted(){

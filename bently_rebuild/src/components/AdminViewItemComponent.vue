@@ -22,7 +22,7 @@
                                     <v-col>
                                         <v-card-title class="ml-1 text-h6 text-md-h5 text-lg-h4 font-weight-bold">{{ item.name }}</v-card-title>
                                     </v-col>
-                                    <v-spacer></v-spacer>
+                                    <v-spacer v-if="item.isCheckedOut"></v-spacer>
                                     <v-col>
                                         <v-card-subtitle v-if="item.isCheckedOut" class="ml-1 text-h6 text-md-h7" style="color: grey;">Checked Out</v-card-subtitle>
                                     </v-col>
