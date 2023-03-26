@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 let itemSchema = new Schema(
   {
     name: { type: String, required: true, unique: true },
+    description: {  type: String, required: true },
     category: { type: String, required: true },
     availability: { type: String, required: true },
     condition: { type: String, required: true },
