@@ -91,18 +91,37 @@
                               </v-layout>
                       </v-col>
                       <v-col cols="12" md="6">
-                              <div style="font-size: 30px;" class="text-left ml-0 mb-2 text-h6">Reservation Dates</div>
+                        <div class="d-flex flex-row mb-1 bg-surface-variant">
+                              <div class="text-left text-h6">Reserve</div>
+                              <v-spacer></v-spacer>
+                          </div>
+                        <v-layout>
+                          <v-flex xs12 class="mb-3">
+                          <v-sheet height="500">
+                              <!-- <div style="font-size: 30px;" class="text-left ml-0 mb-2 text-h6">Reservation Dates</div> -->
                               <v-form @submit.prevent="handleSubmitForm">
-                                <v-card style="height: 100%;">
-                                  <v-card-text>
+                                <v-card style="height: 500px;">
+                                  <v-date-picker
+                                    v-model="dates"
+                                    :min=getCurrentDate
+                                    :max=get3MonthsFromNow
+                                    full-width
+                                    range
+                                  ></v-date-picker>
+                                  <!-- <v-card-text>
                                       <v-text-field label="Reservation Start Date" type="date" v-model="reservation.startDate" id = "startDateInput" required />
                                       <v-text-field label="Reservation End Date" type="date" v-model="reservation.endDate" id = "endDateInput" required />
-                                  </v-card-text>
-                                  <v-card-actions class="d-flex justify-center">
+                                  </v-card-text> -->
+
+                                  <v-card-actions class="d-flex justify-center pt-5 mt-5">
                                     <v-btn block color="danger justify-center" type = "submit">Reserve Item</v-btn>
                                   </v-card-actions>
                                 </v-card>
                               </v-form>
+
+                            </v-sheet>
+                          </v-flex>
+                          </v-layout>
                       </v-col>
                   </v-row> 
           </v-container>
@@ -142,10 +161,12 @@ function isReservationOver2Weeks(start, end){
 }
 
 import axios from "axios";
+
 export default {
   
   data() {
     return {
+      dates: [],
       itemImage: "https://via.placeholder.com/300x200",
       itemDescription: "Sample Item Description",
       reviews: ["Great, love it.", "Okay, seen better", "Best item ive seen yet."],
@@ -156,12 +177,31 @@ export default {
       reservation: {},
     };
   },
+  computed: {
+    getCurrentDate(){
+      var date = new Date();
+      date = date.toISOString();
+    
+      return date.substring(0,9)
+    },
+    get3MonthsFromNow(){
+      var date = new Date();
+      date.setMonth(date.getMonth() + 3)
+      date = date.toISOString();
+    
+      return date.substring(0,9)
+    }
+  },
   methods: {
+
     //Jeff Carson
     handleSubmitForm() {
-      const startDateInput = document.getElementById("startDateInput").value;
-      const endDateInput = document.getElementById("endDateInput").value;
-
+      console.log("dates",this.dates)
+      // const startDateInput = document.getElementById("startDateInput").value;
+      // const endDateInput = document.getElementById("endDateInput").value;
+      const startDateInput = new Date(this.dates[0])
+      const endDateInput = new Date(this.dates[1])
+      console.log(startDateInput, endDateInput)
       const postStartDate = new Date(this.reservation.startDate)
       const postEndDate = new Date(this.reservation.endDate)
 
