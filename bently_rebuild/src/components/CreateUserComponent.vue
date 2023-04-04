@@ -8,7 +8,8 @@
             min-width="500"
           >
         
-            <v-form 
+            <v-form
+              class="ma-2" 
               @submit.prevent="handleSubmitForm" 
             >
               <v-container class="justify-center">
@@ -38,6 +39,10 @@
                       label="Password"
                       :rules="[v => !!v || 'Password is required']"
                       v-model="user.password"
+                      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="showPassword ? 'text' : 'password'"
+                      counter
+                      @click:append="showPassword = !showPassword"
                       required
                     />
                   </v-col>
@@ -47,7 +52,9 @@
                     <v-text-field
                       label="Confirm Password"
                       :rules="[v => !!v || 'Password is required']"
+                      :type="'password'"
                       v-model="confirmedPassword"
+                      counter
                       required
                     />
                   </v-col>
@@ -76,6 +83,7 @@
     export default {
         data() {
             return {
+            showPassword: false,
             confirmedPassword: "",
             user: {
                 username: "",
