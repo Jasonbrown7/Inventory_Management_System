@@ -72,23 +72,44 @@
           </v-container>
           <v-container>
                   <v-row>
-                      <v-col cols="12" md="6">
+                      <v-col cols="12" md="8">
                           <div class="d-flex flex-row mb-1 bg-surface-variant">
-                              <div class="text-left text-h6">Availability</div>
-                              <v-spacer></v-spacer>
-                              <v-btn @click="$refs.calendar.prev()" plain class="mr-2">Prev</v-btn>
-                              <v-btn @click="$refs.calendar.next()" plain class="ml-1">Next</v-btn>
+
+                            <div class="text-left text-h6"> Availability</div>
+
+                            <v-spacer></v-spacer> 
+
+                            <v-toolbar-title v-if="$refs.calendar">
+                              {{ $refs.calendar.title }}
+                            </v-toolbar-title>
+                            
+                            
+                            
+                            <v-btn @click="prevMonth" fab text small color="grey darken-2" >
+                              <v-icon small>mdi-chevron-left</v-icon>
+                            </v-btn>
+                            <v-btn @click="nextMonth" fab text small color="grey darken-2" >
+                              <v-icon small>mdi-chevron-right</v-icon>
+                            </v-btn>
                           </div>
                               <!--Calendar Template from https://v15.vuetifyjs.com/en/components/calendars/ -->
                               <v-layout wrap>
                                   <v-flex xs12 class="mb-3">
                                   <v-sheet height="500">
-                                      <v-calendar ref="calendar" color="edit" :events="events"></v-calendar>
+                                      <v-calendar 
+                                        v-show = "showCalendar"
+                                        ref = "calendar" 
+                                        v-model = "today"
+                                        
+                                        :type = "month"
+                                        color = "primary"
+                                        :events="events">
+                                      </v-calendar>
                                   </v-sheet>
                                   </v-flex>
                               </v-layout>
                       </v-col>
-                      <v-col cols="12" md="6">
+                      <v-col cols="12" md="4">
                               <div style="font-size: 30px;" class="text-left ml-0 mb-2 text-h6">Reservation Dates</div>
                               <v-form @submit.prevent="handleSubmitForm">
                                 <v-card style="height: 100%;">
@@ -139,6 +160,27 @@ function isReservationOver2Weeks(start, end){
   return diffInDays > 14;
 }
 
+//Returns true if there is a reservation conflict
+function isReservationConflict(reservations, start, end){
+  const newStart = new Date(start)
+  const newEnd = new Date(end)
+
+  console.log(reservations)
+
+  for (let i = 0; i < reservations.length; i++) {
+
+    const reservationStartDate = new Date(reservations[i].startDate);
+    const reservationEndDate = new Date(reservations[i].endDate);
+
+    if (newStart <= reservationEndDate && newEnd >= reservationStartDate) {
+      // There is a conflict with the given start and end parameters
+      return true;
+    }
+  }
+  // No conflicts found
+  return false;
+}
+
 import axios from "axios";
 export default {
   
@@ -152,11 +194,39 @@ export default {
       item: {} ,
       user: {},
       reservation: {},
+      Reservations: [],
+      events: [],
+      showCalendar: true,
     };
   },
+  // filters:{
+  //   displayMonth(){
+  //     this.calendarKey += 1;
+  //     return this.$refs.calendar.title;
+  //   }
+  // },
   methods: {
     //Jeff Carson
+
+    nextMonth(){
+      this.showCalendar = false // hide calendar
+      this.$nextTick(() => {
+        this.$refs.calendar.next() // advance calendar
+        this.showCalendar = true
+      })
+    },
+    prevMonth(){
+      this.showCalendar = false // hide calendar
+      this.$nextTick(() => {
+        this.$refs.calendar.prev() // advance calendar
+        this.showCalendar = true
+      })
+    },
+
     handleSubmitForm() {
+
+      //console.log("Events ", this.events)
+
       const startDateInput = document.getElementById("startDateInput").value;
       const endDateInput = document.getElementById("endDateInput").value;
 
@@ -167,9 +237,11 @@ export default {
       postEndDate.setDate(postEndDate.getDate() + 1)
 
 
-      if (postStartDate < postEndDate && !isDateBeforeToday(postStartDate) && !isDateOver3MonthsFromToday(postEndDate) && !isReservationOver2Weeks(postStartDate, postEndDate)){
-        console.log("good")
+
+      if (postStartDate <= postEndDate && !isDateBeforeToday(postStartDate) && !isDateOver3MonthsFromToday(postEndDate) && !isReservationOver2Weeks(postStartDate, postEndDate) && !isReservationConflict(this.Reservations, postStartDate, postEndDate)){
+        
         let apiURL = "http://localhost:4000/api/reservation/create";
+
 
         axios
           .post(apiURL, 
@@ -192,6 +264,9 @@ export default {
             console.log(error);
           });
       }
+      else if (isReservationConflict(this.Reservations, postStartDate, postEndDate)){
+        window.alert("Error: Your reservation date conflicts with 1 or more other reservations, try again.")
+      }
       else if (startDateInput == '' || endDateInput == ''){
         window.alert("Error: Please fill out BOTH fields")
       }
@@ -204,9 +279,9 @@ export default {
       else if(isReservationOver2Weeks(postStartDate, postEndDate)){
         window.alert("Error: Reservations cannot be longer than 2 weeks")
       }
-      else if (startDateInput == endDateInput){
-        window.alert("Error: Start date and End date cannot be equal")
-      }
+      // else if (startDateInput == endDateInput){
+      //   window.alert("Error: Start date and End date cannot be equal")
+      // }
       else if (startDateInput > endDateInput){
         window.alert("Error: Start date must come before end date")
       }
@@ -233,7 +308,26 @@ export default {
         axios.get(resApiURL).then((res) => {
           this.reservation = res.data;
         });
-        
+
+    axios
+      .get("http://localhost:4000/api/reservation")
+      .then(res => {
+
+        this.Reservations = res.data;
+
+        const filteredReservations = this.Reservations.filter((reservation) => {
+          return reservation.item === this.item._id;
+        });
+
+        this.Reservations = filteredReservations;
+
+        this.events = filteredReservations.map(reservation => ({
+          name: "RESERVED",
+          start: new Date(reservation.startDate),
+          end: new Date(reservation.endDate),
+        }))
+    });    
+
   },
   mounted() {
     axios.defaults.withCredentials = true; 
