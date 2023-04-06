@@ -107,14 +107,29 @@
                             <div class="d-flex flex-row mb-1 bg-surface-variant">
                                 <div class="text-left text-h6">Availability</div>
                                 <v-spacer></v-spacer>
-                                <v-btn @click="$refs.calendar.prev()" plain class="mr-2">Prev</v-btn>
-                                <v-btn @click="$refs.calendar.next()" plain class="ml-1">Next</v-btn>
+                                <v-toolbar-title v-if="$refs.calendar">
+                                    {{ $refs.calendar.title }}
+                                </v-toolbar-title>
+                                <v-btn @click="prevMonth" fab text small color="grey darken-2" >
+                                    <v-icon small>mdi-chevron-left</v-icon>
+                                </v-btn>
+                                <v-btn @click="nextMonth" fab text small color="grey darken-2" >
+                                    <v-icon small>mdi-chevron-right</v-icon>
+                                </v-btn>
                             </div>
                                 <!--Calendar Template from https://v15.vuetifyjs.com/en/components/calendars/ -->
                                 <v-layout wrap>
                                     <v-flex xs12 class="mb-3">
                                     <v-sheet height="500">
-                                        <v-calendar ref="calendar" color="edit" :events="events"></v-calendar>
+                                        <v-calendar 
+                                            v-show = "showCalendar"
+                                            ref = "calendar" 
+                                            v-model = "today"
+                                            :type = "month"
+                                            color = "primary"
+                                            :key = "calendarKey"
+                                            :events="events">
+                                      </v-calendar>
                                     </v-sheet>
                                     </v-flex>
                                 </v-layout>
@@ -135,21 +150,8 @@ export default {
         Users: [],
         Items: [],
         item: {},
-        reviews: ["Great, love it.", "Okay, seen better", "Best item ive seen yet."],
-        events: [
-            {
-                name: 'Reserved - Alex Smith',
-                start: new Date(2023, 1, 9),
-                end: new Date(2023, 1, 12),
-                color: 'grey'
-            },
-            {
-                name: 'Reserved - Jessica Keith',
-                start: new Date(2023, 1, 17),
-                end: new Date(2023, 1, 24),
-                color: 'grey'
-            }
-        ]
+        events: [],
+        showCalendar: true,
       };
     },
 //     beforeCreate(){
@@ -165,6 +167,22 @@ export default {
 //         this.$router.push("/");
 //       });
 //   },
+    methods:{
+        nextMonth(){
+            this.showCalendar = false // hide calendar
+            this.$nextTick(() => {
+                this.$refs.calendar.next() // advance calendar
+                this.showCalendar = true
+            })
+        },
+        prevMonth(){
+            this.showCalendar = false // hide calendar
+            this.$nextTick(() => {
+                this.$refs.calendar.prev() // advance calendar
+                this.showCalendar = true
+            })
+        },
+    },
   
     created() {
       let apiURL = `http://localhost:4000/api/item/edit/${this.$route.params.id}`;
@@ -173,13 +191,23 @@ export default {
         this.item = res.data;
       });
       axios
-        .get("http://localhost:4000/api/reservation")
-        .then((res) => {
+      .get("http://localhost:4000/api/reservation")
+      .then(res => {
+
         this.Reservations = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+        const filteredReservations = this.Reservations.filter((reservation) => {
+          return reservation.item === this.item._id;
+        });
+
+        this.Reservations = filteredReservations;
+
+        this.events = filteredReservations.map(reservation => ({
+          name: "RESERVED",
+          start: new Date(reservation.startDate),
+          end: new Date(reservation.endDate),
+        }))
+        }); 
       axios
         .get("http://localhost:4000/api/user")
         .then((res) => {
