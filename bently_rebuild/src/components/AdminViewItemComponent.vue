@@ -22,6 +22,10 @@
                                     <v-col>
                                         <v-card-title class="ml-1 text-h6 text-md-h5 text-lg-h4 font-weight-bold">{{ item.name }}</v-card-title>
                                     </v-col>
+                                    <v-spacer v-if="item.isCheckedOut"></v-spacer>
+                                    <v-col>
+                                        <v-card-subtitle v-if="item.isCheckedOut" class="ml-1 text-h6 text-md-h7" style="color: grey;">Checked Out</v-card-subtitle>
+                                    </v-col>
                                 </v-row>
                                 <v-divider class="mb-4 ml-3 mr-3"></v-divider>
                                 <v-row>
@@ -29,7 +33,9 @@
                                         <v-sheet class="pa-1 ml-4 mr-2 mb-1 text-left font-weight-bold">Description</v-sheet>
                                     </v-col>
                                     <v-col cols="9">
-                                        <v-sheet class="pa-1 ml-2 mr-2 mb-1 text-left">This item is one of Bently Adventure's most popular! Be sure to reserve it before its gone!</v-sheet>
+                                        <v-sheet class="pa-1 ml-2 mr-2 mb-1 text-left">
+                                            {{ item.description }}
+                                        </v-sheet>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -54,10 +60,16 @@
                                 </v-row>
                                 <v-row>
                                     <v-col>
-                                        <v-sheet class="pa-1 ml-4 mr-2 mb-1 text-left font-weight-bold">Reviews</v-sheet>
+                                      <v-sheet class="px-1 py-0 ml-4 mr-2 my-0 text-left font-weight-bold">Comments</v-sheet>
                                     </v-col>
                                     <v-col  cols="9">
-                                        <v-sheet class="pa-1 ml-2 mr-2 mb-1 text-left">[  Great  ,  Loved them!  ,  Not my size but worked well  ,  My go-to's  ]</v-sheet>
+                                        <v-list class="border overflow-y-auto" max-height="125">    
+                                        <v-list-item v-for="review in reviews" :key="review" :title="review" class="text-left">
+                                            <v-list-item-title v-text="review"></v-list-item-title>
+                                            <v-spacer></v-spacer>
+                                            <v-subheader>Date/Of/Comment</v-subheader>
+                                        </v-list-item>
+                                        </v-list>
                                     </v-col>
                                 </v-row>
                             </v-card>
@@ -68,9 +80,12 @@
             <v-container>
                     <v-row no-gutters>
                         <v-col cols="12" md="6">
-                                <div style="font-size: 30px;" class="text-left ml-5 mb-2 text-h6">Reservations</div>
-                                <v-spacer></v-spacer>
-                            <v-simple-table class="ml-5 mr-5">
+                            <div style="font-size: 30px;" class="text-left ml-5 mb-2 text-h6">Reservations</div>
+                            <v-spacer></v-spacer>
+                            <v-header
+                            v-if="filteredReservations.length === 0"
+                            >This item has no reservation history</v-header>
+                            <v-simple-table class="ml-5 mr-5" v-else>
                                 <thead>
                                     <tr>
                                     <th class="text-left">Start</th>

@@ -7,39 +7,51 @@
             <v-col cols="2">
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
-              <v-sheet rounded="lg">
+              <v-sheet rounded="lg" class="sticky-top">
                 <v-subheader class="justify-left">Search Item / User</v-subheader>
                 <div style="display: flex; justify-content: center; flex: 1;">
                   <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
                 </div>
                 <v-list rounded="lg">
                   <v-subheader>Filter by</v-subheader>
-                  <v-list-item
-                    link
-                    color="grey-lighten-4"
-                    :class="{'white': !filterCurrentlyOpen, 'grey lighten-1': filterCurrentlyOpen}"
-                    @click="filterCurrentlyOpen = !filterCurrentlyOpen"
-                  >
-                    <v-list-item-title>Currently Active</v-list-item-title>
-                  </v-list-item>
+
+                  <v-radio-group v-model="selectedOption" row class="my-2">
+                    <v-radio
+                      label="Open"
+                      @click="filterCurrentlyOpen = true; filterOverdue = false"
+                      color="grey lighten-1"
+                      value="currentlyActive"
+                      class="mx-4 mb-4"
+                    ></v-radio>
+                    <v-radio
+                      label="Overdue"
+                      @click="filterOverdue = true; filterCurrentlyOpen = false"
+                      color="grey lighten-1"
+                      value="overdue"
+                      class="mx-4"
+                    ></v-radio>
+                  </v-radio-group>
+                  
                   <v-divider class="ma-3"></v-divider>
                   <v-subheader>Sort by</v-subheader>
-                  <v-list-item
-                    link
-                    color="grey-lighten-4"
-                    :class="{ 'white': selected !== 'newest', 'grey lighten-1': selected === 'newest' }"
-                    @click="select('newest')"
-                  >
-                    <v-list-item-title>Newest</v-list-item-title>
-                  </v-list-item>
-                  <v-list-item
-                    link
-                    color="grey-lighten-4"
-                    :class="{ 'white': selected !== 'oldest', 'grey lighten-1': selected === 'oldest' }"
-                    @click="select('oldest')"
-                  >
-                    <v-list-item-title>Oldest</v-list-item-title>
-                  </v-list-item>
+                  <v-radio-group v-model="selected" row class="my-2">
+                    <v-radio
+                      label="Newest"
+                      value="newest"
+                      color="grey"
+                      :class="{ 'white--text': selected !== 'newest' }"
+                      @click="select('newest')"
+                      class="mx-4 mb-4"
+                    ></v-radio>
+                    <v-radio
+                      label="Oldest"
+                      value="oldest"
+                      color="grey"
+                      :class="{ 'white--text': selected !== 'oldest' }"
+                      @click="select('oldest')"
+                      class="mx-4"
+                    ></v-radio>
+                  </v-radio-group>
                   <v-divider class="ma-3"></v-divider>
                   <v-subheader class="justify-left">Reports</v-subheader>
                   <div style="display: flex; justify-content: center; flex: 1;">
@@ -73,6 +85,8 @@
                       <th class="text-left">End Date</th>
                       <th class="text-left">User</th>
                       <th class="text-left">Item</th>
+                      <th class="text-left">IsCheckedOut</th>
+                      <th class="text-left"></th>
                       <th class="text-left">Actions</th>
                     </tr>
                   </thead>
@@ -82,6 +96,9 @@
                       <td class="text-left">{{reservation.endDate | toDateString}}</td>
                       <td class="text-left">{{reservation.user | displayUserFromId(Users) }}</td>
                       <td class="text-left">{{reservation.item | displayItemFromId(Items) }}</td>
+                      <td class="text-left">{{reservation.item | displayItemIsCheckedOutFromId(Items)}}</td>
+                      <td v-if="reservation.isOverdue===true" class="text-left ml-0 text-sm" style="color: red;">OVERDUE</td>
+                      <td v-else class="text-left ml-1 text-xs" style="color: green;"></td>
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
@@ -137,6 +154,7 @@ export default {
       sortedByOldest: false,
       sortedByNewest: false,
       filterCurrentlyOpen: false, 
+      filterOverdue: false,
       search: '',
       pagination: {
         page: 1,
@@ -144,7 +162,6 @@ export default {
       },
     };
   },
-  //Jeffrey Carson
   filters:{
     toDateString(dateObj){
       if(!dateObj) return '';
@@ -161,6 +178,11 @@ export default {
       const myItem = Items.find(u => u._id === itemId);
       return myItem.name;
     },
+    displayItemIsCheckedOutFromId(itemId, Items){
+      if(!itemId) return '';
+      const myItem = Items.find(u => u._id === itemId);
+      return myItem.isCheckedOut;
+    }
   },
   // beforeCreate(){
   //   let apiURL = `http://localhost:4000/api/auth/admin`;
@@ -204,7 +226,7 @@ export default {
   },
   computed: {
     filteredReservations() {
-      if (this.filterCurrentlyOpen === true || this.search) {
+      if (this.filterCurrentlyOpen === true || this.filterOverdue === true || this.search) {
         return this.Reservations.filter(reservation => {
           const startDate = new Date(reservation.startDate);
           const endDate = new Date(reservation.endDate);
@@ -213,6 +235,8 @@ export default {
           const userObj = this.Users.find(user => user._id === reservation.user);
           if (this.filterCurrentlyOpen === true)
             return startDate <= today && today <= endDate && (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
+          else if (this.filterOverdue === true)
+            return reservation.isOverdue === true && (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
           else 
             return (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
         });
@@ -221,12 +245,26 @@ export default {
         return this.Reservations;
       }
     },
+    updatedReservations() {
+      // redefines what reservation.isOverdue equals to display warnings
+      return this.filteredReservations.map((reservation) => {
+        const today = new Date();
+        const item = this.Items.find((i) => i._id === reservation.item);
+        if (item && item.isCheckedOut && new Date(reservation.endDate) < today) {
+          console.log("isCheckedOut: " + item.isCheckedOut)
+          console.log("endDate: " + new Date(reservation.endDate))
+          reservation.isOverdue = true;
+        } else {
+          reservation.isOverdue = false;
+        }
+        return reservation;
+      });
+    },
     paginatedReservations() {
       const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
       const end = start + this.pagination.itemsPerPage;
-      return this.filteredReservations.slice(start, end);
+      return this.updatedReservations.slice(start, end);
     }
-
   },
   mounted(){
   
@@ -294,6 +332,15 @@ export default {
 <style>
 .btn-success {
   margin-right: 10px;
+}
+
+.error-row {
+  background-color: #ffcccc;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 100px;
 }
 </style>
 

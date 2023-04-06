@@ -8,7 +8,7 @@
             <v-col cols="2">
               <v-toolbar color="grey lighten-3" elevation="0">
               </v-toolbar>  
-              <v-sheet rounded="lg">
+              <v-sheet rounded="lg" class="sticky-top">
                 <v-subheader class="justify-left">Search Items</v-subheader>
                 <div style="display: flex; justify-content: center; flex: 1;">
                   <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
@@ -45,16 +45,9 @@
   
                   <v-divider class="ml-3 mr-3"></v-divider>
                   <v-subheader class="justify-left">Reports</v-subheader>
-                  <v-btn-toggle
-                    v-model="text"
-                    rounded="0"
-                    color="deep-purple-accent-3"
-                    group
-                  >
-                    <v-btn value="clicked">
-                      Apply Filters
-                    </v-btn>
-                  </v-btn-toggle>
+                  <v-radio-group v-model="text" row>
+                    <v-radio label="Apply Filters" value="clicked" class="mx-4"></v-radio>
+                  </v-radio-group>
                   <div style="display: flex; justify-content: center; flex: 1;">
                     <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
                   </div>
@@ -92,6 +85,7 @@
                       <th class="text-left">Category</th>
                       <th class="text-left">Availability</th>
                       <th class="text-left">Condition</th>
+                      <th class="text-left">IsCheckedOut</th>
                       <th class="text-left">Actions</th>
                     </tr>
                   </thead>
@@ -102,6 +96,7 @@
                       <td class="text-left">{{ item.category }}</td>
                       <td class="text-left">{{ item.availability }}</td>
                       <td class="text-left">{{ item.condition }}</td>
+                      <td class="text-left">{{ item.isCheckedOut }}</td>
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
@@ -309,5 +304,10 @@ export default {
 .v-tooltip__content {
   background-color: transparent !important;
   color: black !important;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 100px;
 }
 </style>

@@ -28,7 +28,9 @@
                                       <v-sheet class="px-1 py-0 ml-4 mr-2 my-0 text-left font-weight-bold">Description</v-sheet>
                                   </v-col>
                                   <v-col cols="9">
-                                      <v-sheet class="px-1 py-0 ml-2 mr-2 my-0 text-left">This item is one of Bently Adventure's most popular! Be sure to reserve it before its gone!</v-sheet>
+                                      <v-sheet class="px-1 py-0 ml-2 mr-2 my-0 text-left">
+                                          {{ item.description }}
+                                      </v-sheet>
                                   </v-col>
                               </v-row>
                               <v-row>
