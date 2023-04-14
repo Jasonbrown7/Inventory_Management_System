@@ -99,6 +99,7 @@
                                   </v-list-item>
                                 </template>
                               </v-list>
+                              <v-dialog></v-dialog>
                               <v-btn color="primary" class="mt-3" @click="showCommentDialog = true">Add Comment</v-btn>
                             </v-sheet>
                           </v-flex>
@@ -181,6 +182,7 @@ export default {
   
   data() {
     return {
+      showCommentDialog: false,
       items: [
         { header: 'Today' },
         {
