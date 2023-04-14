@@ -46,7 +46,8 @@
           <v-icon v-else-if="isLoggedIn === false">mdi-account-outline</v-icon>
           <!-- <v-img v-else :src="require(`../src/assets/${user.pic}`)"></v-img> -->
           
-          <v-icon v-else>mdi-account</v-icon>
+          <!-- <v-icon v-else>mdi-account</v-icon> -->
+          <v-img :src="user.pic" v-else></v-img>
           <!-- <v-img v-else src="../src/assets/LeviStrauss_headshot.jpg"></v-img> -->
         </v-avatar>
       </template>

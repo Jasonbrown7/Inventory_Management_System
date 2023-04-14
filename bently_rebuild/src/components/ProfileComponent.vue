@@ -13,9 +13,11 @@
             <v-row>
                 <v-col>
                     <v-avatar
-                    color="primary"
                     size="200"
-                    ></v-avatar>
+                    >
+                    <v-img
+                    :src="user.pic"></v-img>
+                </v-avatar>
                   
                     <v-row> <v-btn plain class="mt-4">Change profile picture</v-btn></v-row>
                 </v-col>

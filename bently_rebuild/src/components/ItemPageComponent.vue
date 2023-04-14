@@ -53,20 +53,7 @@
                                       </v-sheet>
                                   </v-col>
                               </v-row>
-                              <v-row>
-                                  <v-col>
-                                      <v-sheet class="px-1 py-0 ml-4 mr-2 my-0 text-left font-weight-bold">Comments</v-sheet>
-                                  </v-col>
-                                  <v-col  cols="9">
-                                    <v-list class="border overflow-y-auto" max-height="125">    
-                                      <v-list-item v-for="review in reviews" :key="review" :title="review" class="text-left">
-                                        <v-list-item-title v-text="review"></v-list-item-title>
-                                        <v-spacer></v-spacer>
-                                        <v-subheader>Date/Of/Comment</v-subheader>
-                                      </v-list-item>
-                                    </v-list>
-                                  </v-col>
-                              </v-row>
+
                           </v-card>
                       </v-col>
                   </v-row>
@@ -112,7 +99,7 @@
                                   </v-list-item>
                                 </template>
                               </v-list>
-
+                              <v-btn color="primary" class="mt-3" @click="showCommentDialog = true">Add Comment</v-btn>
                             </v-sheet>
                           </v-flex>
                           </v-layout>
