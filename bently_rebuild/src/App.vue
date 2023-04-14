@@ -89,7 +89,7 @@ export default {
         { title: "Sign Up", route: `/create/users`}
       ],
       loggedInItems: [
-        // { title: "Profile", route: "/profile"},
+        { title: "Profile", route: "/profile"},
         { title: "Logout", route: "/"}
       ],
       isLoggedIn: false,

@@ -1,30 +1,34 @@
 <template>
     <v-app id="inspire">
-    <v-main class="v-main grey lighten-3">
-    
-        
-            <div class="d-flex flex-column align-items-center justify-content-center container-fluid">
-          
-                
-                <h2> 
-                Hello {{user.username}}!
-                ID: {{user.id }} </h2>
-      
-                <h2 class="userinfo" v-if="user.isAdmin === true">
-                    You are an ADMIN!
-                </h2>
-                <!-- <v-button
-                @click.prevent="logoutUser()"
-                class="btn btn-danger btn-large">
-                Logout
-                </v-button> -->
-                <!-- <img src="../assets/LeviStrauss_headshot.jpg">Profiel Pic -->
-                <!-- <img :src="require(`../assets/${user.pic}`)"> -->
-                <!-- <img :src="user.pic">Profiel Pic -->
-                <!-- <img src="../assets/LeviStrauss_headshot.jpg"> -->
-               <!-- <v-img :src="require(`../assets/${user.pic}`)"></v-img> -->
-                <!-- <v-img src="../assets/LeviStrauss_headshot.jpg">Profiel Pic</v-img> -->
-            </div>
+    <v-main class="v-main">
+        <v-container class="heroimage" fluid fill-height >
+  
+            <v-card
+              elevation="1c"
+              class="mx-auto px-md-6 pb-md-6 pt-md-4"
+              min-width="500"
+            >
+            <v-card-title class="text-h5 mb-1">Profile</v-card-title>
+            <v-row><v-divider ></v-divider></v-row>
+            <v-row>
+                <v-col>
+                    <v-avatar
+                    color="primary"
+                    size="200"
+                    ></v-avatar>
+                  
+                    <v-row> <v-btn plain class="mt-4">Change profile picture</v-btn></v-row>
+                </v-col>
+                <v-col>
+                    <v-row>Hello {{user.username}}!</v-row>
+                    <v-row>Email: {{user.email}}</v-row>
+                    <v-row>Change Password</v-row>
+                    <v-row>Dark Mode Toggle</v-row>
+            
+                </v-col>
+            </v-row>
+            </v-card>
+          </v-container>
     </v-main>
     </v-app>
 </template>
