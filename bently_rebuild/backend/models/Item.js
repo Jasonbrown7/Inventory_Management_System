@@ -10,7 +10,7 @@ let itemSchema = new Schema(
     condition: { type: String, required: true },
     image: { type: String },
     comments : { type : Array , default : [] },
-    isCheckedOut: {type: Boolean, default: false},
+    isCheckedOut: {type: Boolean, default: false },
   },
   {
     collection: 'items',
