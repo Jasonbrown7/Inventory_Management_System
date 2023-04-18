@@ -227,7 +227,8 @@ export default {
         (this.selectedCategories.length === 0 || this.selectedCategories.includes(item.category)) &&
         (this.selectedConditions.length === 0 || this.selectedConditions.includes(item.condition)) &&
         (this.selectedAvailabilities.length === 0 || this.selectedAvailabilities.includes(item.availability)) &&
-        (item.name.toLowerCase().includes(this.search.toLowerCase()))
+        (item.name.toLowerCase().includes(this.search.toLowerCase())) || 
+        (item._id.includes(this.search))
       );
     },
     paginatedItems() {
