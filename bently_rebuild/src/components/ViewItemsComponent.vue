@@ -93,6 +93,7 @@
                   <tbody>
                     <tr v-for="item in paginatedItems" 
                       :key="item._id">
+                      <!--stack overflow helped with ID -->
                       <td class="text-left id-tooltip">
                         <v-tooltip open-on-hover bottom elevation="10" color="white" dark  class="tooltip-with-shadow" :open-delay="800" :close-delay="100">
                           <template #activator="{ on }">
@@ -301,7 +302,6 @@ export default {
     reloadPage(){
       window.location.reload()
     },
-    // copied from StackOverflow
     copyToClipboard(text) {
       navigator.clipboard.writeText(text)
     },
