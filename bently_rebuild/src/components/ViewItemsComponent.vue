@@ -94,9 +94,12 @@
                     <tr v-for="item in paginatedItems" 
                       :key="item._id">
                       <td class="text-left id-tooltip">
-                        <v-tooltip open-on-hover bottom elevation="10" color="white" dark  class="tooltip-with-shadow" :open-delay="1000" :close-delay="100">
+                        <v-tooltip open-on-hover bottom elevation="10" color="white" dark  class="tooltip-with-shadow" :open-delay="800" :close-delay="100">
                           <template #activator="{ on }">
                             <span v-on="on">{{ ".."+item._id.substring(item._id.length-3,item._id.length) }}</span>
+                            <v-btn small icon @click="copyToClipboard(item._id)">
+                              <v-icon x-small>mdi-content-copy</v-icon>
+                            </v-btn>
                           </template>
                           <span>{{ item._id }}</span>
                         </v-tooltip>
@@ -296,6 +299,10 @@ export default {
     },
     reloadPage(){
       window.location.reload()
+    },
+    // copied from StackOverflow
+    copyToClipboard(text) {
+      navigator.clipboard.writeText(text)
     },
   },
 };
