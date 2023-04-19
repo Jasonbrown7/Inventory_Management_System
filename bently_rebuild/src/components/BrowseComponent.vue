@@ -8,8 +8,8 @@
           <!--Browse Title-->
           <v-col> 
             <v-toolbar color="white" elevation="0" class="mb-5 mt-6 ">
-              <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required/>
-              <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required/>
+              <v-text-field label="Reservation Start" type="date" v-model="reservationStart" class="ma-3" required/>
+              <v-text-field label="Reservation End" type="date" v-model="reservationEnd" class="ma-3" required/>
               <v-select label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory"></v-select>
               <v-select label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
               <!-- <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" /> -->
@@ -92,10 +92,13 @@
         {text: 'Broken', value: 'Broken'}, 
       ],
       selectedCondition: '',
-      checkin: 'null',
-      checkout: 'null',
+
+      reservationStart: '',
+      reservationEnd: '',
+
       Items: [],
-      input: ''
+      input: '',
+      Reservations: [],
     }),
 
     created() {
@@ -108,7 +111,16 @@
         .catch((error) => {
           console.log(error);
         });
-    },
+
+      axios
+        .get("http://localhost:4000/api/reservation")
+        .then((res) => {
+          this.Reservations = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      },
 
 
     // Computed function that returns filtered list of items to be displayed to the UI. Logic works as follows:
@@ -126,14 +138,37 @@
     // If no filters are selected, both availability and conidition always evaluate to true, so all items are displayed.
 
     computed: {
+
+      
       filteredItems() {
         return this.Items.filter(item => {
+          //The following code excludes reservations that overlap with the inputted dates. (Jeffrey Carson)
+          const overlappingItems = []
+          let compareReservationStart = new Date(this.reservationStart)
+          let compareReservationEnd = new Date(this.reservationEnd)
+          compareReservationStart.setDate(compareReservationStart.getDate() + 1)
+          compareReservationEnd.setDate(compareReservationEnd.getDate() + 1)
+
+          for (let i = 0; i < this.Reservations.length; i++){
+            const reservation = this.Reservations[i];
+            const reservationStartDate = new Date(this.Reservations[i].startDate);
+            const reservationEndDate = new Date(this.Reservations[i].endDate);
+            if (reservationStartDate <= compareReservationEnd && reservationEndDate >= compareReservationStart) {
+              overlappingItems.push(reservation.item)
+              continue;
+            }
+          }
+          // --------------------
+
           const hasCategory = !this.selectedCategory || item.category=== this.selectedCategory;
           const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
           const hasSearch = !this.input.toLowerCase() || item.name.toLowerCase().includes(this.input.toLowerCase());
-          return hasCategory && hasCondition && hasSearch;
+          const doesntOverlap = (!this.reservationStart && !this.reservationEnd) || !overlappingItems.includes(item._id);
+
+          return hasCategory && hasCondition && hasSearch && doesntOverlap;
         });
       },
+  
       paginatedItems() {
         const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
         const end = start + this.pagination.itemsPerPage;
