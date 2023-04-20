@@ -7,8 +7,8 @@
           <!--Browse Title-->
           <v-col> 
             <v-toolbar elevation="0" class="mb-5 mt-6 pt-4 pb-4 align-items-center" style="border-radius: 20px;">
-              <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required/>
-              <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required/>
+              <v-text-field label="Reservation Start" type="date" v-model="reservationStart" class="ma-3" required/>
+              <v-text-field label="Reservation End" type="date" v-model="reservationEnd" class="ma-3" required/>
               <v-select style="max-width: 200px; color: black" label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory" ></v-select>
               <v-select style="max-width: 200px;" label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
               <!-- <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" /> -->
@@ -25,7 +25,7 @@
 
 
               <!-- <v-img src="../assets/refresh-icon.png" style="max-width: 35px; max-height: 35px;"></v-img> -->
-              </v-text-field>
+             
             
             </v-toolbar> 
             
@@ -104,12 +104,14 @@
         {text: 'Broken', value: 'Broken'}, 
       ],
       selectedCondition: '',
-      checkin: 'null',
-      checkout: 'null',
+
+      reservationStart: '',
+      reservationEnd: '',
+
       Items: [],
       input: '',
+      Reservations: [],
       darkMode: false,
-
 
     }),
 
@@ -153,14 +155,37 @@
     // If no filters are selected, both availability and conidition always evaluate to true, so all items are displayed.
 
     computed: {
+
+      
       filteredItems() {
         return this.Items.filter(item => {
+          //The following code excludes reservations that overlap with the inputted dates. (Jeffrey Carson)
+          const overlappingItems = []
+          let compareReservationStart = new Date(this.reservationStart)
+          let compareReservationEnd = new Date(this.reservationEnd)
+          compareReservationStart.setDate(compareReservationStart.getDate() + 1)
+          compareReservationEnd.setDate(compareReservationEnd.getDate() + 1)
+
+          for (let i = 0; i < this.Reservations.length; i++){
+            const reservation = this.Reservations[i];
+            const reservationStartDate = new Date(this.Reservations[i].startDate);
+            const reservationEndDate = new Date(this.Reservations[i].endDate);
+            if (reservationStartDate <= compareReservationEnd && reservationEndDate >= compareReservationStart) {
+              overlappingItems.push(reservation.item)
+              continue;
+            }
+          }
+          // --------------------
+
           const hasCategory = !this.selectedCategory || item.category=== this.selectedCategory;
           const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
           const hasSearch = !this.input.toLowerCase() || item.name.toLowerCase().includes(this.input.toLowerCase());
-          return hasCategory && hasCondition && hasSearch;
+          const doesntOverlap = (!this.reservationStart && !this.reservationEnd) || !overlappingItems.includes(item._id);
+
+          return hasCategory && hasCondition && hasSearch && doesntOverlap;
         });
       },
+  
       paginatedItems() {
         const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
         const end = start + this.pagination.itemsPerPage;
