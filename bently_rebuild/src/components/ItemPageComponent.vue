@@ -70,36 +70,82 @@
                           <v-flex xs12 class="mb-3">
                           <v-sheet height="500" class="overflow-y-auto">
                               <!-- <div style="font-size: 30px;" class="text-left ml-0 mb-2 text-h6">Reservation Dates</div> -->
-                              <v-list three-line>
-                                <template v-for="(item, index) in items">
-                                  <v-subheader
-                                    v-if="item.header"
-                                    :key="item.header"
-                                    v-text="item.header"
-                                  ></v-subheader>
+                              <v-list two-line>
+                                <v-list-item v-for="comment in item.comments" :key="comment.id" class="text-left" >
+                                  <v-list-item-icon class="mb-0">
+                                      <v-icon >mdi-account</v-icon>
+                                    </v-list-item-icon>
+                                  <v-list-item-content>
 
-                                  <v-divider
-                                    v-else-if="item.divider"
-                                    :key="index"
-                                    :inset="item.inset"
-                                  ></v-divider>
+                                    <v-list-item-title>{{ comment.comment }}</v-list-item-title>
+                                    <v-list-item-subtitle>{{ comment.date }}</v-list-item-subtitle>
+                                  </v-list-item-content>
+                                </v-list-item>
 
-                                  <v-list-item
-                                    v-else
-                                    :key="item.title"
-                                  >
-                                    <v-list-item-avatar>
-                                      <v-img :src="item.avatar"></v-img>
-                                    </v-list-item-avatar>
-
-                                    <v-list-item-content>
-                                      <v-list-item-title v-html="item.title"></v-list-item-title>
-                                      <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                  </v-list-item>
-                                </template>
                               </v-list>
-                              <v-dialog></v-dialog>
+                              <v-dialog
+                              v-model="showCommentDialog"
+                              persistent
+                              max-width="600px"
+                            >
+                            <v-form @submit.prevent="addComment" >
+                              <v-card>
+                                <v-card-title>
+                                  <span class="text-h5">Leave a review!</span>
+                                </v-card-title>
+                                <v-card-text>
+                                  <v-container>
+                                    <v-row>
+
+                                        <v-text-field
+                                          v-model="comment"
+                                          label="Review"
+                                          required
+                                        ></v-text-field>
+
+                                      <!-- <v-row>
+                                        <v-select
+                                          :items="['0-17', '18-29', '30-54', '54+']"
+                                          label="Condition"
+                                          required
+                                        ></v-select>
+                                        <v-file-input
+                                          accept="image/png, image/jpeg, image/bmp"
+                                          v-model="selectedFiles" 
+                                          :rules="imageSizeRules"
+                                          prepend-icon="mdi-camera"
+                                          show-size
+                                          label="Select an Image"
+                                        ></v-file-input>
+              
+                                      
+                                      </v-row> -->
+                                    
+                                    </v-row>
+                                  </v-container>
+                                  
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="showCommentDialog = false;"
+                                  >
+                                    Close
+                                  </v-btn>
+                                  <v-btn
+                                    type="submit"
+                                    color="blue darken-1"
+                                    text
+                                    @click="showCommentDialog = false"
+                                  >
+                                    Save
+                                  </v-btn>
+                                </v-card-actions>
+                              </v-card>
+                            </v-form>
+                            </v-dialog>
                               <v-btn color="primary" class="mt-3" @click="showCommentDialog = true">Add Comment</v-btn>
                             </v-sheet>
                           </v-flex>
@@ -182,39 +228,8 @@ export default {
   
   data() {
     return {
+      comment: "",
       showCommentDialog: false,
-      items: [
-        { header: 'Today' },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-          title: 'Brunch this weekend?',
-          subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-          subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-          title: 'Oui oui',
-          subtitle: '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-          title: 'Birthday gift',
-          subtitle: '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
-        },
-        { divider: true, inset: true },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-          title: 'Recipe to try',
-          subtitle: '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-        },
-      ],
       dates: [],
       itemImage: "https://via.placeholder.com/300x200",
       itemDescription: "Sample Item Description",
@@ -242,7 +257,30 @@ export default {
     }
   },
   methods: {
-
+    getCurrentDateMethod(){
+      var date = new Date();
+      date = date.toISOString();
+    
+      return date.substring(0,10)
+    },
+    addComment(){
+      let apiURL = `http://localhost:4000/api/item/update/comments/${this.item._id}`;
+      console.log("this.comment", this.comment)
+      axios
+        .put(apiURL, {
+          comment: this.comment,
+          author: this.user.id,
+          date: this.getCurrentDateMethod()
+        })
+        .then(response => {
+          console.log(response);
+          this.showCommentDialog = false;
+          this.comment = "";
+        })
+        .catch(error => {
+          console.log("addecomment", error);
+        });
+    },
     //Jeff Carson
     handleSubmitForm() {
       console.log("dates",this.dates)
