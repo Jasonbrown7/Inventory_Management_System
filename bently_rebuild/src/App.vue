@@ -19,7 +19,7 @@
       </a>
       <v-spacer></v-spacer>
 
-      <v-switch class="mt-3" label="Dark" v-model="darkMode">
+      <v-switch class="mt-5" v-model="darkMode">
       <v-btn :value="false">Light</v-btn>
       <v-btn :value="true">Dark</v-btn>
       </v-switch>

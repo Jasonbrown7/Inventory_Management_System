@@ -75,7 +75,13 @@
               <v-toolbar v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}" elevation="0">
                 <v-toolbar-title style="font-size: 30px;">Admin - Reservations</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn text-color="primary"  :to="{ name: 'create-reservations' }">Create Reservation</v-btn>
+                <v-btn
+                 v-bind:style="{ 
+                 background: this.$vuetify.theme.dark == true ? primary : '#26685d',
+                 color: this.$vuetify.theme.dark == true ? primary : 'white'}"  
+                 :to="{ name: 'create-reservations' }">
+                 Create Reservation
+                </v-btn>
               </v-toolbar>  
 
               <v-simple-table>

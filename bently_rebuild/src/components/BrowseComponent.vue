@@ -11,20 +11,20 @@
               <v-text-field label="Reservation End" type="date" v-model="reservationEnd" class="ma-3" required/>
               <v-select style="max-width: 200px; color: black" label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory" ></v-select>
               <v-select style="max-width: 200px;" label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
-              <!-- <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" /> -->
-              <!-- <v-text-field v-model="input" append-icon="mdi-magnify"> -->
-              <v-autocomplete 
+              <v-text-field v-model="input" append-icon="mdi-magnify"> Search for an item
+              </v-text-field>
+              <!-- <v-autocomplete 
                 append-icon="mdi-magnify"
                 v-model="input" 
                 :items="paginatedItems.map(item => item.name)"
                 label="Search Item"
                 @input = "resetInput"
                 @click:append.stop
-              ></v-autocomplete>
+              ></v-autocomplete> -->
               <v-icon class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
 
 
-              <!-- <v-img src="../assets/refresh-icon.png" style="max-width: 35px; max-height: 35px;"></v-img> -->
+              
              
             
             </v-toolbar> 
