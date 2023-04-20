@@ -2,7 +2,7 @@
   <div id="app">
     <v-app id="inspire">
     <v-app-bar app 
-    color="white"
+    
     elevation="0"
     outlined
     >
@@ -11,14 +11,19 @@
           alt="Bently Nevada"
           class="shrink mr-2"
           contain
-          :src="require('./assets/logo1.png')"
+          :src="imageUrl"
           width="200"
           height="56"
           href="/"
         />
       </a>
       <v-spacer></v-spacer>
-     
+
+      <v-switch class="mt-3" label="Dark" v-model="darkMode">
+      <v-btn :value="false">Light</v-btn>
+      <v-btn :value="true">Dark</v-btn>
+      </v-switch>
+
       <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
       <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain class="nav-btn">My Reservations</v-btn>
       <template v-if="isAdmin === true">
@@ -46,7 +51,8 @@
           <v-icon v-else-if="isLoggedIn === false">mdi-account-outline</v-icon>
           <!-- <v-img v-else :src="require(`../src/assets/${user.pic}`)"></v-img> -->
           
-          <v-icon v-else>mdi-account</v-icon>
+          <!-- <v-icon v-else>mdi-account</v-icon> -->
+          <v-img :src="user.pic" v-else></v-img>
           <!-- <v-img v-else src="../src/assets/LeviStrauss_headshot.jpg"></v-img> -->
         </v-avatar>
       </template>
@@ -89,11 +95,12 @@ export default {
         { title: "Sign Up", route: `/create/users`}
       ],
       loggedInItems: [
-        // { title: "Profile", route: "/profile"},
+        { title: "Profile", route: "/profile"},
         { title: "Logout", route: "/"}
       ],
       isLoggedIn: false,
       isAdmin: false,
+      darkMode: null,
     };
   },
 
@@ -139,7 +146,32 @@ created(){
             .catch((error) => {
                 console.log(error);
             });
+        },
+        toggleDarkMode() {
+        if (this.darkMode) {
+          this.$vuetify.theme.dark = true;
         }
+        else {
+          this.$vuetify.theme.dark = false;
+        }
+      }
+    },
+
+    computed: {
+    imageUrl() {
+      if (this.$vuetify.theme.dark === true) {
+        return require('./assets/logo1_copy.png')
+      } else {
+        return require('./assets/logo1.png')
+      } 
+    }
+  },
+
+    watch: {
+      darkMode()
+      {
+        this.toggleDarkMode();
+      }
     },
     }
 </script>

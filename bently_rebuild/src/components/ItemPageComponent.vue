@@ -87,7 +87,7 @@
                             
                             
                             
-                            <v-btn @click="prevMonth" fab text small color="grey darken-2" >
+                            <v-btn @click="prevMonth" fab text small color="grey darken-2" :disabled=currentMonthMatchesCalendarMonth >
                               <v-icon small>mdi-chevron-left</v-icon>
                             </v-btn>
                             <v-btn @click="nextMonth" fab text small color="grey darken-2" >
