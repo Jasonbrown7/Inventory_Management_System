@@ -58,7 +58,7 @@
                     @click="reloadPage()"
                   >
                     <v-list-item-title>
-                      Refresh
+                      Reset Filters
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -228,8 +228,7 @@ export default {
         (this.selectedCategories.length === 0 || this.selectedCategories.includes(item.category)) &&
         (this.selectedConditions.length === 0 || this.selectedConditions.includes(item.condition)) &&
         (this.selectedAvailabilities.length === 0 || this.selectedAvailabilities.includes(item.availability)) &&
-        (item.name.toLowerCase().includes(this.search.toLowerCase())) || 
-        (item._id.includes(this.search))
+        ((item.name.toLowerCase().includes(this.search.toLowerCase())) || (item._id.includes(this.search)))
       );
     },
     paginatedItems() {

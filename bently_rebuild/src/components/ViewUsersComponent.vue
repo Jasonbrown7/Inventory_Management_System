@@ -17,16 +17,6 @@
                   <div style="display: flex; justify-content: center; flex: 1;">
                     <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
                   </div>
-                    <v-divider class="ma-3"></v-divider>
-                  <v-list-item
-                    link
-                    color="grey-lighten-4"
-                    @click="reloadPage()"
-                  >
-                    <v-list-item-title>
-                      Refresh
-                    </v-list-item-title>
-                  </v-list-item>
                 </v-list>
               </v-sheet>
             </v-col>

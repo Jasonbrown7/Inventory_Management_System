@@ -64,7 +64,7 @@
                     @click="reloadPage()"
                   >
                     <v-list-item-title>
-                      Refresh
+                      Reset Filters
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
