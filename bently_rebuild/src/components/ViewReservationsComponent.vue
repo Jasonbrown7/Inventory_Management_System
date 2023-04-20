@@ -64,7 +64,7 @@
                     @click="reloadPage()"
                   >
                     <v-list-item-title>
-                      Refresh
+                      Reset Filters
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -238,7 +238,7 @@ export default {
           else if (this.filterOverdue === true)
             return reservation.isOverdue === true && (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
           else 
-            return (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
+            return (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()) || reservation.item.includes(this.search) || reservation.user.includes(this.search));
         });
       }
       else {

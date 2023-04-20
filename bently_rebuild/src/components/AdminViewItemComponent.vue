@@ -241,13 +241,11 @@ export default {
     computed: {
         filteredReservations() {
             //const today = new Date();
-
-            // this.Reservations = this.Reservations.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
-        //this.sortedByNewest = false;
+            //this.Reservations = this.Reservations.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
+            //this.sortedByNewest = false;
             
             return this.Reservations.filter(reservation => reservation.item === this.item._id );
-        }
-
+        },
     },
   };
 </script>

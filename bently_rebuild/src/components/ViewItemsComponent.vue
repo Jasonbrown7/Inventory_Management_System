@@ -58,7 +58,7 @@
                     @click="reloadPage()"
                   >
                     <v-list-item-title>
-                      Refresh
+                      Reset Filters
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -81,6 +81,7 @@
               <v-simple-table>
                   <thead>
                     <tr>
+                      <th class="text-left">ID</th>
                       <th class="text-left">Name</th>
                       <th class="text-left">Category</th>
                       <th class="text-left">Availability</th>
@@ -92,6 +93,18 @@
                   <tbody>
                     <tr v-for="item in paginatedItems" 
                       :key="item._id">
+                      <!--stack overflow helped with ID -->
+                      <td class="text-left id-tooltip">
+                        <v-tooltip open-on-hover bottom elevation="10" color="white" dark  class="tooltip-with-shadow" :open-delay="800" :close-delay="100">
+                          <template #activator="{ on }">
+                            <span v-on="on">{{ ".."+item._id.substring(item._id.length-3,item._id.length) }}</span>
+                            <v-btn small icon @click="copyToClipboard(item._id)">
+                              <v-icon x-small>mdi-content-copy</v-icon>
+                            </v-btn>
+                          </template>
+                          <span>{{ item._id }}</span>
+                        </v-tooltip>
+                      </td>
                       <td class="text-left">{{ item.name }}</td>
                       <td class="text-left">{{ item.category }}</td>
                       <td class="text-left">{{ item.availability }}</td>
@@ -215,7 +228,7 @@ export default {
         (this.selectedCategories.length === 0 || this.selectedCategories.includes(item.category)) &&
         (this.selectedConditions.length === 0 || this.selectedConditions.includes(item.condition)) &&
         (this.selectedAvailabilities.length === 0 || this.selectedAvailabilities.includes(item.availability)) &&
-        (item.name.toLowerCase().includes(this.search.toLowerCase()))
+        ((item.name.toLowerCase().includes(this.search.toLowerCase())) || (item._id.includes(this.search)))
       );
     },
     paginatedItems() {
@@ -288,6 +301,9 @@ export default {
     reloadPage(){
       window.location.reload()
     },
+    copyToClipboard(text) {
+      navigator.clipboard.writeText(text)
+    },
   },
 };
 </script>
@@ -309,5 +325,13 @@ export default {
 .sticky-top {
     position: sticky;
     top: 100px;
+}
+
+.tooltip-with-shadow .v-tooltip__content {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+td.id-tooltip:hover {
+  text-decoration: underline;
 }
 </style>
