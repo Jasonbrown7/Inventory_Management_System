@@ -1,8 +1,9 @@
 <template>
   <v-app id="inspire">
-    <v-main class="v-main grey lighten-3">
+    <v-main v-bind:style="{ background: this.$vuetify.theme.dark == true ? primary : '#EEEEEE'}">
+      
           <v-container>
-              <v-toolbar color="grey lighten-3" elevation="0">
+              <v-toolbar v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE' }" elevation="0">
                   <v-toolbar-title style="font-size: 30px;">Item Details</v-toolbar-title>
                   <v-spacer></v-spacer>
                   <v-btn color="edit" :to="{ name: 'browseView' }" class="mr-3">Back</v-btn>
@@ -222,6 +223,27 @@ function isReservationOver2Weeks(start, end){
   return diffInDays > 14;
 }
 
+//Returns true if there is a reservation conflict
+function isReservationConflict(reservations, start, end){
+  const newStart = new Date(start)
+  const newEnd = new Date(end)
+
+  console.log(reservations)
+
+  for (let i = 0; i < reservations.length; i++) {
+
+    const reservationStartDate = new Date(reservations[i].startDate);
+    const reservationEndDate = new Date(reservations[i].endDate);
+
+    if (newStart <= reservationEndDate && newEnd >= reservationStartDate) {
+      // There is a conflict with the given start and end parameters
+      return true;
+    }
+  }
+  // No conflicts found
+  return false;
+}
+
 import axios from "axios";
 
 export default {
@@ -239,6 +261,9 @@ export default {
       item: {} ,
       user: {},
       reservation: {},
+      Reservations: [],
+      events: [],
+      showCalendar: true,
     };
   },
   computed: {
@@ -282,6 +307,22 @@ export default {
         });
     },
     //Jeff Carson
+
+    nextMonth(){
+      this.showCalendar = false // hide calendar
+      this.$nextTick(() => {
+        this.$refs.calendar.next() // advance calendar
+        this.showCalendar = true
+      })
+    },
+    prevMonth(){
+      this.showCalendar = false // hide calendar
+      this.$nextTick(() => {
+        this.$refs.calendar.prev() // advance calendar
+        this.showCalendar = true
+      })
+    },
+
     handleSubmitForm() {
       console.log("dates",this.dates)
       // const startDateInput = document.getElementById("startDateInput").value;
@@ -296,9 +337,11 @@ export default {
       postEndDate.setDate(postEndDate.getDate() + 1)
 
 
-      if (postStartDate < postEndDate && !isDateBeforeToday(postStartDate) && !isDateOver3MonthsFromToday(postEndDate) && !isReservationOver2Weeks(postStartDate, postEndDate)){
-        console.log("good")
+
+      if (postStartDate <= postEndDate && !isDateBeforeToday(postStartDate) && !isDateOver3MonthsFromToday(postEndDate) && !isReservationOver2Weeks(postStartDate, postEndDate) && !isReservationConflict(this.Reservations, postStartDate, postEndDate)){
+        
         let apiURL = "http://localhost:4000/api/reservation/create";
+
 
         axios
           .post(apiURL, 
@@ -321,6 +364,9 @@ export default {
             console.log(error);
           });
       }
+      else if (isReservationConflict(this.Reservations, postStartDate, postEndDate)){
+        window.alert("Error: Your reservation date conflicts with 1 or more other reservations, try again.")
+      }
       else if (startDateInput == '' || endDateInput == ''){
         window.alert("Error: Please fill out BOTH fields")
       }
@@ -333,9 +379,9 @@ export default {
       else if(isReservationOver2Weeks(postStartDate, postEndDate)){
         window.alert("Error: Reservations cannot be longer than 2 weeks")
       }
-      else if (startDateInput == endDateInput){
-        window.alert("Error: Start date and End date cannot be equal")
-      }
+      // else if (startDateInput == endDateInput){
+      //   window.alert("Error: Start date and End date cannot be equal")
+      // }
       else if (startDateInput > endDateInput){
         window.alert("Error: Start date must come before end date")
       }
@@ -362,7 +408,26 @@ export default {
         axios.get(resApiURL).then((res) => {
           this.reservation = res.data;
         });
-        
+
+    axios
+      .get("http://localhost:4000/api/reservation")
+      .then(res => {
+
+        this.Reservations = res.data;
+
+        const filteredReservations = this.Reservations.filter((reservation) => {
+          return reservation.item === this.item._id;
+        });
+
+        this.Reservations = filteredReservations;
+
+        this.events = filteredReservations.map(reservation => ({
+          name: "RESERVED",
+          start: new Date(reservation.startDate),
+          end: new Date(reservation.endDate),
+        }))
+    });    
+
   },
   mounted() {
     axios.defaults.withCredentials = true; 
