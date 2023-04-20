@@ -2,11 +2,11 @@
 <!-- eslint-disable -->
 <template>
     <v-app>
-      <v-main class="v-main grey lighten-3">
+      <v-main v-bind:style="{ background: this.$vuetify.theme.dark == true ? primary : '#EEEEEE'}">
         <v-container>
           <v-row>
             <v-col cols="2">
-              <v-toolbar color="grey lighten-3" elevation="0">
+              <v-toolbar elevation = "0" v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}">
               </v-toolbar>  
               <v-sheet rounded="lg" class="sticky-top">
                 <v-subheader class="justify-left">Search Items</v-subheader>
@@ -66,7 +66,7 @@
             </v-col>
   
             <v-col>
-              <v-toolbar color="grey lighten-3" elevation="0">
+              <v-toolbar elevation ="0" v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}">
                 <v-toolbar-title style="font-size: 30px;">Admin - Inventory</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-tooltip left>
@@ -75,7 +75,7 @@
                   </template>
                   <span>CSV only</span>
                 </v-tooltip>
-                <v-btn color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
+                <v-btn text-color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
               </v-toolbar>  
 
               <v-simple-table>
@@ -113,7 +113,7 @@
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
-                          color="primary"
+                          text-color="primary"
                           :to="{ name: 'admin-viewitem', params: { id: item._id } }"
                           small
                         >
@@ -145,6 +145,7 @@
                     v-model="pagination.page"
                     :length="Math.ceil(filteredItems.length / pagination.itemsPerPage)"
                     :items-per-page="pagination.itemsPerPage"
+                    color = "#26685d"
                 />
             </v-col>
           </v-row>

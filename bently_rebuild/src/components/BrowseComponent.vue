@@ -2,20 +2,31 @@
 <!-- eslint-disable -->
 <template>
   <v-app>
-    <v-main color="white">
+    <v-main class="v-main">
       <v-container>
-
           <!--Browse Title-->
           <v-col> 
-            <v-toolbar color="white" elevation="0" class="mb-5 mt-6 ">
+            <v-toolbar elevation="0" class="mb-5 mt-6 pt-4 pb-4 align-items-center" style="border-radius: 20px;">
               <v-text-field label="Check In" type="date" v-model="checkIn" class="ma-3" required/>
               <v-text-field label="Check Out" type="date" v-model="checkOut" class="ma-3" required/>
-              <v-select label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory"></v-select>
-              <v-select label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
+              <v-select style="max-width: 200px; color: black" label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory" ></v-select>
+              <v-select style="max-width: 200px;" label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
               <!-- <input type="text" v-model="input" placeholder="Search by item" class="mx-3 mb-5"  style="background-color: white; border: 1px solid grey; border-radius: 5px;" /> -->
-              <v-text-field v-model="input" append-icon="mdi-magnify">
-                
+              <!-- <v-text-field v-model="input" append-icon="mdi-magnify"> -->
+              <v-autocomplete 
+                append-icon="mdi-magnify"
+                v-model="input" 
+                :items="paginatedItems.map(item => item.name)"
+                label="Search Item"
+                @input = "resetInput"
+                @click:append.stop
+              ></v-autocomplete>
+              <v-icon class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
+
+
+              <!-- <v-img src="../assets/refresh-icon.png" style="max-width: 35px; max-height: 35px;"></v-img> -->
               </v-text-field>
+            
             </v-toolbar> 
             
 
@@ -28,7 +39,7 @@
                 <v-row>
                     <v-col
                       v-for="item in paginatedItems" :key="item.id" cols="3">
-                      <v-card class="mb-4" elevation="0">
+                      <v-card background='#121212' class="mb-4" elevation="0" style="border-radius: 20px;">
                         <router-link :to="{ name: 'browse-itempage', params: { id: item._id } }">
                           <v-img v-if="item.image"
                             :src="item.image" height="250" width="100%" object-fit="cover" style="border-radius: 20px;"></v-img>
@@ -59,6 +70,7 @@
                     v-model="pagination.page"
                     :length="Math.ceil(filteredItems.length / pagination.itemsPerPage)"
                     :total-visible="2"
+                    color = "#26685d"
                   ></v-pagination>
                </div>        
           </v-col>
@@ -95,7 +107,10 @@
       checkin: 'null',
       checkout: 'null',
       Items: [],
-      input: ''
+      input: '',
+      darkMode: false,
+
+
     }),
 
     created() {
@@ -108,7 +123,19 @@
         .catch((error) => {
           console.log(error);
         });
+
+      axios
+      .get("http://localhost:4000/api/reservation")
+      .then((res) => {
+        this.Reservations = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     },
+
+
+    
 
 
     // Computed function that returns filtered list of items to be displayed to the UI. Logic works as follows:
@@ -138,6 +165,25 @@
         const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
         const end = start + this.pagination.itemsPerPage;
         return this.filteredItems.slice(start, end);
+      },
+      paginatedReservations() {
+      const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
+      const end = start + this.pagination.itemsPerPage;
+      return this.updatedReservations.slice(start, end);
+    },
+
+    },
+
+    methods: {
+      resetInput(value) {
+        if (!value) {
+          this.input = '';
+        }
+      },
+
+      refreshFilters() {
+        this.selectedCategory = null
+        this.selectedCondition = null
       }
     }
   }

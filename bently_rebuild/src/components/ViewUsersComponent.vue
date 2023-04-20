@@ -1,11 +1,11 @@
 <!--Vuetify Wireframe Template from https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/wireframes/constrained.vue-->
 <template>
   <v-app>
-    <v-main class="v-main grey lighten-3">
+    <v-main v-bind:style="{ background: this.$vuetify.theme.dark == true ? primary : '#EEEEEE'}">
       <v-container>
         <v-row>
           <v-col cols="2">
-              <v-toolbar color="grey lighten-3" elevation="0">
+              <v-toolbar v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}" elevation="0">
               </v-toolbar>  
               <v-sheet rounded="lg" class="sticky-top">
                 <v-subheader class="justify-left">Search User</v-subheader>
@@ -22,10 +22,10 @@
             </v-col>
 
           <v-col>
-            <v-toolbar color="grey lighten-3" elevation="0">
+            <v-toolbar v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}" elevation="0">
               <v-toolbar-title style="font-size: 30px;">Admin - Users</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn color="primary" :to="{ name: 'create-users' }">Create User</v-btn>
+              <v-btn text-color="primary" :to="{ name: 'create-users' }">Create User</v-btn>
             </v-toolbar>  
 
             <v-simple-table>
@@ -60,7 +60,7 @@
                       <v-btn
                         class="mr-md-1"
                         :to="{ name: 'edit-user', params: { id: user._id } }"
-                        color="primary"
+                        text-color="primary"
                         small
                       >
                         Edit
@@ -82,6 +82,7 @@
                 v-model="pagination.page"
                 :length="Math.ceil(filteredUsers.length / pagination.itemsPerPage)"
                 :items-per-page="pagination.itemsPerPage"
+                color = "#26685d"
               />
           </v-col>
         </v-row>
