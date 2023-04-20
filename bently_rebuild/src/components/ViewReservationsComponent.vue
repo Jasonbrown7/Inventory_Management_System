@@ -1,11 +1,11 @@
 
 <template>
     <v-app>
-      <v-main class="v-main grey lighten-3">
+      <v-main v-bind:style="{ background: this.$vuetify.theme.dark == true ? primary : '#EEEEEE'}">
         <v-container>
           <v-row>
             <v-col cols="2">
-              <v-toolbar color="grey lighten-3" elevation="0">
+              <v-toolbar elevation=0 v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}">
               </v-toolbar>  
               <v-sheet rounded="lg">
                 <v-subheader class="justify-left">Search Item / User</v-subheader>
@@ -72,10 +72,10 @@
             </v-col>
   
             <v-col>
-              <v-toolbar color="grey lighten-3" elevation="0">
+              <v-toolbar v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}" elevation="0">
                 <v-toolbar-title style="font-size: 30px;">Admin - Reservations</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" :to="{ name: 'create-reservations' }">Create Reservation</v-btn>
+                <v-btn text-color="primary"  :to="{ name: 'create-reservations' }">Create Reservation</v-btn>
               </v-toolbar>  
 
               <v-simple-table>
@@ -125,6 +125,7 @@
                     v-model="pagination.page"
                     :length="Math.ceil(filteredReservations.length / pagination.itemsPerPage)"
                     :items-per-page="pagination.itemsPerPage"
+                    
                 />
             </v-col>
           </v-row>
