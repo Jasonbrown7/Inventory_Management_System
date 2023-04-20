@@ -42,7 +42,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-btn block color="danger justify-center" type="submit" class="submit">Update Item</v-btn>
+                    <v-btn block color="danger justify-center" type="submit" class="submit">Update User</v-btn>
                   </v-col>
                 </v-row>
               </v-container>
@@ -87,6 +87,7 @@
           .put(apiURL, this.user)
           .then((res) => {
             console.log(res);
+            console.log(this.$route.params.id)
             this.$router.push("/view/users");
           })
           .catch((error) => {
