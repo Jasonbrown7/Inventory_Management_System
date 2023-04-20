@@ -193,56 +193,56 @@
 </template>
   
   <script>
-//Jeff Carson
-function isDateBeforeToday(date){
-  const today = new Date()
+// //Jeff Carson
+// function isDateBeforeToday(date){
+//   const today = new Date()
+//   console.log("BRUH", date, today)
+//   if (today < date){
+//     return false
+//   }
+//   else{
+//     return true
+//   }
+// }
+// //Jeff Carson
+// function isDateOver3MonthsFromToday(date){ 
+//   const today = new Date()
+//   today.setDate(today.getDate() + 90)
 
-  if (today < date){
-    return false
-  }
-  else{
-    return true
-  }
-}
-//Jeff Carson
-function isDateOver3MonthsFromToday(date){ 
-  const today = new Date()
-  today.setDate(today.getDate() + 90)
+//   if (date > today){
+//     return true
+//   }
+//   else{
+//     return false
+//   }
+// }
+// //Jeff Carson
+// function isReservationOver2Weeks(start, end){
+//   const diffInMilliseconds = Math.abs(start - end);
+//   const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+//   return diffInDays > 14;
+// }
 
-  if (date > today){
-    return true
-  }
-  else{
-    return false
-  }
-}
-//Jeff Carson
-function isReservationOver2Weeks(start, end){
-  const diffInMilliseconds = Math.abs(start - end);
-  const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
-  return diffInDays > 14;
-}
+// //Returns true if there is a reservation conflict
+// function isReservationConflict(reservations, start, end){
+//   const newStart = new Date(start)
+//   const newEnd = new Date(end)
 
-//Returns true if there is a reservation conflict
-function isReservationConflict(reservations, start, end){
-  const newStart = new Date(start)
-  const newEnd = new Date(end)
+//   console.log(reservations)
 
-  console.log(reservations)
+//   for (let i = 0; i < reservations.length; i++) {
 
-  for (let i = 0; i < reservations.length; i++) {
+//     const reservationStartDate = new Date(reservations[i].startDate);
+//     const reservationEndDate = new Date(reservations[i].endDate);
 
-    const reservationStartDate = new Date(reservations[i].startDate);
-    const reservationEndDate = new Date(reservations[i].endDate);
-
-    if (newStart <= reservationEndDate && newEnd >= reservationStartDate) {
-      // There is a conflict with the given start and end parameters
-      return true;
-    }
-  }
-  // No conflicts found
-  return false;
-}
+//     if (newStart <= reservationEndDate && newEnd >= reservationStartDate) {
+//       // There is a conflict with the given start and end parameters
+//       return true;
+//     }
+//   }
+//   // No conflicts found
+//   return false;
+// }
 
 import axios from "axios";
 
@@ -282,6 +282,55 @@ export default {
     }
   },
   methods: {
+      isDateBeforeToday(date){
+      const today = new Date()
+      console.log("yo")
+      console.log("BRUH", date, today)
+      if (today < date){
+        return false
+      }
+      else{
+        return true
+      }
+    },
+    //Jeff Carson
+    isDateOver3MonthsFromToday(date){ 
+      const today = new Date()
+      today.setDate(today.getDate() + 90)
+
+      if (date > today){
+        return true
+      }
+      else{
+        return false
+      }
+    },
+    //Jeff Carson
+    isReservationOver2Weeks(start, end){
+      const diffInMilliseconds = Math.abs(start - end);
+      const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+      return diffInDays > 14;
+    },
+    //Returns true if there is a reservation conflict
+    isReservationConflict(reservations, start, end){
+      const newStart = new Date(start)
+      const newEnd = new Date(end)
+
+      console.log(reservations)
+
+      for (let i = 0; i < reservations.length; i++) {
+
+        const reservationStartDate = new Date(reservations[i].startDate);
+        const reservationEndDate = new Date(reservations[i].endDate);
+
+        if (newStart <= reservationEndDate && newEnd >= reservationStartDate) {
+          // There is a conflict with the given start and end parameters
+          return true;
+        }
+      }
+      // No conflicts found
+      return false;
+    },
     getCurrentDateMethod(){
       var date = new Date();
       date = date.toISOString();
@@ -327,22 +376,23 @@ export default {
       console.log("dates",this.dates)
       // const startDateInput = document.getElementById("startDateInput").value;
       // const endDateInput = document.getElementById("endDateInput").value;
-      const startDateInput = new Date(this.dates[0])
-      const endDateInput = new Date(this.dates[1])
-      console.log(startDateInput, endDateInput)
-      const postStartDate = new Date(this.reservation.startDate)
-      const postEndDate = new Date(this.reservation.endDate)
+      const startDateInput = this.dates[0]
+      const endDateInput = this.dates[1]
+      console.log("YOO", startDateInput, endDateInput)
+      // const postStartDate = new Date(this.reservation.startDate)
+      const postStartDate = new Date(startDateInput)
+      const postEndDate = new Date(endDateInput)
 
       postStartDate.setDate(postStartDate.getDate() + 1)
       postEndDate.setDate(postEndDate.getDate() + 1)
 
 
 
-      if (postStartDate <= postEndDate && !isDateBeforeToday(postStartDate) && !isDateOver3MonthsFromToday(postEndDate) && !isReservationOver2Weeks(postStartDate, postEndDate) && !isReservationConflict(this.Reservations, postStartDate, postEndDate)){
+      if (postStartDate <= postEndDate && !this.isDateBeforeToday(postStartDate) && !this.isDateOver3MonthsFromToday(postEndDate) && !this.isReservationOver2Weeks(postStartDate, postEndDate) && !this.isReservationConflict(this.Reservations, postStartDate, postEndDate)){
         
         let apiURL = "http://localhost:4000/api/reservation/create";
 
-
+        console.log("AHHHH", this.user.id)
         axios
           .post(apiURL, 
           {
@@ -364,19 +414,19 @@ export default {
             console.log(error);
           });
       }
-      else if (isReservationConflict(this.Reservations, postStartDate, postEndDate)){
+      else if (this.isReservationConflict(this.Reservations, postStartDate, postEndDate)){
         window.alert("Error: Your reservation date conflicts with 1 or more other reservations, try again.")
       }
       else if (startDateInput == '' || endDateInput == ''){
         window.alert("Error: Please fill out BOTH fields")
       }
-      else if (isDateBeforeToday(postStartDate)){
+      else if (this.isDateBeforeToday(postStartDate)){
         window.alert("Error: Tomorrow is the earliest a reservation can start")
       }
-      else if (isDateOver3MonthsFromToday(postEndDate)){
+      else if (this.isDateOver3MonthsFromToday(postEndDate)){
         window.alert("Error: Reservations can only be made up to 3 months in advance")
       }
-      else if(isReservationOver2Weeks(postStartDate, postEndDate)){
+      else if(this.isReservationOver2Weeks(postStartDate, postEndDate)){
         window.alert("Error: Reservations cannot be longer than 2 weeks")
       }
       // else if (startDateInput == endDateInput){
