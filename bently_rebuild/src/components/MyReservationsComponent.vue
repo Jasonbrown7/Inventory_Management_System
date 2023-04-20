@@ -220,7 +220,7 @@ export default {
       })
       .catch((error) => {
         console.log(error);
-      });
+        });
     axios
       .get("http://localhost:4000/api/user")
       .then((res) => {

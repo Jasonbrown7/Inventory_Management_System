@@ -131,10 +131,11 @@ export default {
         const userIndex = this.Users.findIndex(user => user.username === this.reservation.user);
         const itemIndex = this.Items.findIndex(item => item.name === this.reservation.item);
 
-        // console.log("startdate", this.reservation.startDate)
-        // console.log("enddate", this.reservation.endDate)
-        // console.log("user", this.Users[userIndex]._id)
-        // console.log("item", this.Items[itemIndex]._id)
+        const postStartDate = new Date(this.reservation.startDate)
+        const postEndDate = new Date(this.reservation.endDate)
+
+        postStartDate.setDate(postStartDate.getDate() + 1)
+        postEndDate.setDate(postEndDate.getDate() + 1)
 
 
         if (startDateInput < endDateInput){
@@ -143,8 +144,8 @@ export default {
           axios
             .put(apiURL, 
             {
-              startDate: this.reservation.startDate,
-              endDate: this.reservation.endDate,
+              startDate: postStartDate,
+              endDate: postEndDate,
               user: this.Users[userIndex]._id,
               item: this.Items[itemIndex]._id,
             })

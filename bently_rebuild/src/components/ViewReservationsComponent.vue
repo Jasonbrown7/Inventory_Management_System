@@ -7,7 +7,7 @@
             <v-col cols="2">
               <v-toolbar elevation=0 v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}">
               </v-toolbar>  
-              <v-sheet rounded="lg">
+              <v-sheet rounded="lg" class="sticky-top">
                 <v-subheader class="justify-left">Search Item / User</v-subheader>
                 <div style="display: flex; justify-content: center; flex: 1;">
                   <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
@@ -64,7 +64,7 @@
                     @click="reloadPage()"
                   >
                     <v-list-item-title>
-                      Refresh
+                      Reset Filters
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>
@@ -239,7 +239,7 @@ export default {
           else if (this.filterOverdue === true)
             return reservation.isOverdue === true && (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
           else 
-            return (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()));
+            return (itemObj.name.toLowerCase().includes(this.search.toLowerCase()) || userObj.username.toLowerCase().includes(this.search.toLowerCase()) || reservation.item.includes(this.search) || reservation.user.includes(this.search));
         });
       }
       else {
@@ -337,6 +337,11 @@ export default {
 
 .error-row {
   background-color: #ffcccc;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 100px;
 }
 </style>
 

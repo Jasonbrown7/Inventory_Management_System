@@ -7,7 +7,7 @@
           <v-col cols="2">
               <v-toolbar v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}" elevation="0">
               </v-toolbar>  
-              <v-sheet rounded="lg">
+              <v-sheet rounded="lg" class="sticky-top">
                 <v-subheader class="justify-left">Search User</v-subheader>
                 <div style="display: flex; justify-content: center; flex: 1;">
                   <v-text-field v-model="search" append-icon="mdi-magnify" class="mx-3 my-0"></v-text-field>
@@ -17,16 +17,6 @@
                   <div style="display: flex; justify-content: center; flex: 1;">
                     <v-btn color="primary" outlined @click="exportCsv" class="mt-1 mb-2">Export CSV</v-btn>
                   </div>
-                    <v-divider class="ma-3"></v-divider>
-                  <v-list-item
-                    link
-                    color="grey-lighten-4"
-                    @click="reloadPage()"
-                  >
-                    <v-list-item-title>
-                      Refresh
-                    </v-list-item-title>
-                  </v-list-item>
                 </v-list>
               </v-sheet>
             </v-col>
@@ -41,6 +31,7 @@
             <v-simple-table>
                 <thead>
                   <tr>
+                    <th class="text-left">ID</th>
                     <th class="text-left">Username</th>
                     <th class="text-left">Email</th>
                     <th class="text-left">Role</th>
@@ -49,6 +40,18 @@
                 </thead>
                 <tbody>
                   <tr v-for="user in paginatedUsers" :key="user.id">
+                    <!--stack overflow helped with ID -->
+                    <td class="text-left id-tooltip">
+                      <v-tooltip open-on-hover bottom elevation="10" color="white" dark  class="tooltip-with-shadow" :open-delay="800" :close-delay="100">
+                        <template #activator="{ on }">
+                          <span v-on="on">{{ ".."+user._id.substring(user._id.length-3,user._id.length) }}</span>
+                          <v-btn small icon @click="copyToClipboard(user._id)">
+                            <v-icon x-small>mdi-content-copy</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ user._id }}</span>
+                      </v-tooltip>
+                    </td>
                     <td class="text-left">{{ user.username }}</td>
                     <td class="text-left">{{ user.email }}</td>
                     <td v-if="user.isAdmin === true" class="text-left">Admin</td>
@@ -108,7 +111,9 @@ export default {
   computed: {
     filteredUsers() {
       if (this.search) {
-        return this.Users.filter(user => user.username.toLowerCase().includes(this.search.toLowerCase()));
+        return this.Users.filter(user => 
+          user.username.toLowerCase().includes(this.search.toLowerCase()) || user._id.includes(this.search)
+        );
       }
       else {
         return this.Users;
@@ -186,6 +191,9 @@ export default {
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
       FileSaver.saveAs(blob, "users.csv");
     },
+    copyToClipboard(text) {
+      navigator.clipboard.writeText(text)
+    },
   },
 };
 </script>
@@ -193,5 +201,10 @@ export default {
 <style>
 .btn-success {
   margin-right: 10px;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 100px;
 }
 </style>
