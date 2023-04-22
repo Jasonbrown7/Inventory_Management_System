@@ -2,7 +2,12 @@
 <!-- eslint-disable -->
 <template>
     <v-app>
-      <v-main v-bind:style="{ background: this.$vuetify.theme.dark == true ? primary : '#EEEEEE'}">
+      <v-main 
+        v-bind:style="{ 
+          background: this.$vuetify.theme.dark == true 
+          ? primary 
+          : '#EEEEEE'
+        }">
         <v-container>
           <v-row>
             <v-col cols="2">
@@ -75,7 +80,12 @@
                   </template>
                   <span>CSV only</span>
                 </v-tooltip>
-                <v-btn text-color="primary" :to="{ name: 'create-item' }">Create Item</v-btn>
+                <v-btn 
+                  v-bind:style="{ background: this.$vuetify.theme.dark == true ? primary : '#26685d' ,
+                  color: this.$vuetify.theme.dark == true ? primary : 'white'}" 
+                  :to="{ name: 'create-item' }">
+                  Create Item
+                </v-btn>
               </v-toolbar>  
 
               <v-simple-table>
@@ -113,7 +123,8 @@
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
-                          text-color="primary"
+                          :color="$vuetify.theme.dark ? undefined : 'primary'"
+                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                           :to="{ name: 'admin-viewitem', params: { id: item._id } }"
                           small
                         >
