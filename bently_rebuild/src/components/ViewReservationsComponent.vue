@@ -77,8 +77,8 @@
                 <v-spacer></v-spacer>
                 <v-btn
                  v-bind:style="{ 
-                 background: this.$vuetify.theme.dark == true ? primary : '#26685d',
-                 color: this.$vuetify.theme.dark == true ? primary : 'white'}"  
+                 background: this.$vuetify.theme.dark == true ? primary : '#26685d' ,
+                 color: this.$vuetify.theme.dark == true ? primary : 'white'}"   
                  :to="{ name: 'create-reservations' }">
                  Create Reservation
                 </v-btn>
@@ -109,7 +109,8 @@
                         <v-btn
                           class="mr-md-1"
                           :to="{ name: 'edit-reservation', params: { id: reservation._id } }"
-                          color="primary"
+                          :color="$vuetify.theme.dark ? undefined : 'primary'"
+                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                           small
                         >
                           Edit

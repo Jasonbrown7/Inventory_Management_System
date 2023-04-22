@@ -123,7 +123,8 @@
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
-                          text-color="primary"
+                          :color="$vuetify.theme.dark ? undefined : 'primary'"
+                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                           :to="{ name: 'admin-viewitem', params: { id: item._id } }"
                           small
                         >
