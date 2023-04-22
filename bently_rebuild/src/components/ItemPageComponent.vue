@@ -169,6 +169,7 @@
                                     :max=get3MonthsFromNow
                                     full-width
                                     range
+                                    :allowed-dates="allowedDates"
                                   ></v-date-picker>
                                   <!-- <v-card-text>
                                       <v-text-field label="Reservation Start Date" type="date" v-model="reservation.startDate" id = "startDateInput" required />
@@ -264,6 +265,7 @@ export default {
       Reservations: [],
       events: [],
       showCalendar: true,
+      availableDates: [],
     };
   },
   computed: {
@@ -279,10 +281,55 @@ export default {
       date = date.toISOString();
     
       return date.substring(0,9)
-    }
+    },
   },
   methods: {
-      isDateBeforeToday(date){
+
+    getNonOverlappingDates() {
+      // Create an empty array to store the non-overlapping dates
+      const nonOverlapDates = [];
+
+      // Get today's date and the date 90 days from now
+      const today = new Date();
+      const endDate = new Date(today);
+      endDate.setDate(endDate.getDate() + 90);
+
+      today.setDate(today.getDate()+1);
+
+      // Loop through each day between today and 90 days from now
+      for (let d = new Date(today); d <= endDate; d.setDate(d.getDate() + 1)) {
+        let isOverlap = false;
+        // Check if the day overlaps with any events
+        for (const event of this.events) {
+          const startDate = new Date(event.start);
+          startDate.setDate(startDate.getDate()-1)
+          const endDate = new Date(event.end);
+          
+          if (d >= startDate && d <= endDate) {
+            isOverlap = true;
+            break;
+          }
+        }
+        // If the day doesn't overlap with any events, add it to the non-overlapping dates array
+        if (!isOverlap) {
+          const dateStr = d.toISOString().slice(0, 10);
+          nonOverlapDates.push(dateStr);
+        }
+      }
+      console.log(nonOverlapDates);
+      return nonOverlapDates;
+    },
+
+
+    allowedDates(val){
+      for (var i = 0; i < this.availableDates.length; i++) {
+         if (this.availableDates[i] == val){
+            return val;
+         } 
+      }
+    },
+
+    isDateBeforeToday(date){
       const today = new Date()
       console.log("yo")
       console.log("BRUH", date, today)
@@ -372,21 +419,27 @@ export default {
       })
     },
 
+
+
     handleSubmitForm() {
-      console.log("dates",this.dates)
+      
       // const startDateInput = document.getElementById("startDateInput").value;
       // const endDateInput = document.getElementById("endDateInput").value;
       const startDateInput = this.dates[0]
       const endDateInput = this.dates[1]
-      console.log("YOO", startDateInput, endDateInput)
+
       // const postStartDate = new Date(this.reservation.startDate)
-      const postStartDate = new Date(startDateInput)
-      const postEndDate = new Date(endDateInput)
+      let postStartDate = new Date(startDateInput)
+      let postEndDate = new Date(endDateInput)
 
       postStartDate.setDate(postStartDate.getDate() + 1)
       postEndDate.setDate(postEndDate.getDate() + 1)
 
-
+      if (postStartDate > postEndDate){
+        let temp = postStartDate
+        postStartDate = postEndDate
+        postEndDate = temp
+      }
 
       if (postStartDate <= postEndDate && !this.isDateBeforeToday(postStartDate) && !this.isDateOver3MonthsFromToday(postEndDate) && !this.isReservationOver2Weeks(postStartDate, postEndDate) && !this.isReservationConflict(this.Reservations, postStartDate, postEndDate)){
         
@@ -429,12 +482,6 @@ export default {
       else if(this.isReservationOver2Weeks(postStartDate, postEndDate)){
         window.alert("Error: Reservations cannot be longer than 2 weeks")
       }
-      // else if (startDateInput == endDateInput){
-      //   window.alert("Error: Start date and End date cannot be equal")
-      // }
-      else if (startDateInput > endDateInput){
-        window.alert("Error: Start date must come before end date")
-      }
       else{
         window.alert("Error: Something went wrong, please try again")
       }
@@ -476,6 +523,10 @@ export default {
           start: new Date(reservation.startDate),
           end: new Date(reservation.endDate),
         }))
+
+        this.availableDates = this.getNonOverlappingDates()
+        
+        
     });    
 
   },
@@ -489,7 +540,9 @@ export default {
         })    
         .catch((errors) => {    
             console.log(errors)     
-        })
+        });
+
+      
   },
 };
 </script>
