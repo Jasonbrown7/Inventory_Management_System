@@ -132,7 +132,7 @@
                     v-model="pagination.page"
                     :length="Math.ceil(filteredReservations.length / pagination.itemsPerPage)"
                     :items-per-page="pagination.itemsPerPage"
-                    
+                    color = "#26685d"
                 />
             </v-col>
           </v-row>

@@ -129,7 +129,7 @@ export default {
                     this.user = res.data;
                     this.user.pic = this.selectedImage;
                     console.log("user",this.user);
-                    this.$router.push("/view/users");
+                    this.$router.push("/profile");
                     console.log("userafter",this.user);
                 })
                 .catch((error) => {
