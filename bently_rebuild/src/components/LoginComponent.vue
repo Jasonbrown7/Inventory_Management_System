@@ -31,7 +31,6 @@
                         :rules="[v => !!v || 'Password is required']"
                         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="showPassword ? 'text' : 'password'"
-                        counter
                         @click:append="showPassword = !showPassword"
                         v-model="user.password"
                         
