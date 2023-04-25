@@ -21,6 +21,7 @@
                 @input = "resetInput"
                 @click:append.stop
               ></v-autocomplete> -->
+              
               <v-icon class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
 
 

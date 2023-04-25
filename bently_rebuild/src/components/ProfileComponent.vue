@@ -1,8 +1,7 @@
 <template>
     <v-app id="inspire">
     <v-main class="v-main">
-        <v-container class="heroimage" fluid fill-height >
-  
+        <v-container :class="heroImageClass" fluid fill-height >
             <v-card
               elevation="1c"
               class="mx-auto px-md-6 pb-md-4 pt-md-4"
@@ -142,6 +141,12 @@ export default {
         this.toggleDarkMode();
       }
     },
+
+    computed: {
+    heroImageClass() {
+      return this.$vuetify.theme.dark ? 'heroimagedark' : 'heroimage';
+    }
+  }
 }
 </script>
 
@@ -157,6 +162,15 @@ export default {
     background-size:cover;
     background-attachment: fixed;
 }
+
+.heroimagedark {
+  background-image: url("../assets/bentlydark.jpeg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
 .heroimage h1 {
     font-size: 50px;
     font-weight: 700;
