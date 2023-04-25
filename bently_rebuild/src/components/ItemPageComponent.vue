@@ -284,7 +284,6 @@ export default {
     },
   },
   methods: {
-
     getNonOverlappingDates() {
       // Create an empty array to store the non-overlapping dates
       const nonOverlapDates = [];
@@ -455,7 +454,8 @@ export default {
             item: this.item._id,
           })
           .then(() => {
-            this.$router.push({name: 'my-reservations', params: {user_id: this.user.id} }),
+            const query = { showAlert: true };
+            this.$router.push({name: 'my-reservations', query, params: {user_id: this.user.id, item_name: this.item.name} }),
             this.reservation = {
               startDate: "",
               endDate: "",
