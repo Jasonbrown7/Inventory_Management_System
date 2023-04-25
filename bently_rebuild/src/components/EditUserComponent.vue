@@ -88,7 +88,7 @@
           .then((res) => {
             console.log(res);
             console.log(this.$route.params.id)
-            this.$router.push("/view/users");
+            
           })
           .catch((error) => {
             console.log(error);

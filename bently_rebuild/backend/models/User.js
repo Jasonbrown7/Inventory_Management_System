@@ -8,7 +8,8 @@ let userSchema = new Schema(
     email: { type: String, required: true },
     password: { type: String, required: true },
     isAdmin: {type: Boolean, default: false},
-    pic: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"}
+    pic: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"},
+    darkmode: {type: Boolean, default: false}
   },
   {
     collection: 'users',
