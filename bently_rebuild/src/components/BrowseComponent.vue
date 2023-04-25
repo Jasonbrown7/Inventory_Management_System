@@ -23,7 +23,7 @@
                 @click:append.stop
               ></v-autocomplete> -->
               
-              <v-tooltip right color="white">
+              <v-tooltip top color="white">
                 <template #activator="{ on }">
                   <v-icon v-on="on" class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
                 </template>

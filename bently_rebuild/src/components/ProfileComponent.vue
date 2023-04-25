@@ -119,7 +119,13 @@ export default {
             axios
                 .put(apiURL, this.user)
                 .then((res) => {
-                    this.$router.push('/')
+                    // console.log("res",res);
+                    // this.user = res.data;
+                
+                    console.log("userafter",this.user);
+                
+          
+    
                 })
                 .catch((error) => {
                     console.log(error);
