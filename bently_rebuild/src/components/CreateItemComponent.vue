@@ -39,7 +39,7 @@
                   <v-select
                     label="Category"
                     v-model="item.category"
-                    :items="['Water Sports', 'Winter Sports', 'Leisure', 'Camping', 'Climbing']"
+                    :items="['Bikes', 'Bouldering', 'Camping', 'Disc Golf', 'Games', 'Golf', 'Indoor Sports', 'Snow Sports', 'Water Sports', 'Sports Misc.']"
                     required
                   />
                 </v-col>
@@ -47,9 +47,9 @@
               <v-row>
                 <v-col cols="12">
                   <v-select
-                    label="Current Availability"
+                    label="Current Status"
                     v-model="item.availability"
-                    :items="['Available', 'Unavailable']"
+                    :items="['Available', 'Service']"
                     required
                   />
                 </v-col>

@@ -23,7 +23,7 @@
                 @click:append.stop
               ></v-autocomplete> -->
               
-              <v-tooltip right color="white">
+              <v-tooltip top color="white">
                 <template #activator="{ on }">
                   <v-icon v-on="on" class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
                 </template>
@@ -97,11 +97,16 @@
       },
     
       dropdownCategory: [
-        {text: 'Winter Sports', value: 'Winter Sports'}, 
-        {text: 'Camping', value: 'Camping'}, 
+        {text: 'Bikes', value: 'Bikes'}, 
+        {text: 'Bouldering', value: 'Bouldering'}, 
+        {text: 'Camping', value: 'Camping'},
+        {text: 'Disc Golf', value: 'Disc Golf'},
+        {text: 'Games', value: 'Games'},
+        {text: 'Golf', value: 'Golf'}, 
+        {text: 'Indoor Sports', value: 'Indoor Sports'}, 
+        {text: 'Snow Sports', value: 'Snow Sports'},
         {text: 'Water Sports', value: 'Water Sports'},
-        {text: 'Leisure', value: 'Leisure'},
-        {text: 'Climbing', value: 'Climbing'},
+        {text: 'Sports Misc.', value: 'Sports Misc.'},
       ],
       selectedCategory: '',
 

@@ -22,7 +22,7 @@
                 <v-list rounded="lg">
                   <v-select
                     label="Category"
-                    :items="['Water Sports', 'Winter Sports', 'Summer Sports', 'Leisure']"
+                    :items="['Bikes', 'Bouldering', 'Camping', 'Disc Golf', 'Games', 'Golf', 'Indoor Sports', 'Snow Sports', 'Water Sports', 'Sports Misc.']"
                     chips
                     multiple
                     solo
@@ -40,7 +40,7 @@
                   ></v-select>
                   <v-select
                     label="Availability"
-                    :items="['Available', 'Unavailable']"
+                    :items="['Available', 'Service']"
                     chips
                     multiple
                     solo
@@ -87,14 +87,13 @@
                   Create Item
                 </v-btn>
               </v-toolbar>  
-
               <v-simple-table>
                   <thead>
                     <tr>
                       <th class="text-left">ID</th>
                       <th class="text-left">Name</th>
                       <th class="text-left">Category</th>
-                      <th class="text-left">Availability</th>
+                      <th class="text-left">Status</th>
                       <th class="text-left">Condition</th>
                       <th class="text-left">IsCheckedOut</th>
                       <th class="text-left">Actions</th>

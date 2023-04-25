@@ -36,7 +36,9 @@
                         <v-switch class="mt-3" v-model="user.darkmode">
                         </v-switch>
                     </v-row>
-            
+                    <v-row>
+                        <v-btn elevation=0 class="mb-5 ml-4">Reset Password</v-btn>
+                    </v-row>
                 </v-col>
             </v-row>
             <v-divider class="my-2"></v-divider>

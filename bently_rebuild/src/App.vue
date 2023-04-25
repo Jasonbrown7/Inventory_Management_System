@@ -23,13 +23,18 @@
       <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
       <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain class="nav-btn">My Reservations</v-btn>
       <template v-if="isAdmin === true">
-        <v-btn to="/view/items" plain class="nav-btn">Inventory</v-btn>
-        <v-btn to="/view/reservations" plain class="nav-btn">Reservations</v-btn>
-        <!-- <v-btn to="/create/reservations" plain>Create Reservations</v-btn> -->
-        <v-btn to="/view/users" plain class="nav-btn">Users</v-btn>
+        <v-btn plain class="nav-btn mr-0" id="menu-activator">Admin</v-btn>
+        <v-menu activator="#menu-activator" bottom offset-y style="display:block" open-on-hover>
+          <v-list>
+            <v-list-item
+              v-for="(adminPage, index) in adminPages"
+              :key="index"
+            >
+              <v-btn :to=adminPage.route plain>{{ adminPage.title }}</v-btn>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </template>
-      
-      <!-- <v-btn to="/create/users" plain>Create Users</v-btn> -->
     <template>
 
     <v-menu
@@ -89,6 +94,11 @@ export default {
       items: [
         { title: "Log In", route:  `/login` },
         { title: "Sign Up", route: `/create/users`}
+      ],
+      adminPages: [
+        { title: "Inventory", route:  `/view/items` },
+        { title: "Reservations", route: `/view/reservations`},
+        { title: "Users", route: `/view/users`}
       ],
       loggedInItems: [
         { title: "Profile", route: "/profile"},

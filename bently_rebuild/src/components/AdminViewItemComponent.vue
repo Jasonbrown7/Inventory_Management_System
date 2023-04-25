@@ -1,8 +1,15 @@
 <template>
     <v-app id="inspire">
-      <v-main class="v-main grey lighten-3">
+        <v-main 
+            v-bind:style="{ 
+            background: this.$vuetify.theme.dark == true 
+            ? primary 
+            : '#EEEEEE'}">
             <v-container>
-                <v-toolbar color="grey lighten-3" elevation="0">
+                <v-toolbar elevation="0" v-bind:style="{ 
+                background: this.$vuetify.theme.dark == true 
+                ? primary 
+                : '#EEEEEE'}">
                     <v-toolbar-title style="font-size: 30px;">Item Details</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-btn color="edit" :to="{ name: 'view-items' }" class="mr-3">Back</v-btn>
