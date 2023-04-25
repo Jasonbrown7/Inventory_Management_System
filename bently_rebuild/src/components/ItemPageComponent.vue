@@ -70,91 +70,69 @@
                         <v-layout>
                           <v-flex xs12 class="mb-3">
                           <v-sheet height="500" class="overflow-y-auto">
-                              <!-- <div style="font-size: 30px;" class="text-left ml-0 mb-2 text-h6">Reservation Dates</div> -->
                               <v-list two-line>
+                                <v-header v-if="item.comments.length===0" class="justify-center">This item doesn't have any comments yet.</v-header>
                                 <v-list-item v-for="comment in item.comments" :key="comment.id" class="text-left" >
                                   <v-list-item-icon class="mb-0">
-                                      <v-icon >mdi-account</v-icon>
+                                      <v-icon>mdi-account</v-icon>
                                     </v-list-item-icon>
                                   <v-list-item-content>
-
                                     <v-list-item-title>{{ comment.comment }}</v-list-item-title>
                                     <v-list-item-subtitle>{{ comment.date }}</v-list-item-subtitle>
                                   </v-list-item-content>
                                 </v-list-item>
 
                               </v-list>
-                              <v-dialog
-                              v-model="showCommentDialog"
-                              persistent
-                              max-width="600px"
-                            >
-                            <v-form @submit.prevent="addComment" >
-                              <v-card>
-                                <v-card-title>
-                                  <span class="text-h5">Leave a review!</span>
-                                </v-card-title>
-                                <v-card-text>
-                                  <v-container>
-                                    <v-row>
-
-                                        <v-text-field
-                                          v-model="comment"
-                                          label="Review"
-                                          required
-                                        ></v-text-field>
-
-                                      <!-- <v-row>
-                                        <v-select
-                                          :items="['0-17', '18-29', '30-54', '54+']"
-                                          label="Condition"
-                                          required
-                                        ></v-select>
-                                        <v-file-input
-                                          accept="image/png, image/jpeg, image/bmp"
-                                          v-model="selectedFiles" 
-                                          :rules="imageSizeRules"
-                                          prepend-icon="mdi-camera"
-                                          show-size
-                                          label="Select an Image"
-                                        ></v-file-input>
-              
-                                      
-                                      </v-row> -->
-                                    
-                                    </v-row>
-                                  </v-container>
-                                  
-                                </v-card-text>
-                                <v-card-actions>
-                                  <v-spacer></v-spacer>
-                                  <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="showCommentDialog = false;"
-                                  >
-                                    Close
-                                  </v-btn>
-                                  <v-btn
-                                    type="submit"
-                                    color="blue darken-1"
-                                    text
-                                    @click="showCommentDialog = false"
-                                  >
-                                    Save
-                                  </v-btn>
-                                </v-card-actions>
-                              </v-card>
-                            </v-form>
-                            </v-dialog>
-                              <v-btn color="primary" class="mt-3" @click="showCommentDialog = true">Add Comment</v-btn>
+                              <!-- <v-dialog
+                                v-model="showCommentDialog"
+                                persistent
+                                max-width="600px"
+                              >
+                                <v-form @submit.prevent="addComment" >
+                                  <v-card>
+                                    <v-card-title>
+                                      <span class="text-h5">Leave a review!</span>
+                                    </v-card-title>
+                                    <v-card-text>
+                                      <v-container>
+                                        <v-row>
+                                            <v-text-field
+                                              v-model="comment"
+                                              label="Review"
+                                              required
+                                            ></v-text-field>
+                                        </v-row>
+                                      </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                      <v-spacer></v-spacer>
+                                      <v-btn
+                                        color="blue darken-1"
+                                        text
+                                        @click="showCommentDialog = false;"
+                                      >
+                                        Close
+                                      </v-btn>
+                                      <v-btn
+                                        type="submit"
+                                        color="blue darken-1"
+                                        text
+                                        @click="showCommentDialog = false"
+                                      >
+                                        Save
+                                      </v-btn>
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-form>
+                              </v-dialog> -->
+                              <!-- <v-btn color="primary" class="mt-3" @click="showCommentDialog = true">Add Comment</v-btn> -->
                             </v-sheet>
                           </v-flex>
                           </v-layout>
                       </v-col>
                       <v-col cols="12" md="6">
                         <div class="d-flex flex-row mb-1 bg-surface-variant">
-                              <div class="text-left text-h6">Reserve</div>
+                              <div class="text-left text-h6">Select Reservation Dates</div>
                               <v-spacer></v-spacer>
                           </div>
                         <v-layout>
