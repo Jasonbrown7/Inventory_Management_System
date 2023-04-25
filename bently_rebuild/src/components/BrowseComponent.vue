@@ -91,11 +91,16 @@
       },
     
       dropdownCategory: [
-        {text: 'Winter Sports', value: 'Winter Sports'}, 
-        {text: 'Camping', value: 'Camping'}, 
+        {text: 'Bikes', value: 'Bikes'}, 
+        {text: 'Bouldering', value: 'Bouldering'}, 
+        {text: 'Camping', value: 'Camping'},
+        {text: 'Disc Golf', value: 'Disc Golf'},
+        {text: 'Games', value: 'Games'},
+        {text: 'Golf', value: 'Golf'}, 
+        {text: 'Indoor Sports', value: 'Indoor Sports'}, 
+        {text: 'Snow Sports', value: 'Snow Sports'},
         {text: 'Water Sports', value: 'Water Sports'},
-        {text: 'Leisure', value: 'Leisure'},
-        {text: 'Climbing', value: 'Climbing'},
+        {text: 'Sports Misc.', value: 'Sports Misc.'},
       ],
       selectedCategory: '',
 

@@ -23,7 +23,7 @@
       <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
       <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain class="nav-btn">My Reservations</v-btn>
       <template v-if="isAdmin === true">
-        <v-btn plain class="nav-btn mr-0" id="menu-activator">Administrator</v-btn>
+        <v-btn plain class="nav-btn mr-0" id="menu-activator">Admin</v-btn>
         <v-menu activator="#menu-activator" bottom offset-y style="display:block" open-on-hover>
           <v-list>
             <v-list-item
