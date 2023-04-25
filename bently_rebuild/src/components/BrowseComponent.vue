@@ -92,16 +92,19 @@
     
       dropdownCategory: [
         {text: 'Winter Sports', value: 'Winter Sports'}, 
-        {text: 'Summer Sports', value: 'Summer Sports'}, 
+        {text: 'Camping', value: 'Camping'}, 
         {text: 'Water Sports', value: 'Water Sports'},
         {text: 'Leisure', value: 'Leisure'},
+        {text: 'Climbing', value: 'Climbing'},
       ],
       selectedCategory: '',
 
       dropdownConditions: [
         {text: 'New', value: 'New'}, 
+        {text: 'Like New', value: 'Like New'}, 
         {text: 'Used', value: 'Used'}, 
-        {text: 'Broken', value: 'Broken'}, 
+        {text: 'Heavily Used', value: 'Heavily Used'}, 
+        {text: 'Damaged', value: 'Damaged'}, 
       ],
       selectedCondition: '',
 

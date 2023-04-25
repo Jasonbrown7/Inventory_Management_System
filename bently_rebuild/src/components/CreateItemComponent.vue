@@ -115,7 +115,7 @@ export default {
       axios
         .post(apiURL, this.item)
         .then(() => {
-          this.$router.push("/login");
+          this.$router.push("/view/items");
           this.item = {
             name: "",
             description: "",
