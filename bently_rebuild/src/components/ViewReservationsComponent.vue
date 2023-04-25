@@ -91,7 +91,7 @@
                       <th class="text-left">End Date</th>
                       <th class="text-left">User</th>
                       <th class="text-left">Item</th>
-                      <th class="text-left">IsCheckedOut</th>
+                      <th class="text-left">Checked Out</th>
                       <th class="text-left"></th>
                       <th class="text-left">Actions</th>
                     </tr>
@@ -189,7 +189,7 @@ export default {
     displayItemIsCheckedOutFromId(itemId, Items){
       if(!itemId) return '';
       const myItem = Items.find(u => u._id === itemId);
-      return myItem.isCheckedOut;
+      return (myItem.isCheckedOut ? ("Yes") : ("No"));
     }
   },
   // beforeCreate(){

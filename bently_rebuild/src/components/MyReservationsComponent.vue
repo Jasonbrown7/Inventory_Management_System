@@ -8,6 +8,13 @@
               <v-toolbar elevation="0" class="mt-10">
                     <v-toolbar-title style="font-size: 30px;">Current Reservations</v-toolbar-title>
                     <v-spacer></v-spacer>
+                    <v-alert
+                      v-if="$route.query.showAlert"
+                      border="right"
+                      dense
+                      type="success">
+                      Successfully checked out the {{this.$route.params.item_name}}!
+                    </v-alert>
                 </v-toolbar>  
                 <v-header
                   v-if="filteredCurrentReservations.length === 0"

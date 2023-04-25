@@ -95,7 +95,7 @@
                       <th class="text-left">Category</th>
                       <th class="text-left">Status</th>
                       <th class="text-left">Condition</th>
-                      <th class="text-left">IsCheckedOut</th>
+                      <th class="text-left">Checked Out</th>
                       <th class="text-left">Actions</th>
                     </tr>
                   </thead>
@@ -118,7 +118,7 @@
                       <td class="text-left">{{ item.category }}</td>
                       <td class="text-left">{{ item.availability }}</td>
                       <td class="text-left">{{ item.condition }}</td>
-                      <td class="text-left">{{ item.isCheckedOut }}</td>
+                      <td class="text-left">{{ item.isCheckedOut | toYesOrNo }}</td>
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
@@ -246,6 +246,16 @@ export default {
       const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
       const end = start + this.pagination.itemsPerPage;
       return this.filteredItems.slice(start, end);
+    }
+  },
+  filters: {
+    toYesOrNo(value){
+      if (value){
+        return "Yes";
+      }
+      else{
+        return "No";
+      }
     }
   },
   methods: {
