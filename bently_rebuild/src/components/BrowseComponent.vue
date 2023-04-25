@@ -11,7 +11,8 @@
               <v-text-field label="Reservation End" type="date" v-model="reservationEnd" class="ma-3" required/>
               <v-select style="max-width: 200px; color: black" label="Category" :items="dropdownCategory" class="ma-3" v-model="selectedCategory" ></v-select>
               <v-select style="max-width: 200px;" label="Condition" :items="dropdownConditions" class="ma-3" v-model="selectedCondition"></v-select>
-              <v-text-field v-model="input" append-icon="mdi-magnify"> Search for an item
+              <v-text-field ref="searchbar" label="Search" v-model="input" append-icon="mdi-magnify">
+                Search for an item
               </v-text-field>
               <!-- <v-autocomplete 
                 append-icon="mdi-magnify"
@@ -22,8 +23,12 @@
                 @click:append.stop
               ></v-autocomplete> -->
               
-              <v-icon class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
-
+              <v-tooltip right color="white">
+                <template #activator="{ on }">
+                  <v-icon v-on="on" class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
+                </template>
+                <span>Refresh Filters</span>
+              </v-tooltip>
 
               
              
@@ -154,6 +159,7 @@
     // This works similarly in the opposite way.
     //
     // If no filters are selected, both availability and conidition always evaluate to true, so all items are displayed.
+    // (Chandler Martin)
 
     computed: {
 
@@ -176,7 +182,7 @@
               continue;
             }
           }
-          // --------------------
+          // -------------------- (Chandler Martin)
 
           const hasCategory = !this.selectedCategory || item.category=== this.selectedCategory;
           const hasCondition = !this.selectedCondition || item.condition === this.selectedCondition;
@@ -208,8 +214,15 @@
       },
 
       refreshFilters() {
+        //Resets both searchbar logged input and resets searchbar form
+        this.$refs.searchbar.reset();
+        this.input = ''
+
+        //Resets all other relevant categories
         this.selectedCategory = null
         this.selectedCondition = null
+        this.reservationStart = null
+        this.reservationEnd = null
       }
     }
   }

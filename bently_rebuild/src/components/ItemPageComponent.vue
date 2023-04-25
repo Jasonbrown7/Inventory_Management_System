@@ -147,7 +147,14 @@
                               </v-card>
                             </v-form>
                             </v-dialog>
-                              <v-btn color="primary" class="mt-3" @click="showCommentDialog = true">Add Comment</v-btn>
+                              <v-btn 
+                                v-bind:style="{ 
+                                background: this.$vuetify.theme.dark == true ? primary : '#26685d' ,
+                                color: this.$vuetify.theme.dark == true ? primary : 'white'}"   
+                                class="mt-3" 
+                                @click="showCommentDialog = true">
+                                Add Comment
+                              </v-btn>
                             </v-sheet>
                           </v-flex>
                           </v-layout>
