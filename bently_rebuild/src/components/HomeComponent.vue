@@ -11,7 +11,7 @@
                 background: this.$vuetify.theme.dark == true ? primary : '#26685d' ,
                 color: this.$vuetify.theme.dark == true ? primary : 'white'}"  
                 large href="/create/users">
-                Begin your adventure »
+                Begin your adventure
               </v-btn>
               <div>
               <!-- <v-switch class="pl-10" v-model="darkMode">

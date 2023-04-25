@@ -41,7 +41,6 @@
                       v-model="user.password"
                       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       :type="showPassword ? 'text' : 'password'"
-                      counter
                       @click:append="showPassword = !showPassword"
                       required
                     />
@@ -52,9 +51,10 @@
                     <v-text-field
                       label="Confirm Password"
                       :rules="[v => !!v || 'Password is required']"
-                      :type="'password'"
+                      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="showPassword ? 'text' : 'password'"
+                      @click:append="showPassword = !showPassword"
                       v-model="confirmedPassword"
-                      counter
                       required
                     />
                   </v-col>

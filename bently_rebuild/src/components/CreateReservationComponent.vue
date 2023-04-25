@@ -1,6 +1,10 @@
 <template>
   <v-app id="inspire">
-    <v-main class="v-main grey lighten-3">
+    <v-main
+      v-bind:style="{ 
+      background: this.$vuetify.theme.dark == true 
+      ? primary 
+      : '#EEEEEE'}">
       <v-container>
         <v-card
           elevation="0"

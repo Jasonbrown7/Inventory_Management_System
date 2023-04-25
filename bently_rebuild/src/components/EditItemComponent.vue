@@ -1,6 +1,10 @@
 <template>
     <v-app id="inspire">
-      <v-main class="v-main grey lighten-3">
+      <v-main 
+        v-bind:style="{ 
+        background: this.$vuetify.theme.dark == true 
+        ? primary 
+        : '#EEEEEE'}">
         <v-container>
           <v-card
             elevation="0"
@@ -44,7 +48,7 @@
                     <v-select
                     label="Category"
                     v-model="item.category"
-                    :items="['Water Sports', 'Winter Sports', 'Leisure', 'Camping', 'Climbing']"
+                    :items="['Bikes', 'Bouldering', 'Camping', 'Disc Golf', 'Games', 'Golf', 'Indoor Sports', 'Snow Sports', 'Water Sports', 'Sports Misc.']"
                     required
                   />
                   </v-col>
@@ -54,7 +58,7 @@
                     <v-select
                     label="Current Availability"
                     v-model="item.availability"
-                    :items="['Available', 'Unavailable']"
+                    :items="['Available', 'Service']"
                     required
                   />
                   </v-col>
