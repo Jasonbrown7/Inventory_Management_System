@@ -31,7 +31,8 @@
                         <td>
                           <v-btn v-if="!isItemCheckedOut(reservation.item)"
                           class="mr-md-1"
-                          color="primary"
+                          :color="$vuetify.theme.dark ? undefined : 'primary'"
+                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                           small
                           @click.prevent="checkOut(reservation.item)"
                         >
@@ -50,7 +51,8 @@
                         <v-btn
                           class="ml-md-2"
                           @click.prevent="deleteReservation(reservation._id)"
-                          color="error"
+                          :color="$vuetify.theme.dark ? undefined : 'primary'"
+                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                           outlined
                           small
                         >
