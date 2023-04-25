@@ -63,8 +63,9 @@
                     <td class="text-left">
                       <v-btn
                         class="mr-md-1"
+                        :color="$vuetify.theme.dark ? undefined : 'primary'"
+                        :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                         :to="{ name: 'edit-user', params: { id: user._id } }"
-                        text-color="primary"
                         small
                       >
                         Edit
