@@ -16,6 +16,7 @@ import LoginView from '../views/LoginView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ItemPageView from '../views/ItemPageView.vue'
 import MyReservationsView from '../views/MyReservationsView.vue'
+import ResetPasswordView from '../views/ResetPasswordView.vue'
 
 
 Vue.use(VueRouter)
@@ -101,6 +102,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: ResetPasswordView
   },
 ]
 

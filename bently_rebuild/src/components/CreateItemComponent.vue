@@ -136,8 +136,6 @@ export default {
   },
   watch: {
     selectedFiles() {
-      console.log("selected files:", this.selectedFiles);
-      console.log("selected files length:", this.selectedFiles.length);
       const reader = new FileReader();
       reader.onload = (event) => {
         const img = new Image();
