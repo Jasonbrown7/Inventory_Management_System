@@ -37,7 +37,7 @@
                         </v-switch>
                     </v-row>
                     <v-row>
-                        <v-btn elevation=0 class="mb-5 ml-4">Reset Password</v-btn>
+                        <v-btn elevation=0 class="mb-5 ml-4" to="/reset-password">Reset Password</v-btn>
                     </v-row>
                 </v-col>
             </v-row>
@@ -114,18 +114,11 @@ export default {
         }, 
 
         save_user(){
-            console.log("saveuserbefore",this.user)
             let apiURL = `http://localhost:4000/api/user/update/${this.user.id}`;
             axios
                 .put(apiURL, this.user)
                 .then((res) => {
-                    // console.log("res",res);
-                    // this.user = res.data;
-                
-                    console.log("userafter",this.user);
-                
-          
-    
+                    console.log(res)
                 })
                 .catch((error) => {
                     console.log(error);
