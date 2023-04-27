@@ -22,8 +22,72 @@
                   v-if="filteredCurrentReservations.length === 0"
                   >You have no current reservations.</v-header>
                 <v-simple-table v-else>
+                  <v-dialog
+                              v-model="showCommentDialog"
+                              persistent
+                              max-width="600px"
+                            >
+                            <v-form @submit.prevent="addComment" >
+                              <v-card>
+                                <v-card-title>
+                                  <span class="text-h5">Leave a review!</span>
+                                </v-card-title>
+                                <v-card-text>
+                                  <v-container>
+                                    <v-row>
+
+                                        <v-text-field
+                                          v-model="comment"
+                                          label="Review"
+                                          required
+                                        ></v-text-field>
+
+                                      <!-- <v-row>
+                                        <v-select
+                                          :items="['0-17', '18-29', '30-54', '54+']"
+                                          label="Condition"
+                                          required
+                                        ></v-select>
+                                        <v-file-input
+                                          accept="image/png, image/jpeg, image/bmp"
+                                          v-model="selectedFiles" 
+                                          :rules="imageSizeRules"
+                                          prepend-icon="mdi-camera"
+                                          show-size
+                                          label="Select an Image"
+                                        ></v-file-input>
+              
+                                      
+                                      </v-row> -->
+                                    
+                                    </v-row>
+                                  </v-container>
+                                  
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="showCommentDialog = false;"
+                                  >
+                                    Close
+                                  </v-btn>
+                                  <v-btn
+                                    type="submit"
+                                    color="blue darken-1"
+                                    text
+                                    @click="showCommentDialog = false"
+                                  >
+                                    Save
+                                  </v-btn>
+                                </v-card-actions>
+                              </v-card>
+                            </v-form>
+                          </v-dialog>
                     <thead>
                         <tr>
+                        <th class="text-left"> </th>
                         <th class="text-left">Start Date</th>
                         <th class="text-left">End Date</th>
                         <th class="text-left">User</th>
@@ -33,43 +97,46 @@
                     </thead>
                     <tbody>
                         <tr v-for="reservation in filteredCurrentReservations" :key="reservation.id">
+                        <td v-if="reservation.isOverdue===true" class="text-left ml-0 text-sm" style="color: red;">OVERDUE</td>
+                        <td v-else class="text-left ml-1 text-xs" style="color: green;"></td>
                         <td>{{reservation.startDate | toDateString}}</td>
                         <td>{{reservation.endDate | toDateString}}</td>
                         <td>{{reservation.user | displayUserFromId(Users) }}</td>
                         <td>{{reservation.item | displayItemFromId(Items) }}</td>
                         <td>
                           <v-btn v-if="!isItemCheckedOut(reservation.item)"
-                          class="mr-md-1"
-                          :color="$vuetify.theme.dark ? undefined : 'primary'"
-                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
-                          small
-                          @click.prevent="checkOut(reservation.item)"
-                        >
-                            Check Out
-                        </v-btn>
-                        <v-btn
-                          v-else
-                          class="ml-md-2"
-                          color="primary"
-                          small
-                          
-                          @click.prevent="checkIn(reservation.item)"
-                        >
-                            Check In
-                        </v-btn>
-                        <v-btn
-                          class="ml-md-2"
-                          @click.prevent="deleteReservation(reservation._id)"
-                          :color="$vuetify.theme.dark ? undefined : 'primary'"
-                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
-                          outlined
-                          small
-                        >
-                            Cancel
-                        </v-btn>
+                            class="mr-md-1"
+                            :color="$vuetify.theme.dark ? undefined : 'primary'"
+                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
+                            small
+                            @click.prevent="checkOut(reservation.item)"
+                          >
+                              Check Out
+                          </v-btn>
+                          <v-btn
+                            v-else
+                            class="ml-md-2"
+                            color="primary"
+                            small
+                            
+                            @click.prevent="checkIn(reservation.item, reservation)"
+                          >
+                              Check In
+                          </v-btn>
+                          <v-btn
+                            class="ml-md-2"
+                            @click.prevent="deleteReservation(reservation._id)"
+                            :color="$vuetify.theme.dark ? undefined : 'primary'"
+                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
+                            outlined
+                            small
+                          >
+                              Cancel
+                          </v-btn>
                         </td>
                         </tr>
                     </tbody>
+                  
                 </v-simple-table>
 
               <v-toolbar elevation="0"  class="mt-10">
@@ -171,6 +238,9 @@ import FileSaver from 'file-saver';
 export default {
   data() {
     return {
+      item_id : '',
+      showCommentDialog: false,
+      comment: '',
       Reservations: [],
       Users: [],
       Items: [],
@@ -260,7 +330,6 @@ export default {
   },
   computed: {
     filteredUpcomingReservations() {
-    
         return this.Reservations.filter(reservation => {
             const startDate = new Date(reservation.startDate);
             const today = new Date();
@@ -270,28 +339,45 @@ export default {
     
     filteredPastReservations() {
         return this.Reservations.filter(reservation => {
+          const today = new Date();
+          const myItem = this.Items.find(item => item._id === reservation.item)
+          if (myItem && myItem.isCheckedOut && new Date(reservation.endDate) < today) {
+            reservation.isOverdue = true;
+          } else {
+            reservation.isOverdue = false;
+          }
             const startDate = new Date(reservation.startDate);
-            const today = new Date();
-            return startDate < today;
+            return startDate < today && !reservation.isOverdue;
         });
     },
     filteredCurrentReservations() {
-      
         return this.Reservations.filter(reservation => {
+          const today = new Date();
+          const myItem = this.Items.find(item => item._id === reservation.item)
+          if (myItem && myItem.isCheckedOut && new Date(reservation.endDate) < today) {
+            reservation.isOverdue = true;
+          } else {
+            reservation.isOverdue = false;
+          }
           const startDate = new Date(reservation.startDate);
           const endDate = new Date(reservation.endDate);
-          const today = new Date();
-          return startDate <= today && today <= endDate;
+          return (startDate <= today && today <= endDate || reservation.isOverdue) && !reservation.hasBeenReturned;
         });
     },
   },
-
   
   methods: {
+    getCurrentDateMethod(){
+      var date = new Date();
+      date = date.toISOString();
+    
+      return date.substring(0,10)
+    },
     isItemCheckedOut(item_id){
       console.log("ITEM ID", item_id);
-      const myItem = this.Items.find(u => u._id === item_id);
+      const myItem = this.Items.find(item => item._id === item_id);
       console.log("MYITEM", myItem);
+      console.log("MYITEM.isCheckedOut", myItem.isCheckedOut);
       return myItem.isCheckedOut;
     },
 
@@ -301,7 +387,7 @@ export default {
           .put(apiURL, {isCheckedOut : true})
           .then((res) => {
             console.log("YES", res);
-            
+            this.reloadPage();
           
           })
           .catch((error) => {
@@ -309,31 +395,47 @@ export default {
           });
     
     },
-    checkIn(item_id){
-      let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
+    checkIn(item_id, reservation){
+      this.showCommentDialog = true;
+      this.item_id = item_id;
+
+      reservation.hasBeenReturned = true;
+      console.log("reservation._id", reservation.id)
+
+      console.log("RESERVATION \n", reservation)
+      let itemApiURL = `http://localhost:4000/api/item/update/${item_id}`;
+      let reservationApiURL = `http://localhost:4000/api/reservation/update/${reservation._id}`;
       axios
-          .put(apiURL, {isCheckedOut : false})
+          .put(itemApiURL, {isCheckedOut : false})
           .then((res) => {
-            const comment = window.prompt("Leave a comment/note on the item:");
             console.log(res);
-            let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
+            this.item_id ='';
             axios
-                  .put(apiURL, {comment : comment})
-                  .then((res) => {
-                  
-                    console.log("Comment Add Success",res);
-                  
-                  })
-                  .catch((error) => {
-                    console.log("Comment Add Fail", error);
-                  });
-          
+              .put(reservationApiURL, reservation)
+              .then((res) => {
+                console.log(res);
+              })
           })
           .catch((error) => {
-            console.log("Checkin Fail", error);
+            console.log("Check-in Fail", error);
           });
-      
-        
+    },
+    addComment(){
+      let apiURL = `http://localhost:4000/api/item/update/comments/${this.item_id}`;
+      axios
+        .put(apiURL, {
+          comment: this.comment,
+          author: this.user.id,
+          date: this.getCurrentDateMethod()
+        })
+        .then(response => {
+          console.log(response);
+          this.showCommentDialog = false;
+          this.comment = "";
+        })
+        .catch(error => {
+          console.log("addecomment", error);
+        });
     },
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
