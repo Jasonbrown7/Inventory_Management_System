@@ -16,7 +16,7 @@
               </v-btn>
             </v-flex>
             <v-flex>
-              <v-layout justify-center class="pr-9">
+              <!-- <v-layout justify-center class="pr-9">
                 <v-switch 
                   prepend-icon="mdi-light mdi-weather-night"
                   append-icon="mdi-light mdi-weather-sunny"
@@ -24,7 +24,7 @@
                   class="pl-10" 
                   v-model="darkMode"
                 />
-              </v-layout>
+              </v-layout> -->
             </v-flex>
           </v-flex>
         </v-layout>
