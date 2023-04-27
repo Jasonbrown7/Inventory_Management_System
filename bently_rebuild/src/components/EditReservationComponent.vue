@@ -80,28 +80,33 @@ export default {
     data() {
       return {
         reservation: {},
+        ogReservation: {},
         Users: [],
         Items: [],
+        Reservations: [],
+        conflictStart: "",
+        conflictEnd: "",
       };
     },
-  //   beforeCreate(){
-  //   let apiURL = `http://localhost:4000/api/auth/admin`;
-  //   axios
-  //   .get(apiURL)
-  //   .then((res) => {
-  //     console.log(res.data)
-     
-  //   })
-  //   .catch(() => {
-  //       window.alert("ur not that guy pal!")
-  //       this.$router.push("/");
-  //     });
-  // },
     created() {
       let apiURL = `http://localhost:4000/api/reservation/edit/${this.$route.params.id}`;
   
       axios.get(apiURL).then((res) => {
+        this.ogReservation = res.data;
         this.reservation = res.data;
+
+        let tempStart = new Date(this.reservation.startDate)
+        let tempEnd = new Date(this.reservation.endDate)
+
+        tempStart.setDate(tempStart.getDate() - 1 )
+        tempEnd.setDate(tempEnd.getDate() - 1 )
+
+        tempStart = tempStart.toISOString()
+        tempEnd = tempEnd.toISOString()
+
+        this.reservation.startDate = tempStart.slice(0, 10);
+        this.reservation.endDate = tempEnd.slice(0, 10);
+
       });
       axios
       .get("http://localhost:4000/api/user")
@@ -119,10 +124,41 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    axios
+      .get("http://localhost:4000/api/reservation")
+      .then((res) => {
+        this.Reservations = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
 
     },
     methods: {
+
+      isReservationConflict(reservations, start, end){
+        const newStart = new Date(start)
+        const newEnd = new Date(end)
+
+        console.log(reservations)
+
+        for (let i = 0; i < reservations.length; i++) {
+
+          const reservationStartDate = new Date(reservations[i].startDate);
+          const reservationEndDate = new Date(reservations[i].endDate);
+
+          if ((newStart <= reservationEndDate && newEnd >= reservationStartDate) && (reservations[i]._id != this.ogReservation._id)) {
+            // There is a conflict with the given start and end parameters
+            this.conflictStart = reservationStartDate;
+            this.conflictEnd = reservationEndDate;
+            return true;
+          }
+        }
+        // No conflicts found
+        return false;
+      },
+
       handleUpdateForm() {
 
         const startDateInput = document.getElementById("startDateInput").value;
@@ -137,8 +173,11 @@ export default {
         postStartDate.setDate(postStartDate.getDate() + 1)
         postEndDate.setDate(postEndDate.getDate() + 1)
 
+        const filteredReservations = this.Reservations.filter((reservation) => {
+          return reservation.item === this.Items[itemIndex]._id;
+        });
 
-        if (startDateInput < endDateInput){
+        if (startDateInput < endDateInput && !this.isReservationConflict(filteredReservations, postStartDate, postEndDate)){
           let apiURL = `http://localhost:4000/api/reservation/update/${this.$route.params.id}`;
     
           axios
@@ -157,8 +196,10 @@ export default {
               console.log(error);
             });
         }
-        else if (startDateInput == endDateInput){
-          window.alert("Error: Start date and End date cannot be equal")
+        else if (this.isReservationConflict(filteredReservations, postStartDate, postEndDate)){
+          this.conflictStart.setDate(this.conflictStart.getDate()-1)
+          this.conflictEnd.setDate(this.conflictEnd.getDate()-1)
+          window.alert("Error: The reservation dates entered conflict with another reservation for the "+ this.Items[itemIndex].name + " from "+ this.conflictStart.toISOString().slice(0, 10) + " to "+ this.conflictEnd.toISOString().slice(0, 10) +", try again.")
         }
         else{
           window.alert("Error: Start date must come before end date")

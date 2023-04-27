@@ -77,29 +77,14 @@ import axios from "axios";
 export default {
   data() {
     return {
-      reservation: {
-        startDate: "",
-        endDate: "",
-        user: "",
-        item: "",
-      },
+      reservation: {},
+      conflictStart: "",
+      conflictEnd: "",
       Users: [],
       Items: [],
+      Reservations: [],
     };
   },
-  // beforeCreate(){
-  //         let apiURL = `http://localhost:4000/api/auth/admin`;
-  //         axios
-  //         .get(apiURL)
-  //         .then((res) => {
-  //           console.log(res.data)
-          
-  //         })
-  //         .catch(() => {
-  //             window.alert("ur not that guy pal!")
-  //             this.$router.push("/");
-  //           });
-  //       },
   created() {
     axios
       .get("http://localhost:4000/api/user")
@@ -117,9 +102,40 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    axios
+      .get("http://localhost:4000/api/reservation")
+      .then((res) => {
+        this.Reservations = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     
   },
   methods: {
+    isReservationConflict(reservations, start, end){
+        const newStart = new Date(start)
+        const newEnd = new Date(end)
+
+        console.log(reservations)
+
+        for (let i = 0; i < reservations.length; i++) {
+
+          const reservationStartDate = new Date(reservations[i].startDate);
+          const reservationEndDate = new Date(reservations[i].endDate);
+
+          if ((newStart <= reservationEndDate && newEnd >= reservationStartDate)) {
+            // There is a conflict with the given start and end parameters
+            this.conflictStart = reservationStartDate;
+            this.conflictEnd = reservationEndDate;
+            return true;
+          }
+        }
+        // No conflicts found
+        return false;
+    },
+
+
     handleSubmitForm() {
 
       const startDateInput = document.getElementById("startDateInput").value;
@@ -134,7 +150,13 @@ export default {
       const userIndex = this.Users.findIndex(user => user.username === this.reservation.user);
       const itemIndex = this.Items.findIndex(item => item.name === this.reservation.item);
 
-      if (startDateInput < endDateInput){
+      const filteredReservations = this.Reservations.filter((reservation) => {
+          return reservation.item === this.Items[itemIndex]._id;
+      });
+
+      
+
+      if (startDateInput < endDateInput && !this.isReservationConflict(filteredReservations, postStartDate, postEndDate)){
         let apiURL = "http://localhost:4000/api/reservation/create";
 
         axios
@@ -158,8 +180,10 @@ export default {
             console.log(error);
           });
       }
-      else if (startDateInput == endDateInput){
-        window.alert("Error: Start date and End date cannot be equal")
+      else if (this.isReservationConflict(filteredReservations, postStartDate, postEndDate)){
+        this.conflictStart.setDate(this.conflictStart.getDate()-1)
+        this.conflictEnd.setDate(this.conflictEnd.getDate()-1)
+        window.alert("Error: The reservation dates entered conflict with another reservation for the "+ this.Items[itemIndex].name + " from "+ this.conflictStart.toISOString().slice(0, 10) + " to "+ this.conflictEnd.toISOString().slice(0, 10) +", try again.")
       }
       else{
         window.alert("Error: Start date must come before end date")
