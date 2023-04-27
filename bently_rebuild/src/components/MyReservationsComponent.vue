@@ -9,11 +9,13 @@
                     <v-toolbar-title style="font-size: 30px;">Current Reservations</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-alert
-                      v-if="$route.query.showAlert"
+                      v-if="$route.query.showAlert && this.$route.params.item_name"
+                      transition="slide-x-transition"
+                      v-model = "showAlert"
                       border="right"
                       dense
                       type="success">
-                      Successfully checked out the {{this.$route.params.item_name}}!
+                      Successfully checked out the {{this.$route.params.item_name}} from {{this.$route.params.new_res_start.toDateString().slice(4, 10)}} to {{this.$route.params.new_res_end.toDateString().slice(4, 10)}}!
                     </v-alert>
                 </v-toolbar>  
                 <v-header
@@ -251,6 +253,7 @@ export default {
       sortedByOldest: false,
       sortedByNewest: false,
       filterCurrentlyOpen: false, 
+      showAlert: true,
     };
   },
   //Jeffrey Carson
@@ -319,6 +322,11 @@ export default {
     
       
     
+  },
+  mounted(){
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 5000);
   },
   computed: {
     filteredUpcomingReservations() {
@@ -492,7 +500,6 @@ export default {
 .btn-success {
   margin-right: 10px;
 }
-
-
 </style>
+
 
