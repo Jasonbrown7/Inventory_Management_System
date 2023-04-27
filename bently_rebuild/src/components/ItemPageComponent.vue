@@ -440,7 +440,7 @@ export default {
           })
           .then(() => {
             const query = { showAlert: true };
-            this.$router.push({name: 'my-reservations', query, params: {user_id: this.user.id, item_name: this.item.name} }),
+            this.$router.push({name: 'my-reservations', query, params: {user_id: this.user.id, item_name: this.item.name, new_res_start: postStartDate, new_res_end: postEndDate} }),
             this.reservation = {
               startDate: "",
               endDate: "",
