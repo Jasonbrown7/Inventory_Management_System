@@ -117,7 +117,7 @@
                             color="primary"
                             small
                             
-                            @click.prevent="checkIn(reservation.item)"
+                            @click.prevent="checkIn(reservation.item, reservation)"
                           >
                               Check In
                           </v-btn>
@@ -330,13 +330,10 @@ export default {
       },
     
     filteredPastReservations() {
-      
         return this.Reservations.filter(reservation => {
           const today = new Date();
           const myItem = this.Items.find(item => item._id === reservation.item)
           if (myItem && myItem.isCheckedOut && new Date(reservation.endDate) < today) {
-            console.log("isCheckedOut: " + myItem.isCheckedOut)
-            console.log("endDate: " + new Date(reservation.endDate))
             reservation.isOverdue = true;
           } else {
             reservation.isOverdue = false;
@@ -350,19 +347,16 @@ export default {
           const today = new Date();
           const myItem = this.Items.find(item => item._id === reservation.item)
           if (myItem && myItem.isCheckedOut && new Date(reservation.endDate) < today) {
-            console.log("isCheckedOut: " + myItem.isCheckedOut)
-            console.log("endDate: " + new Date(reservation.endDate))
             reservation.isOverdue = true;
           } else {
             reservation.isOverdue = false;
           }
           const startDate = new Date(reservation.startDate);
           const endDate = new Date(reservation.endDate);
-          return startDate <= today && today <= endDate || reservation.isOverdue;
+          return (startDate <= today && today <= endDate || reservation.isOverdue) && !reservation.hasBeenReturned;
         });
     },
   },
-
   
   methods: {
     getCurrentDateMethod(){
@@ -393,38 +387,33 @@ export default {
           });
     
     },
-    checkIn(item_id){
+    checkIn(item_id, reservation){
       this.showCommentDialog = true;
       this.item_id = item_id;
-      let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
+
+      reservation.hasBeenReturned = true;
+      console.log("reservation._id", reservation.id)
+
+      console.log("RESERVATION \n", reservation)
+      let itemApiURL = `http://localhost:4000/api/item/update/${item_id}`;
+      let reservationApiURL = `http://localhost:4000/api/reservation/update/${reservation._id}`;
       axios
-          .put(apiURL, {isCheckedOut : false})
+          .put(itemApiURL, {isCheckedOut : false})
           .then((res) => {
-            // const comment = window.prompt("Leave a comment/note on the item:");
             console.log(res);
             this.item_id ='';
-            // let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
-            // axios
-            //       .put(apiURL, {comment : comment})
-            //       .then((res) => {
-                  
-            //         console.log("Comment Add Success",res);
-                  
-            //       })
-            //       .catch((error) => {
-            //         console.log("Comment Add Fail", error);
-            //       });
-          
+            axios
+              .put(reservationApiURL, reservation)
+              .then((res) => {
+                console.log(res);
+              })
           })
           .catch((error) => {
-            console.log("Checkin Fail", error);
+            console.log("Check-in Fail", error);
           });
-      
-        
     },
     addComment(){
       let apiURL = `http://localhost:4000/api/item/update/comments/${this.item_id}`;
-      console.log("this.comment", this.comment)
       axios
         .put(apiURL, {
           comment: this.comment,

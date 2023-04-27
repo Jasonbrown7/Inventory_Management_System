@@ -8,6 +8,7 @@ let reservationSchema = new Schema(
     user: {type: String, required: true},
     item: {type: String, required: true},
     isOverdue: {type: Boolean, required: true, default: false },
+    hasBeenReturned: {type: Boolean, required: true, default: false },
   },
   {
     collection: 'reservations',
