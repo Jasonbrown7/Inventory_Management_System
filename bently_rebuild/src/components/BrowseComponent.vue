@@ -23,7 +23,7 @@
                 @click:append.stop
               ></v-autocomplete> -->
               
-              <v-tooltip right color="white">
+              <v-tooltip top color="white">
                 <template #activator="{ on }">
                   <v-icon v-on="on" class="mb-5 ml-4" color="#26685d" @click="refreshFilters">mdi-refresh</v-icon>
                 </template>
@@ -44,13 +44,29 @@
               <div>
                 <v-row>
                     <v-col
-                      v-for="item in paginatedItems" :key="item.id" cols="3">
-                      <v-card background='#121212' class="mb-4" elevation="0" style="border-radius: 20px;">
+                      v-for="item in paginatedItems" 
+                      :key="item.id" 
+                      cols="3">
+                      <v-card 
+                        background='#121212' 
+                        class="mb-4" 
+                        elevation="0" 
+                        style="border-radius: 20px;">
                         <router-link :to="{ name: 'browse-itempage', params: { id: item._id } }">
                           <v-img v-if="item.image"
-                            :src="item.image" height="250" width="100%" object-fit="cover" style="border-radius: 20px;"></v-img>
+                            :src="item.image" 
+                            height="250" 
+                            width="100%" 
+                            object-fit="cover" 
+                            style="border-radius: 20px;">
+                          </v-img>
                           <v-img v-else
-                            src="../assets/noImage.png" height="250" width="100%" object-fit="cover" style="border-radius: 20px;"></v-img>
+                            src="../assets/noImage.png" 
+                            height="250" 
+                            width="100%" 
+                            object-fit="cover" 
+                            style="border-radius: 20px;">
+                          </v-img>
                         </router-link>
                         <v-card-actions class="pa-0">
                           <v-card-title class="text-h5 pt-2 pb-0">{{ item.name }}</v-card-title>
