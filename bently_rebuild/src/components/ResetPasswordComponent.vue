@@ -3,7 +3,7 @@
       <v-main class="v-main grey lighten-3">
         <v-container class="heroimage" fluid fill-height>
           <v-card elevation="10" class="mx-auto px-md-6 pb-md-6 pt-md-4" min-width="500">
-            <v-form class="ma-2" @submit.prevent="handleSubmitForm">
+            <v-form class="ma-2"> <!-- @submit.prevent="handleSubmitForm" -->
               <v-container class="justify-center">
                 <v-row>
                   <v-col cols="12">
@@ -46,7 +46,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-btn block color="primary" type="submit">Reset Password</v-btn>
+                    <v-btn block color="primary" to="/profile">Reset Password</v-btn>
                   </v-col>
                 </v-row>
                 <v-row>
