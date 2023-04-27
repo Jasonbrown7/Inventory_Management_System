@@ -3,6 +3,7 @@
     <v-main>
       <v-container :class="heroImageClass" fluid fill-height>
         <v-layout align-center justify-center>
+          
           <v-flex>
             <h1 class="text-center white--text display-1">Bently Adventures</h1>
             <v-flex xs12 text-center class="mt-5">
@@ -14,16 +15,20 @@
                 Begin your adventure
               </v-btn>
               <div>
-              <!-- <v-switch class="pl-10" v-model="darkMode">
-                <v-btn :value="false">Light</v-btn>
-                <v-btn :value="true">Dark</v-btn>
-              </v-switch> -->
               </div>
             </v-flex>
+            <v-flex>
+            <v-layout justify-center class="pr-7">
+              <v-switch 
+                prepend-icon="mdi-weather-sunny"
+                append-icon="mdi-weather-night"
+                class="pl-10" 
+                v-model="darkMode"
+              >
+              </v-switch>
+            </v-layout>
           </v-flex>
-         
-            
-          
+          </v-flex>
           
         </v-layout>
       </v-container>
@@ -78,5 +83,13 @@ export default {
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
+}
+
+.v-switch__icon--append .v-icon { 
+  color: white !important;
+}
+
+.v-switch__icon--prepend .v-icon { 
+  color: white !important;
 }
 </style>
