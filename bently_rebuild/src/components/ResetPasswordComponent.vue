@@ -46,7 +46,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-btn block color="primary" to="/profile">Reset Password</v-btn>
+                    <v-btn block text-color="primary" to="/profile">Reset Password</v-btn>
                   </v-col>
                 </v-row>
                 <v-row>

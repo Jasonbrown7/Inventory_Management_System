@@ -18,8 +18,7 @@
         />
       </a>
       <v-spacer></v-spacer>
-
-
+      
       <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
       <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain class="nav-btn">My Reservations</v-btn>
       <template v-if="isAdmin === true">
@@ -105,6 +104,7 @@ export default {
       ],
       isLoggedIn: false,
       isAdmin: false,
+      darkMode: null,
     };
   },
 
@@ -151,6 +151,22 @@ created(){
                 console.log(error);
             });
         },
+
+        toggleDarkMode() {
+        if (this.darkMode) {
+          this.$vuetify.theme.dark = false;
+        }
+        else {
+          this.$vuetify.theme.dark = true;
+        }
+      }
+    },
+
+    watch: {
+      darkMode()
+      {
+        this.toggleDarkMode();
+      }
     },
 
     computed: {
