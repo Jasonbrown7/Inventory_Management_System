@@ -22,6 +22,7 @@
                 <v-simple-table v-else>
                     <thead>
                         <tr>
+                        <th class="text-left"> </th>
                         <th class="text-left">Start Date</th>
                         <th class="text-left">End Date</th>
                         <th class="text-left">User</th>
@@ -31,40 +32,42 @@
                     </thead>
                     <tbody>
                         <tr v-for="reservation in filteredCurrentReservations" :key="reservation.id">
+                        <td v-if="reservation.isOverdue===true" class="text-left ml-0 text-sm" style="color: red;">OVERDUE</td>
+                        <td v-else class="text-left ml-1 text-xs" style="color: green;"></td>
                         <td>{{reservation.startDate | toDateString}}</td>
                         <td>{{reservation.endDate | toDateString}}</td>
                         <td>{{reservation.user | displayUserFromId(Users) }}</td>
                         <td>{{reservation.item | displayItemFromId(Items) }}</td>
                         <td>
                           <v-btn v-if="!isItemCheckedOut(reservation.item)"
-                          class="mr-md-1"
-                          :color="$vuetify.theme.dark ? undefined : 'primary'"
-                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
-                          small
-                          @click.prevent="checkOut(reservation.item)"
-                        >
-                            Check Out
-                        </v-btn>
-                        <v-btn
-                          v-else
-                          class="ml-md-2"
-                          color="primary"
-                          small
-                          
-                          @click.prevent="checkIn(reservation.item)"
-                        >
-                            Check In
-                        </v-btn>
-                        <v-btn
-                          class="ml-md-2"
-                          @click.prevent="deleteReservation(reservation._id)"
-                          :color="$vuetify.theme.dark ? undefined : 'primary'"
-                          :text-color="$vuetify.theme.dark ? 'primary' : undefined"
-                          outlined
-                          small
-                        >
-                            Cancel
-                        </v-btn>
+                            class="mr-md-1"
+                            :color="$vuetify.theme.dark ? undefined : 'primary'"
+                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
+                            small
+                            @click.prevent="checkOut(reservation.item)"
+                          >
+                              Check Out
+                          </v-btn>
+                          <v-btn
+                            v-else
+                            class="ml-md-2"
+                            color="primary"
+                            small
+                            
+                            @click.prevent="checkIn(reservation.item)"
+                          >
+                              Check In
+                          </v-btn>
+                          <v-btn
+                            class="ml-md-2"
+                            @click.prevent="deleteReservation(reservation._id)"
+                            :color="$vuetify.theme.dark ? undefined : 'primary'"
+                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
+                            outlined
+                            small
+                          >
+                              Cancel
+                          </v-btn>
                         </td>
                         </tr>
                     </tbody>
@@ -252,7 +255,6 @@ export default {
   },
   computed: {
     filteredUpcomingReservations() {
-    
         return this.Reservations.filter(reservation => {
             const startDate = new Date(reservation.startDate);
             const today = new Date();
@@ -261,19 +263,35 @@ export default {
       },
     
     filteredPastReservations() {
+      
         return this.Reservations.filter(reservation => {
+          const today = new Date();
+          const myItem = this.Items.find(item => item._id === reservation.item)
+          if (myItem && myItem.isCheckedOut && new Date(reservation.endDate) < today) {
+            console.log("isCheckedOut: " + myItem.isCheckedOut)
+            console.log("endDate: " + new Date(reservation.endDate))
+            reservation.isOverdue = true;
+          } else {
+            reservation.isOverdue = false;
+          }
             const startDate = new Date(reservation.startDate);
-            const today = new Date();
-            return startDate < today;
+            return startDate < today && !reservation.isOverdue;
         });
     },
     filteredCurrentReservations() {
-      
         return this.Reservations.filter(reservation => {
+          const today = new Date();
+          const myItem = this.Items.find(item => item._id === reservation.item)
+          if (myItem && myItem.isCheckedOut && new Date(reservation.endDate) < today) {
+            console.log("isCheckedOut: " + myItem.isCheckedOut)
+            console.log("endDate: " + new Date(reservation.endDate))
+            reservation.isOverdue = true;
+          } else {
+            reservation.isOverdue = false;
+          }
           const startDate = new Date(reservation.startDate);
           const endDate = new Date(reservation.endDate);
-          const today = new Date();
-          return startDate <= today && today <= endDate;
+          return startDate <= today && today <= endDate || reservation.isOverdue;
         });
     },
   },
@@ -282,8 +300,9 @@ export default {
   methods: {
     isItemCheckedOut(item_id){
       console.log("ITEM ID", item_id);
-      const myItem = this.Items.find(u => u._id === item_id);
+      const myItem = this.Items.find(item => item._id === item_id);
       console.log("MYITEM", myItem);
+      console.log("MYITEM.isCheckedOut", myItem.isCheckedOut);
       return myItem.isCheckedOut;
     },
 
