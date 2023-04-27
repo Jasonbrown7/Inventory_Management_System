@@ -175,6 +175,11 @@ export default {
                 this.showCalendar = true
             })
         },
+        displayUserFromIdMethod(userId, Users){
+            if(!userId) return '';
+            const myUser = Users.find(u => u._id === userId);
+            return myUser.username;
+        },
     },
   
     created() {
@@ -182,6 +187,14 @@ export default {
       console.log("item.image", this.item.image)
       axios.get(apiURL).then((res) => {
         this.item = res.data;
+      });
+      axios
+        .get("http://localhost:4000/api/user")
+        .then((res) => {
+        this.Users = res.data;
+      })
+      .catch((error) => {
+        console.log(error);
       });
       axios
       .get("http://localhost:4000/api/reservation")
@@ -196,19 +209,12 @@ export default {
         this.Reservations = filteredReservations;
 
         this.events = filteredReservations.map(reservation => ({
-          name: "RESERVED",
+          name: this.displayUserFromIdMethod(reservation.user, this.Users),
           start: new Date(reservation.startDate),
           end: new Date(reservation.endDate),
         }))
         }); 
-      axios
-        .get("http://localhost:4000/api/user")
-        .then((res) => {
-        this.Users = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      
       axios
         .get("http://localhost:4000/api/item")
         .then((res) => {

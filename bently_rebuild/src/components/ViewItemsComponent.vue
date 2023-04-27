@@ -74,7 +74,7 @@
               <v-toolbar elevation ="0" v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}">
                 <v-toolbar-title style="font-size: 30px;">Admin - Inventory</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-tooltip left>
+                <v-tooltip color="white" left>
                   <template v-slot:activator="{ on }">
                     <v-btn color="primary" outlined @click="handleCsvImport" class="mr-3" v-on="on">Import Items</v-btn>
                   </template>
@@ -95,7 +95,7 @@
                       <th class="text-left">Category</th>
                       <th class="text-left">Status</th>
                       <th class="text-left">Condition</th>
-                      <th class="text-left">IsCheckedOut</th>
+                      <th class="text-left">Checked Out</th>
                       <th class="text-left">Actions</th>
                     </tr>
                   </thead>
@@ -118,7 +118,7 @@
                       <td class="text-left">{{ item.category }}</td>
                       <td class="text-left">{{ item.availability }}</td>
                       <td class="text-left">{{ item.condition }}</td>
-                      <td class="text-left">{{ item.isCheckedOut }}</td>
+                      <td class="text-left">{{ item.isCheckedOut | toYesOrNo }}</td>
                       <td class="text-left">
                         <v-btn
                           class="mr-md-1"
@@ -246,6 +246,16 @@ export default {
       const start = (this.pagination.page - 1) * this.pagination.itemsPerPage;
       const end = start + this.pagination.itemsPerPage;
       return this.filteredItems.slice(start, end);
+    }
+  },
+  filters: {
+    toYesOrNo(value){
+      if (value){
+        return "Yes";
+      }
+      else{
+        return "No";
+      }
     }
   },
   methods: {
