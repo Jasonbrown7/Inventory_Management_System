@@ -20,6 +20,69 @@
                   v-if="filteredCurrentReservations.length === 0"
                   >You have no current reservations.</v-header>
                 <v-simple-table v-else>
+                  <v-dialog
+                              v-model="showCommentDialog"
+                              persistent
+                              max-width="600px"
+                            >
+                            <v-form @submit.prevent="addComment" >
+                              <v-card>
+                                <v-card-title>
+                                  <span class="text-h5">Leave a review!</span>
+                                </v-card-title>
+                                <v-card-text>
+                                  <v-container>
+                                    <v-row>
+
+                                        <v-text-field
+                                          v-model="comment"
+                                          label="Review"
+                                          required
+                                        ></v-text-field>
+
+                                      <!-- <v-row>
+                                        <v-select
+                                          :items="['0-17', '18-29', '30-54', '54+']"
+                                          label="Condition"
+                                          required
+                                        ></v-select>
+                                        <v-file-input
+                                          accept="image/png, image/jpeg, image/bmp"
+                                          v-model="selectedFiles" 
+                                          :rules="imageSizeRules"
+                                          prepend-icon="mdi-camera"
+                                          show-size
+                                          label="Select an Image"
+                                        ></v-file-input>
+              
+                                      
+                                      </v-row> -->
+                                    
+                                    </v-row>
+                                  </v-container>
+                                  
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-spacer></v-spacer>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="showCommentDialog = false;"
+                                  >
+                                    Close
+                                  </v-btn>
+                                  <v-btn
+                                    type="submit"
+                                    color="blue darken-1"
+                                    text
+                                    @click="showCommentDialog = false"
+                                  >
+                                    Save
+                                  </v-btn>
+                                </v-card-actions>
+                              </v-card>
+                            </v-form>
+                          </v-dialog>
                     <thead>
                         <tr>
                         <th class="text-left">Start Date</th>
@@ -68,6 +131,7 @@
                         </td>
                         </tr>
                     </tbody>
+                  
                 </v-simple-table>
 
               <v-toolbar elevation="0"  class="mt-10">
@@ -169,6 +233,9 @@ import FileSaver from 'file-saver';
 export default {
   data() {
     return {
+      item_id : '',
+      showCommentDialog: false,
+      comment: '',
       Reservations: [],
       Users: [],
       Items: [],
@@ -280,6 +347,12 @@ export default {
 
   
   methods: {
+    getCurrentDateMethod(){
+      var date = new Date();
+      date = date.toISOString();
+    
+      return date.substring(0,10)
+    },
     isItemCheckedOut(item_id){
       console.log("ITEM ID", item_id);
       const myItem = this.Items.find(u => u._id === item_id);
@@ -293,7 +366,7 @@ export default {
           .put(apiURL, {isCheckedOut : true})
           .then((res) => {
             console.log("YES", res);
-            
+            this.reloadPage();
           
           })
           .catch((error) => {
@@ -302,23 +375,26 @@ export default {
     
     },
     checkIn(item_id){
+      this.showCommentDialog = true;
+      this.item_id = item_id;
       let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
       axios
           .put(apiURL, {isCheckedOut : false})
           .then((res) => {
-            const comment = window.prompt("Leave a comment/note on the item:");
+            // const comment = window.prompt("Leave a comment/note on the item:");
             console.log(res);
-            let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
-            axios
-                  .put(apiURL, {comment : comment})
-                  .then((res) => {
+            this.item_id ='';
+            // let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
+            // axios
+            //       .put(apiURL, {comment : comment})
+            //       .then((res) => {
                   
-                    console.log("Comment Add Success",res);
+            //         console.log("Comment Add Success",res);
                   
-                  })
-                  .catch((error) => {
-                    console.log("Comment Add Fail", error);
-                  });
+            //       })
+            //       .catch((error) => {
+            //         console.log("Comment Add Fail", error);
+            //       });
           
           })
           .catch((error) => {
@@ -326,6 +402,24 @@ export default {
           });
       
         
+    },
+    addComment(){
+      let apiURL = `http://localhost:4000/api/item/update/comments/${this.item_id}`;
+      console.log("this.comment", this.comment)
+      axios
+        .put(apiURL, {
+          comment: this.comment,
+          author: this.user.id,
+          date: this.getCurrentDateMethod()
+        })
+        .then(response => {
+          console.log(response);
+          this.showCommentDialog = false;
+          this.comment = "";
+        })
+        .catch(error => {
+          console.log("addecomment", error);
+        });
     },
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
