@@ -127,7 +127,7 @@
             axios
                 .post(apiURL, this.user)
                 .then(() => {
-                this.$router.push("/view/users");
+                this.$router.push("/login");
                 this.user = {
                     username: "",
                     email: "",

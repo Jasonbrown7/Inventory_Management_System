@@ -14,22 +14,19 @@
                 large href="/create/users">
                 Begin your adventure
               </v-btn>
-              <div>
-              </div>
             </v-flex>
             <v-flex>
-            <v-layout justify-center class="pr-7">
-              <v-switch 
-                prepend-icon="mdi-weather-sunny"
-                append-icon="mdi-weather-night"
-                class="pl-10" 
-                v-model="darkMode"
-              >
-              </v-switch>
-            </v-layout>
+              <v-layout justify-center class="pr-9">
+                <v-switch 
+                  prepend-icon="mdi-light mdi-weather-night"
+                  append-icon="mdi-light mdi-weather-sunny"
+                  color="white"
+                  class="pl-10" 
+                  v-model="darkMode"
+                />
+              </v-layout>
+            </v-flex>
           </v-flex>
-          </v-flex>
-          
         </v-layout>
       </v-container>
     </v-main>
@@ -40,7 +37,7 @@
 export default {
   data() {
      return {
-      darkMode: null
+      darkMode: true
      }
   },
 
@@ -58,10 +55,10 @@ export default {
   methods: {
     toggleDarkMode() {
         if (this.darkMode) {
-          this.$vuetify.theme.dark = true;
+          this.$vuetify.theme.dark = false;
         }
         else {
-          this.$vuetify.theme.dark = false;
+          this.$vuetify.theme.dark = true;
         }
       }
   }
@@ -90,6 +87,11 @@ export default {
 }
 
 .v-switch__icon--prepend .v-icon { 
+  color: white !important;
+}
+
+.v-switch .v-icon.mdi.mdi-weather-night,
+.v-switch .v-icon.mdi.mdi-weather-sunny {
   color: white !important;
 }
 </style>
