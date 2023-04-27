@@ -89,6 +89,32 @@ export default {
       };
     },
     created() {
+
+      axios
+        .get("http://localhost:4000/api/user")
+        .then((res) => {
+          this.Users = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get("http://localhost:4000/api/item")
+        .then((res) => {
+          this.Items = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      axios
+        .get("http://localhost:4000/api/reservation")
+        .then((res) => {
+          this.Reservations = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       let apiURL = `http://localhost:4000/api/reservation/edit/${this.$route.params.id}`;
   
       axios.get(apiURL).then((res) => {
@@ -106,36 +132,25 @@ export default {
 
         this.reservation.startDate = tempStart.slice(0, 10);
         this.reservation.endDate = tempEnd.slice(0, 10);
+        
+        
+        this.reservation.user = this.displayUserFromReservation();
+        this.reservation.item = this.displayItemFromReservation();
 
       });
-      axios
-      .get("http://localhost:4000/api/user")
-      .then((res) => {
-        this.Users = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get("http://localhost:4000/api/item")
-      .then((res) => {
-        this.Items = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get("http://localhost:4000/api/reservation")
-      .then((res) => {
-        this.Reservations = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-
     },
     methods: {
+      displayUserFromReservation(){
+        if(!this.reservation._id) return '';
+        const myUser = this.Users.find(u => u._id === this.reservation.user);
+        return myUser.username;
+      },
+      displayItemFromReservation(){
+        if(!this.reservation._id) return '';
+        const myItem = this.Items.find(u => u._id === this.reservation.item);
+        return myItem.name;
+      },
+
 
       isReservationConflict(reservations, start, end){
         const newStart = new Date(start)
