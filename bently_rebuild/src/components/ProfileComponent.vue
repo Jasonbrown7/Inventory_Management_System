@@ -95,6 +95,7 @@ export default {
         .then((response) => {    
           this.isLoggedIn = true;
           this.$set(this, "user", response.data.user);
+          
            
           
         }) 
@@ -118,9 +119,9 @@ export default {
         // }, 
 
         switchTheme() {
-        this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+            this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
 
-        localStorage.setItem('theme', this.$vuetify.theme.dark ? 'dark' : 'light');
+            localStorage.setItem('theme', this.$vuetify.theme.dark ? 'dark' : 'light');
         // this.darkMode = this.$vuetify.theme.dark
       },
 

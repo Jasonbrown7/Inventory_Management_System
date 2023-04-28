@@ -41,6 +41,10 @@ export default {
      }
   },
 
+  created() {
+    
+  },
+
   computed: {
     heroImageClass() {
       return this.$vuetify.theme.dark ? 'heroimagedark' : 'heroimage';

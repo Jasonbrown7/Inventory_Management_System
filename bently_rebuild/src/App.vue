@@ -159,6 +159,8 @@ created(){
                 this.$set(this, "user", {});
                 this.isLoggedIn = false;
                 this.isAdmin = false;
+                localStorage.removeItem('theme')
+                this.$router.go(0);
             })
             .catch((error) => {
                 console.log(error);
