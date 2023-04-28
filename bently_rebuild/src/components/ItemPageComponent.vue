@@ -172,70 +172,32 @@
                           </v-layout>
                       </v-col>
                   </v-row> 
-
+                  <!--
+                  <v-dialog v-model="this.isReservationOverTwoWeeksFlag" max-width="600px">
+                    <v-card>
+                      <v-card-title>Reservation Error</v-card-title>
+                      <v-card-text>
+                        Your reservation cannot be made for more than two weeks. Please try again.
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn @click="this.isReservationOverTwoWeeksFlag = false ">OK</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                -->
           </v-container>
     </v-main>
   </v-app>
 </template>
   
-  <script>
-// //Jeff Carson
-// function isDateBeforeToday(date){
-//   const today = new Date()
-//   console.log("BRUH", date, today)
-//   if (today < date){
-//     return false
-//   }
-//   else{
-//     return true
-//   }
-// }
-// //Jeff Carson
-// function isDateOver3MonthsFromToday(date){ 
-//   const today = new Date()
-//   today.setDate(today.getDate() + 90)
-
-//   if (date > today){
-//     return true
-//   }
-//   else{
-//     return false
-//   }
-// }
-// //Jeff Carson
-// function isReservationOver2Weeks(start, end){
-//   const diffInMilliseconds = Math.abs(start - end);
-//   const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
-//   return diffInDays > 14;
-// }
-
-// //Returns true if there is a reservation conflict
-// function isReservationConflict(reservations, start, end){
-//   const newStart = new Date(start)
-//   const newEnd = new Date(end)
-
-//   console.log(reservations)
-
-//   for (let i = 0; i < reservations.length; i++) {
-
-//     const reservationStartDate = new Date(reservations[i].startDate);
-//     const reservationEndDate = new Date(reservations[i].endDate);
-
-//     if (newStart <= reservationEndDate && newEnd >= reservationStartDate) {
-//       // There is a conflict with the given start and end parameters
-//       return true;
-//     }
-//   }
-//   // No conflicts found
-//   return false;
-// }
-
+<script>
 import axios from "axios";
 
 export default {
   
   data() {
     return {
+      //isReservationOverTwoWeeksFlag: false,
       comment: "",
       showCommentDialog: false,
       dates: [],
@@ -278,7 +240,7 @@ export default {
       const endDate = new Date(today);
       endDate.setDate(endDate.getDate() + 90);
 
-      today.setDate(today.getDate()+1);
+      today.setDate(today.getDate());
 
       // Loop through each day between today and 90 days from now
       for (let d = new Date(today); d <= endDate; d.setDate(d.getDate() + 1)) {
@@ -347,7 +309,6 @@ export default {
       const newStart = new Date(start)
       const newEnd = new Date(end)
 
-      console.log(reservations)
 
       for (let i = 0; i < reservations.length; i++) {
 
@@ -465,6 +426,11 @@ export default {
         window.alert("Error: Reservations can only be made up to 3 months in advance")
       }
       else if(this.isReservationOver2Weeks(postStartDate, postEndDate)){
+        // this.dates[0] = '';
+        // this.dates[1] = '';
+        // console.log(this.isReservationOverTwoWeeksFlag)
+        // this.isReservationOverTwoWeeksFlag = true;
+        // console.log(this.isReservationOverTwoWeeksFlag)
         window.alert("Error: Reservations cannot be longer than 2 weeks")
       }
       else{
