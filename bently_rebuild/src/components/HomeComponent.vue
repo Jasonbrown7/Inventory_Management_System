@@ -11,7 +11,7 @@
                 v-bind:style="{ 
                 background: this.$vuetify.theme.dark == true ? primary : '#26685d' ,
                 color: this.$vuetify.theme.dark == true ? primary : 'white'}"  
-                large href="/create/users">
+                :to="isLoggedIn ? '/browse' : '/create/users'">
                 Begin your adventure
               </v-btn>
             </v-flex>
@@ -34,16 +34,34 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
+  
   data() {
      return {
-      darkMode: true
+      darkMode: true,
+      user : {},
+      isLoggedIn : false,
      }
   },
 
-  created() {
-    
-  },
+  mounted() {
+    axios.defaults.withCredentials = true; 
+    axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+        .then((response) => {    
+          this.isLoggedIn = true;
+          this.$set(this, "user", response.data.user);
+
+          
+        }) 
+        .catch((errors) => {  
+     
+            console.log(errors);
+            this.$set(this, "user", {})
+            this.isLoggedIn = false;
+      
+        })   
+      },
 
   computed: {
     heroImageClass() {
