@@ -1,7 +1,7 @@
 <template>
     <v-app id="inspire">
       <v-main class="v-main grey lighten-3">
-        <v-container class="heroimage" fluid fill-height>
+        <v-container :class="heroImageClass" fluid fill-height>
           <v-card elevation="10" class="mx-auto px-md-6 pb-md-6 pt-md-4" min-width="500">
             <v-form class="ma-2"> <!-- @submit.prevent="handleSubmitForm" -->
               <v-container class="justify-center">
@@ -46,7 +46,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-btn block color="primary" to="/profile">Reset Password</v-btn>
+                    <v-btn block text-color="primary" to="/profile">Reset Password</v-btn>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -101,5 +101,30 @@ import axios from 'axios';
           });
       },
     },
+    computed: {
+      heroImageClass() {
+      return this.$vuetify.theme.dark ? 'heroimagedark' : 'heroimage';
+    }
+    }
   };
   </script>
+
+  <style>
+
+  .heroimagedark {
+    background-image: url("../assets/bentlydark.jpeg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  .heroimage {
+    background-image: url("../assets/hero.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  </style>

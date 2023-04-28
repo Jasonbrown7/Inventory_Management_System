@@ -33,7 +33,11 @@
                     </v-row>
                     <v-row>
                         <v-card-subtitle>Toggle Dark Mode</v-card-subtitle>
-                        <v-switch class="mt-3" v-model="user.darkmode">
+                        <v-switch 
+                        v-model="$vuetify.theme.dark"
+                        @click="switchTheme()"
+                        class="mt-3" 
+                        >
                         </v-switch>
                     </v-row>
                     <v-row>
@@ -81,8 +85,8 @@ export default {
     };
   },
   updated(){
-    console.log('updated')
-    this.toggleDarkMode() 
+    // console.log('updated')
+    // this.toggleDarkMode() 
   },
   created() {
     
@@ -91,6 +95,7 @@ export default {
         .then((response) => {    
           this.isLoggedIn = true;
           this.$set(this, "user", response.data.user);
+          
            
           
         }) 
@@ -103,15 +108,22 @@ export default {
         })   
       },
     methods: {
-        toggleDarkMode() {
+        // toggleDarkMode() {
            
-            if (this.user.darkmode) {
-                this.$vuetify.theme.dark = true;
-            }
-            else {
-                this.$vuetify.theme.dark = false;
-            }
-        }, 
+        //     if (this.user.darkmode) {
+        //         this.$vuetify.theme.dark = true;
+        //     }
+        //     else {
+        //         this.$vuetify.theme.dark = false;
+        //     }
+        // }, 
+
+        switchTheme() {
+            this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+
+            localStorage.setItem('theme', this.$vuetify.theme.dark ? 'dark' : 'light');
+        // this.darkMode = this.$vuetify.theme.dark
+      },
 
         save_user(){
             let apiURL = `http://localhost:4000/api/user/update/${this.user.id}`;
