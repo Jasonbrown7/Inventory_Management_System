@@ -21,7 +21,7 @@
 
 
       
-                <v-switch 
+                <!-- <v-switch 
                   id="dark-switch"
                   prepend-icon="mdi-light mdi-weather-sunny"
                   append-icon="mdi-light mdi-weather-night"
@@ -29,7 +29,7 @@
                   plain class="nav-btn"
                   v-model="$vuetify.theme.dark"
                   @click="switchTheme()"
-                />
+                /> -->
               
 
       <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
@@ -117,7 +117,7 @@ export default {
       ],
       isLoggedIn: false,
       isAdmin: false,
-      darkMode: this.$vuetify.theme.dark,
+      // darkMode: this.$vuetify.theme.dark,
     };
   },
 
@@ -165,14 +165,14 @@ created(){
             });
         },
 
-        toggleDarkMode() {
-        if (this.darkMode) {
-          this.$vuetify.theme.dark = false;
-        }
-        else {
-          this.$vuetify.theme.dark = true;
-        }
-      },
+      //   toggleDarkMode() {
+      //   if (this.darkMode) {
+      //     this.$vuetify.theme.dark = false;
+      //   }
+      //   else {
+      //     this.$vuetify.theme.dark = true;
+      //   }
+      // },
 
       switchTheme() {
         this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
@@ -182,12 +182,12 @@ created(){
       }
     },
 
-    watch: {
-      darkMode()
-      {
-        this.toggleDarkMode();
-      }
-    },
+    // watch: {
+    //   darkMode()
+    //   {
+    //     this.toggleDarkMode();
+    //   }
+    // },
 
     computed: {
       imageUrl() {
