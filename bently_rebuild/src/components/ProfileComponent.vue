@@ -106,6 +106,7 @@ export default {
         .then((response) => {    
           this.isLoggedIn = true;
           this.$set(this, "user", response.data.user);
+          
            
           
         }) 

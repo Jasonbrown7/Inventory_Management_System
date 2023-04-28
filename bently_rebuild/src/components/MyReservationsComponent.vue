@@ -41,25 +41,6 @@
                                           label="Review"
                                           required
                                         ></v-text-field>
-
-                                      <!-- <v-row>
-                                        <v-select
-                                          :items="['0-17', '18-29', '30-54', '54+']"
-                                          label="Condition"
-                                          required
-                                        ></v-select>
-                                        <v-file-input
-                                          accept="image/png, image/jpeg, image/bmp"
-                                          v-model="selectedFiles" 
-                                          :rules="imageSizeRules"
-                                          prepend-icon="mdi-camera"
-                                          show-size
-                                          label="Select an Image"
-                                        ></v-file-input>
-              
-                                      
-                                      </v-row> -->
-                                    
                                     </v-row>
                                   </v-container>
                                   
@@ -69,7 +50,7 @@
                                   <v-btn
                                     color="blue darken-1"
                                     text
-                                    @click="showCommentDialog = false;"
+                                    @click="showCommentDialog = false; commentDone = true"
                                   >
                                     Close
                                   </v-btn>
@@ -77,7 +58,7 @@
                                     type="submit"
                                     color="blue darken-1"
                                     text
-                                    @click="showCommentDialog = false"
+                                    @click="showCommentDialog = false; commentDone = true"
                                   >
                                     Save
                                   </v-btn>
@@ -240,6 +221,7 @@ export default {
     return {
       item_id : '',
       showCommentDialog: false,
+      commentDone: false,
       comment: '',
       Reservations: [],
       Users: [],
@@ -409,30 +391,34 @@ export default {
           });
     
     },
-    checkIn(item_id, reservation){
+    checkIn(item_id, reservation) {
       this.showCommentDialog = true;
       this.item_id = item_id;
 
-      reservation.hasBeenReturned = true;
-      console.log("reservation._id", reservation.id)
-
-      console.log("RESERVATION \n", reservation)
       let itemApiURL = `http://localhost:4000/api/item/update/${item_id}`;
       let reservationApiURL = `http://localhost:4000/api/reservation/update/${reservation._id}`;
-      axios
-          .put(itemApiURL, {isCheckedOut : false})
-          .then((res) => {
-            console.log(res);
-            this.item_id ='';
-            axios
-              .put(reservationApiURL, reservation)
-              .then((res) => {
-                console.log(res);
-              })
-          })
-          .catch((error) => {
-            console.log("Check-in Fail", error);
-          });
+
+      // new Promise code block is original, then statements are from stackOverflow
+      return new Promise((resolve) => {
+        const waitForCommentDone = () => {
+          if (this.commentDone) {
+            resolve();
+          } else {
+            setTimeout(waitForCommentDone, 100);
+          }
+        };
+        waitForCommentDone();
+      }).then(() => {
+        return axios.put(itemApiURL, {isCheckedOut : false});
+      }).then(() => {
+        reservation.hasBeenReturned = true;
+        return axios.put(reservationApiURL, reservation);
+      }).then((res) => {
+        console.log(res);
+        this.item_id ='';
+      }).catch((error) => {
+        console.log("Check-in Fail", error);
+      });
     },
     addComment(){
       let apiURL = `http://localhost:4000/api/item/update/comments/${this.item_id}`;
