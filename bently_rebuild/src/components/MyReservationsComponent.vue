@@ -296,6 +296,9 @@ export default {
   //     });
   // },
   mounted() {
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 5000);
     axios.defaults.withCredentials = true; 
     axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
         .then((response) => {    
@@ -338,11 +341,7 @@ export default {
       
     
   },
-  mounted(){
-    setTimeout(() => {
-      this.showAlert = false;
-    }, 5000);
-  },
+
   computed: {
     filteredUpcomingReservations() {
         return this.Reservations.filter(reservation => {
