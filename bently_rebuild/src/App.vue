@@ -20,6 +20,18 @@
       <v-spacer></v-spacer>
 
 
+      
+                <!-- <v-switch 
+                  id="dark-switch"
+                  prepend-icon="mdi-light mdi-weather-sunny"
+                  append-icon="mdi-light mdi-weather-night"
+                 
+                  plain class="nav-btn"
+                  v-model="$vuetify.theme.dark"
+                  @click="switchTheme()"
+                /> -->
+              
+
       <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
       <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain class="nav-btn">My Reservations</v-btn>
       <template v-if="isAdmin === true">
@@ -105,6 +117,7 @@ export default {
       ],
       isLoggedIn: false,
       isAdmin: false,
+      // darkMode: this.$vuetify.theme.dark,
     };
   },
 
@@ -151,7 +164,30 @@ created(){
                 console.log(error);
             });
         },
+
+      //   toggleDarkMode() {
+      //   if (this.darkMode) {
+      //     this.$vuetify.theme.dark = false;
+      //   }
+      //   else {
+      //     this.$vuetify.theme.dark = true;
+      //   }
+      // },
+
+      switchTheme() {
+        this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+
+        localStorage.setItem('theme', this.$vuetify.theme.dark ? 'dark' : 'light');
+        // this.darkMode = this.$vuetify.theme.dark
+      }
     },
+
+    // watch: {
+    //   darkMode()
+    //   {
+    //     this.toggleDarkMode();
+    //   }
+    // },
 
     computed: {
       imageUrl() {
