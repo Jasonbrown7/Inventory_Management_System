@@ -361,7 +361,7 @@ export default {
             reservation.isOverdue = false;
           }
             const startDate = new Date(reservation.startDate);
-            return startDate < today && !reservation.isOverdue;
+            return startDate < today && !reservation.isOverdue && reservation.hasBeenReturned;
         });
     },
     filteredCurrentReservations() {
