@@ -6,7 +6,7 @@
     elevation="0"
     outlined
     >
-      <a href="/">
+      <a :href="isLoggedIn ? '/browse' : '/'">
         <v-img
           alt="Bently Nevada"
           class="shrink mr-2"
@@ -14,7 +14,6 @@
           :src="imageUrl"
           width="200"
           height="56"
-          href="/"
         />
       </a>
       <v-spacer></v-spacer>
