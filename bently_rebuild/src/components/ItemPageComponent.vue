@@ -74,7 +74,8 @@
                                 <v-header v-if="item.comments.length===0" class="justify-center">This item doesn't have any comments yet.</v-header>
                                 <v-list-item v-for="comment in item.comments" :key="comment.id" class="text-left" >
                                   <v-list-item-icon class="mb-0">
-                                      <v-icon>mdi-account</v-icon>
+                                      <!-- <v-icon>mdi-account</v-icon> -->
+                                     <v-avatar> <v-img :src="comment.pic"> </v-img></v-avatar>
                                     </v-list-item-icon>
                                   <v-list-item-content>
                                     <v-list-item-title>{{ comment.comment }}</v-list-item-title>
