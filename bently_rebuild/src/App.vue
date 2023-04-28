@@ -6,7 +6,7 @@
     elevation="0"
     outlined
     >
-      <a href="/">
+      <a href = '/'>
         <v-img
           alt="Bently Nevada"
           class="shrink mr-2"
@@ -14,7 +14,6 @@
           :src="imageUrl"
           width="200"
           height="56"
-          href="/"
         />
       </a>
       <v-spacer></v-spacer>
@@ -159,6 +158,8 @@ created(){
                 this.$set(this, "user", {});
                 this.isLoggedIn = false;
                 this.isAdmin = false;
+                localStorage.removeItem('theme')
+                this.$router.go(0);
             })
             .catch((error) => {
                 console.log(error);
