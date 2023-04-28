@@ -116,7 +116,7 @@
                           
                           @click.prevent="checkIn(reservation.item)"
                         >
-                            Check In
+                            Return Item
                         </v-btn>
                         <v-btn
                           class="ml-md-2"
@@ -214,7 +214,7 @@
                             >
                                 View Item
                             </v-btn>
-                        </td>
+                          </td>
                         </tr>
                     </tbody>
                 </v-simple-table>
@@ -248,6 +248,7 @@ export default {
       sortedByOldest: false,
       sortedByNewest: false,
       filterCurrentlyOpen: false, 
+      user: {},
     };
   },
   //Jeffrey Carson
@@ -288,6 +289,20 @@ export default {
   //       this.$router.push("/");
   //     });
   // },
+  mounted() {
+    axios.defaults.withCredentials = true; 
+    axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+        .then((response) => {    
+        
+          this.$set(this, "user", response.data.user);
+          
+        }) 
+        .catch((errors) => {  
+            console.log(errors);
+            this.$set(this, "user", {})
+
+        })   
+      },
   created() {
     axios
       .get(`http://localhost:4000/api/reservation/${this.$route.params.user_id}`)
@@ -377,13 +392,14 @@ export default {
     checkIn(item_id){
       this.showCommentDialog = true;
       this.item_id = item_id;
+      
       let apiURL = `http://localhost:4000/api/item/update/${item_id}`;
       axios
           .put(apiURL, {isCheckedOut : false})
           .then((res) => {
             // const comment = window.prompt("Leave a comment/note on the item:");
             console.log(res);
-            this.item_id ='';
+            // this.item_id ='';
             // let apiURL = `http://localhost:4000/api/item/update/comments/${item_id}`;
             // axios
             //       .put(apiURL, {comment : comment})
@@ -405,12 +421,13 @@ export default {
     },
     addComment(){
       let apiURL = `http://localhost:4000/api/item/update/comments/${this.item_id}`;
-      console.log("this.comment", this.comment)
+
       axios
         .put(apiURL, {
           comment: this.comment,
           author: this.user.id,
-          date: this.getCurrentDateMethod()
+          date: this.getCurrentDateMethod(),
+          pic: this.user.pic
         })
         .then(response => {
           console.log(response);
