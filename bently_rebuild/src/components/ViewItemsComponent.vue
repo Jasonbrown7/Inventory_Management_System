@@ -74,7 +74,7 @@
               <v-toolbar elevation ="0" v-bind:style="{ background: this.$vuetify.theme.dark == true ? '#121212' : '#EEEEEE'}">
                 <v-toolbar-title style="font-size: 30px;">Admin - Inventory</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-tooltip left>
+                <v-tooltip color="white" left>
                   <template v-slot:activator="{ on }">
                     <v-btn color="primary" outlined @click="handleCsvImport" class="mr-3" v-on="on">Import Items</v-btn>
                   </template>

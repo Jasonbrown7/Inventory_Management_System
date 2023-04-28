@@ -33,11 +33,15 @@
                     </v-row>
                     <v-row>
                         <v-card-subtitle>Toggle Dark Mode</v-card-subtitle>
-                        <v-switch class="mt-3" v-model="user.darkmode">
+                        <v-switch 
+                        v-model="$vuetify.theme.dark"
+                        @click="switchTheme()"
+                        class="mt-3" 
+                        >
                         </v-switch>
                     </v-row>
                     <v-row>
-                        <v-btn elevation=0 class="mb-5 ml-4">Reset Password</v-btn>
+                        <v-btn elevation=0 class="mb-5 ml-4" to="/reset-password">Reset Password</v-btn>
                     </v-row>
                 </v-col>
             </v-row>
@@ -81,8 +85,8 @@ export default {
     };
   },
   updated(){
-    console.log('updated')
-    this.toggleDarkMode() 
+    // console.log('updated')
+    // this.toggleDarkMode() 
   },
   created() {
     
@@ -103,23 +107,29 @@ export default {
         })   
       },
     methods: {
-        toggleDarkMode() {
+        // toggleDarkMode() {
            
-            if (this.user.darkmode) {
-                this.$vuetify.theme.dark = true;
-            }
-            else {
-                this.$vuetify.theme.dark = false;
-            }
-        }, 
+        //     if (this.user.darkmode) {
+        //         this.$vuetify.theme.dark = true;
+        //     }
+        //     else {
+        //         this.$vuetify.theme.dark = false;
+        //     }
+        // }, 
+
+        switchTheme() {
+        this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+
+        localStorage.setItem('theme', this.$vuetify.theme.dark ? 'dark' : 'light');
+        // this.darkMode = this.$vuetify.theme.dark
+      },
 
         save_user(){
-            console.log("saveuserbefore",this.user)
             let apiURL = `http://localhost:4000/api/user/update/${this.user.id}`;
             axios
                 .put(apiURL, this.user)
                 .then((res) => {
-                    console.log(res);
+                    console.log(res)
                 })
                 .catch((error) => {
                     console.log(error);

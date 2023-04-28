@@ -83,6 +83,9 @@
                   <v-col cols="12">
                     <v-btn block color="danger justify-center" type="submit" class="submit">Update Item</v-btn>
                   </v-col>
+                  <v-col cols="12">
+                    <v-btn block color="danger justify-center" :to="{ name: 'view-items'}"> Back </v-btn>
+                  </v-col>
                 </v-row>
               </v-container>
             </v-form>

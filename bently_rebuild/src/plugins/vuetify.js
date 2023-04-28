@@ -18,6 +18,6 @@ export default new Vuetify({
         error: '#f44336',
       }
     },
-    dark: false,
+    dark: localStorage.getItem('theme') === 'dark',
   },
 });
