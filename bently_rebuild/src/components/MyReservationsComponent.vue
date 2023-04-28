@@ -219,7 +219,7 @@
                             >
                                 View Item
                             </v-btn>
-                        </td>
+                          </td>
                         </tr>
                     </tbody>
                 </v-simple-table>
@@ -253,7 +253,8 @@ export default {
       sortedByOldest: false,
       sortedByNewest: false,
       filterCurrentlyOpen: false, 
-      showAlert: true,
+      user: {},
+      showAlert: true
     };
   },
   //Jeffrey Carson
@@ -294,6 +295,23 @@ export default {
   //       this.$router.push("/");
   //     });
   // },
+  mounted() {
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 5000);
+    axios.defaults.withCredentials = true; 
+    axios.get("http://localhost:4000/api/auth/user", {credentials: 'include'})    
+        .then((response) => {    
+        
+          this.$set(this, "user", response.data.user);
+          
+        }) 
+        .catch((errors) => {  
+            console.log(errors);
+            this.$set(this, "user", {})
+
+        })   
+      },
   created() {
     axios
       .get(`http://localhost:4000/api/reservation/${this.$route.params.user_id}`)
@@ -323,11 +341,7 @@ export default {
       
     
   },
-  mounted(){
-    setTimeout(() => {
-      this.showAlert = false;
-    }, 5000);
-  },
+
   computed: {
     filteredUpcomingReservations() {
         return this.Reservations.filter(reservation => {
@@ -426,7 +440,8 @@ export default {
         .put(apiURL, {
           comment: this.comment,
           author: this.user.id,
-          date: this.getCurrentDateMethod()
+          date: this.getCurrentDateMethod(),
+          pic: this.user.pic
         })
         .then(response => {
           console.log(response);
