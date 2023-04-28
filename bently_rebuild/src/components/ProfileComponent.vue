@@ -59,7 +59,14 @@
                     </v-row>
                 </v-col>
                 <v-col cols="5" class="mx-2 align-self-center">
-                    <v-btn @click.prevent="save_user">Save Settings</v-btn>
+                    <v-btn @click.prevent="save_user" @click="showCheckmark">Save Settings</v-btn>
+                    <v-fade-transition>
+                        <v-icon
+                            v-if="this.checkmark===true"
+                        >
+                            mdi-check
+                        </v-icon>
+                    </v-fade-transition>
                 </v-col>
             </v-row>
             </v-card>
@@ -82,7 +89,11 @@ export default {
         { name: "Panda", url: "https://static1.thegamerimages.com/wordpress/wp-content/uploads/2022/01/Panda.png?q=50&fit=crop&w=740&dpr=1.5" },
         { name: "Skull", url: "https://static1.thegamerimages.com/wordpress/wp-content/uploads/2022/01/Pandemic.jpg?q=50&fit=crop&w=740&dpr=1.5" },
         { name: "Smiley", url: "https://static0.thegamerimages.com/wordpress/wp-content/uploads/2022/01/Smiley-Face.png" },
-    ],
+        { name: "Cat Girl", url: "https://static1.thegamerimages.com/wordpress/wp-content/uploads/2022/01/Anime.png?q=50&fit=crop&w=740&dpr=1.5" },
+        { name: "Soccer", url: "https://static1.thegamerimages.com/wordpress/wp-content/uploads/2022/01/Football.png?q=50&fit=crop&w=740&dpr=1.5" },
+        { name: "Ice Spice", url: "https://art.ngfiles.com/thumbnails/3031000/3031048_full.webp?f1675663074" },
+      ],
+      checkmark: false,
     };
   },
   updated(){
@@ -129,6 +140,12 @@ export default {
                     console.log(error);
                 });
                 
+        },
+        showCheckmark () {
+            this.checkmark = true;
+            setTimeout(() => {
+                this.checkmark = false;
+            }, 3000);
         },
     },
     // watch: {

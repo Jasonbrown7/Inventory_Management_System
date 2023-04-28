@@ -18,24 +18,13 @@
         />
       </a>
       <v-spacer></v-spacer>
-
-
-      
-                <!-- <v-switch 
-                  id="dark-switch"
-                  prepend-icon="mdi-light mdi-weather-sunny"
-                  append-icon="mdi-light mdi-weather-night"
-                 
-                  plain class="nav-btn"
-                  v-model="$vuetify.theme.dark"
-                  @click="switchTheme()"
-                /> -->
-              
-
       <v-btn to="/browse" plain class="nav-btn">Browse</v-btn>
       <v-btn v-if="isLoggedIn" :to="{ name:  'my-reservations', params: { user_id: user.id } }" plain class="nav-btn">My Reservations</v-btn>
       <template v-if="isAdmin === true">
-        <v-btn plain class="nav-btn mr-0" id="menu-activator">Admin</v-btn>
+        <v-btn plain class="nav-btn mr-0" id="menu-activator" append-icon="mdi-check">
+          Admin
+          <v-icon>mdi-chevron-down</v-icon>
+        </v-btn>
         <v-menu activator="#menu-activator" bottom offset-y style="display:block" open-on-hover>
           <v-list>
             <v-list-item
@@ -117,7 +106,6 @@ export default {
       ],
       isLoggedIn: false,
       isAdmin: false,
-      // darkMode: this.$vuetify.theme.dark,
     };
   },
 
@@ -196,7 +184,7 @@ created(){
         } else {
           return require('./assets/logo1.png')
         } 
-      }
+      },
     },
     }
 </script>
