@@ -100,34 +100,6 @@
                         <td>{{reservation.item | displayItemFromId(Items) }}</td>
                         <td>
                           <v-btn v-if="!isItemCheckedOut(reservation.item)"
-                            class="mr-md-1"
-                            :color="$vuetify.theme.dark ? undefined : 'primary'"
-                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
-                            small
-                            @click.prevent="checkOut(reservation.item)"
-                          >
-                              Check Out
-                          </v-btn>
-                          <v-btn
-                            v-else
-                            class="ml-md-2"
-                            color="primary"
-                            small
-                            
-                            @click.prevent="checkIn(reservation.item, reservation)"
-                          >
-                              Return Item
-                          </v-btn>
-                          <v-btn
-                            class="ml-md-2"
-                            @click.prevent="deleteReservation(reservation._id)"
-                            :color="$vuetify.theme.dark ? undefined : 'primary'"
-                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
-                            outlined
-                            small
-                          >
-                              Cancel
-                          </v-btn>
                           class="mr-md-1"
                           :color="$vuetify.theme.dark ? undefined : 'primary'"
                           :text-color="$vuetify.theme.dark ? 'primary' : undefined"
