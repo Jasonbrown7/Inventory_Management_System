@@ -97,7 +97,8 @@
                           <v-btn
                             v-else
                             class="ml-md-2"
-                            color="primary"
+                            :color="$vuetify.theme.dark ? undefined : 'primary'"
+                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                             small
                             
                             @click.prevent="checkIn(reservation.item, reservation)"
@@ -107,10 +108,9 @@
                           <v-btn
                             class="ml-md-2"
                             @click.prevent="deleteReservation(reservation._id)"
-                            :color="$vuetify.theme.dark ? undefined : 'primary'"
-                            :text-color="$vuetify.theme.dark ? 'primary' : undefined"
                             outlined
                             small
+                            color="error"
                           >
                               Cancel
                           </v-btn>
