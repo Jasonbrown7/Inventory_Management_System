@@ -79,7 +79,7 @@
                                     </v-list-item-icon>
                                   <v-list-item-content>
                                     <v-list-item-title>{{ comment.comment }}</v-list-item-title>
-                                    <v-list-item-subtitle>{{ comment.date }}</v-list-item-subtitle>
+                                    <v-list-item-subtitle>{{ comment.date }} &bull; {{ comment.author }}</v-list-item-subtitle>
                                   </v-list-item-content>
                                 </v-list-item>
 
