@@ -363,6 +363,11 @@ export default {
   },
   
   methods: {
+    displayUserFromId(userId){
+      if(!userId) return '';
+      const myUser = this.Users.find(u => u._id === userId);
+      return myUser.username;
+    },
     getCurrentDateMethod(){
       var date = new Date();
       date = date.toISOString();
@@ -425,7 +430,7 @@ export default {
       axios
         .put(apiURL, {
           comment: this.comment,
-          author: this.user.id,
+          author: this.displayUserFromId(this.user.id),
           date: this.getCurrentDateMethod(),
           pic: this.user.pic
         })
