@@ -71,9 +71,9 @@
                         <v-card-actions class="pa-0">
                           <v-card-title class="text-h5 pt-2 pb-0">{{ item.name }}</v-card-title>
                           <v-spacer></v-spacer>
-                          <v-chip 
+                          <v-chip
                             v-if="item.availability !== 'Available'"
-                            small :color="item.availability === 'Avaiable' ? 'success' : 'error'"  class="mt-2"
+                            small :color="item.availability === 'Avaiable' ? 'success' : 'error'"  class="mt-2 mr-2"
                             >{{ item.availability }}</v-chip>
                         </v-card-actions>
                         <v-card-text class="my-0 py-0">
