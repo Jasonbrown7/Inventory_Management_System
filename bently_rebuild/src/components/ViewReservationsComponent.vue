@@ -278,6 +278,16 @@ export default {
   
   },
   methods: {
+    displayUserFromResId(userId, Users){
+      if(!userId) return '';
+      const myUser = Users.find(u => u._id === userId);
+      return myUser.username;
+    },
+    displayItemFromResId(itemId, Items){
+      if(!itemId) return '';
+      const myItem = Items.find(u => u._id === itemId);
+      return myItem.name;
+    },
     deleteReservation(id) {
       let apiURL = `http://localhost:4000/api/reservation/delete/${id}`;
       let indexOfArrayReservation = this.Reservations.findIndex((i) => i._id === id);
@@ -323,16 +333,24 @@ export default {
       window.location.reload()
     },
     exportCsv() {
-      let reservations = this.Reservations;
+      let reservations = this.Reservations.map(reservation => ({
+        ...reservation,
+        user: this.displayUserFromResId(reservation.user, this.Users),
+        item: this.displayItemFromResId(reservation.item, this.Items),
+        startDate: new Date(reservation.startDate).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }),
+        endDate: new Date(reservation.endDate).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })
+      }));
+
       if (this.sortedByOldest) {
-        reservations = this.Reservations.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+        reservations = reservations.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
       } else if (this.sortedByNewest) {
-        reservations = this.Reservations.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
-      }  
+        reservations = reservations.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
+      }
+
       const csv = Papa.unparse(reservations);
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
       FileSaver.saveAs(blob, "reservations.csv");
-    },
+    }
   },
 };
 </script>
