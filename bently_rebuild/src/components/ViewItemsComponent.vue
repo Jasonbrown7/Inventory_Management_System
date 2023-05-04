@@ -281,11 +281,13 @@ export default {
       }
     },
     exportCsv() {
-      let items = this.Items;
+      let items = this.Items.map(({_id, name, description, category, availability, condition}) => ({_id, name, description, category, availability, condition}));
+      
       // Filter items if "Apply Filter" is clicked
       if (this.text === 'clicked') {
-        items = this.filteredItems;
+        items = this.filteredItems.map(({_id, name, description, category, availability, condition}) => ({_id, name, description, category, availability, condition}));
       }
+      
       const csv = Papa.unparse(items);
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
       FileSaver.saveAs(blob, "inventory.csv");
