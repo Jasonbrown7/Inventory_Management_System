@@ -91,7 +91,7 @@
                   <v-pagination
                     v-model="pagination.page"
                     :length="Math.ceil(filteredItems.length / pagination.itemsPerPage)"
-                    :total-visible="2"
+                    :total-visible="4"
                     color = "#26685d"
                   ></v-pagination>
                </div>        

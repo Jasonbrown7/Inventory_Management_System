@@ -311,7 +311,8 @@ export default {
             axios.post('http://localhost:4000/api/item/bulk', this.itemsFromCsv)
               .then((res) => {
                 console.log(res);
-                this.$router.push({ name: 'view-item' });
+                this.$router.push({ name: 'view-items' });
+                this.reloadPage()
               })
               .catch((error) => {
                 console.log(error);
